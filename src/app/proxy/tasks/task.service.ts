@@ -1,8 +1,9 @@
-import type { CommentRequestDto, CreateTaskRequestDto, FinishTaskRequest, FollowTaskRequest, MyTaskDto, ProcessTaskRequest, ReopenTaskRequest, TaskActionDto, TaskDto, TaskHistoryRequestDto, UserDto } from './models';
+import type { CommentRequestDto, CreateTaskRequestDto, FinishTaskRequest, FollowTaskRequest, FullTaskDto, MyTaskDto, ProcessTaskRequest, ReopenTaskRequest, TaskActionDto, TaskCommentDto, TaskDto, UserDto } from './models';
 import type { Target } from './target.enum';
 import { RestService } from '@abp/ng.core';
 import type { PagedResultRequestDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
+import type { FileDto } from '../files/models';
 
 @Injectable({
   providedIn: 'root',
@@ -65,11 +66,39 @@ export class TaskService {
     },
     { apiName: this.apiName });
 
-  getTaskHistoryByRequest = (request: TaskHistoryRequestDto) =>
+  getNoteById = (id: number) =>
+    this.restService.request<any, string>({
+      method: 'GET',
+      responseType: 'text',
+      url: `/api/app/task/${id}/note`,
+    },
+    { apiName: this.apiName });
+
+  getTaskById = (id: number) =>
+    this.restService.request<any, FullTaskDto>({
+      method: 'GET',
+      url: `/api/app/task/${id}/task`,
+    },
+    { apiName: this.apiName });
+
+  getTaskCommentsById = (id: number) =>
+    this.restService.request<any, TaskCommentDto[]>({
+      method: 'GET',
+      url: `/api/app/task/${id}/task-comments`,
+    },
+    { apiName: this.apiName });
+
+  getTaskFilesById = (id: number) =>
+    this.restService.request<any, FileDto[]>({
+      method: 'GET',
+      url: `/api/app/task/${id}/task-files`,
+    },
+    { apiName: this.apiName });
+
+  getTaskHistoryById = (id: number) =>
     this.restService.request<any, TaskActionDto[]>({
       method: 'GET',
-      url: `/api/app/task/task-history`,
-      params: { taskId: request.taskId, skipCount: request.skipCount, maxResultCount: request.maxResultCount },
+      url: `/api/app/task/${id}/task-history`,
     },
     { apiName: this.apiName });
 
@@ -89,10 +118,10 @@ export class TaskService {
     },
     { apiName: this.apiName });
 
-  sendCommentByRequest = (request: CommentRequestDto) =>
+  sendCommentByIdAndRequest = (id: number, request: CommentRequestDto) =>
     this.restService.request<any, boolean>({
       method: 'POST',
-      url: `/api/app/task/send-comment`,
+      url: `/api/app/task/${id}/send-comment`,
       body: request,
     },
     { apiName: this.apiName });
