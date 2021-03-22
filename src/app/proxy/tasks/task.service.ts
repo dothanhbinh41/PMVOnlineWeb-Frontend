@@ -1,4 +1,4 @@
-import type { CommentRequestDto, CreateTaskRequestDto, FinishTaskRequest, FollowTaskRequest, FullTaskDto, MyTaskDto, ProcessTaskRequest, ReopenTaskRequest, TaskActionDto, TaskCommentDto, TaskDto, UserDto } from './models';
+import type { CommentRequestDto, CreateTaskRequestDto, FinishTaskRequest, FollowTaskRequest, FullTaskDto, MyTaskDto, ProcessTaskRequest, ReopenTaskRequest, RequestTaskRequest, TaskActionDto, TaskCommentDto, TaskDto, UserDto } from './models';
 import type { Target } from './target.enum';
 import { RestService } from '@abp/ng.core';
 import type { PagedResultRequestDto } from '@abp/ng.core';
@@ -114,6 +114,14 @@ export class TaskService {
     this.restService.request<any, boolean>({
       method: 'POST',
       url: `/api/app/task/reopen-task`,
+      body: request,
+    },
+    { apiName: this.apiName });
+
+  requestTaskByRequest = (request: RequestTaskRequest) =>
+    this.restService.request<any, boolean>({
+      method: 'POST',
+      url: `/api/app/task/request-task`,
       body: request,
     },
     { apiName: this.apiName });

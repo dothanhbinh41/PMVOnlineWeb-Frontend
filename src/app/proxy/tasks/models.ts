@@ -73,6 +73,9 @@ export interface ReferenceTaskDto extends EntityDto<string> {
 export interface ReopenTaskRequest extends EntityDto<number> {
 }
 
+export interface RequestTaskRequest extends EntityDto<number> {
+}
+
 export interface RoleDto {
   roleId?: string;
 }
