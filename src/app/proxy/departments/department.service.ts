@@ -39,12 +39,7 @@ export class DepartmentService {
     },
     { apiName: this.apiName });
 
-  getDepartmentUsers = (departmentId: number) =>
-    this.restService.request<any, DepartmentUserDto[]>({
-      method: 'GET',
-      url: `/api/app/department/department-users/${departmentId}`,
-    },
-    { apiName: this.apiName });
+ 
 
   updateUserToDeparment = (request: UpdateDeparmentUserDto) =>
     this.restService.request<any, boolean>({

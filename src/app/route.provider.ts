@@ -3,10 +3,10 @@ import { eIdentityComponents, UsersComponent } from '@abp/ng.identity';
 import { eIdentityRouteNames } from '@abp/ng.identity/config';
 import { eTenantManagementRouteNames } from '@abp/ng.tenant-management/config';
 import { eThemeSharedRouteNames } from '@abp/ng.theme.shared';
-import { APP_INITIALIZER } from '@angular/core';
+import { APP_INITIALIZER } from '@angular/core'; 
 
 export const APP_ROUTE_PROVIDER = [
-  { provide: APP_INITIALIZER, useFactory: configureRoutes, deps: [RoutesService], multi: true },
+  { provide: APP_INITIALIZER, useFactory: configureRoutes, deps: [RoutesService], multi: true } 
 ];
 
 function configureRoutes(routesService: RoutesService) {
@@ -25,22 +25,14 @@ function configureRoutes(routesService: RoutesService) {
         order: 2,
         iconClass: 'fas fa-book',
         layout: eLayoutType.application, 
-      } ,
+      } , 
       {
-        path: '/your-path',
-        name: 'Department', 
-        parentName: eThemeSharedRouteNames.Administration,
-        order: 2, 
-        iconClass: 'fas fa-book',
-        layout: eLayoutType.application, 
-      } ,
-      {
-        path: 'users',
+        path: 'user.departments',
         name: 'users', 
         parentName: eThemeSharedRouteNames.Administration,
         order: 2, 
         iconClass: 'fas fa-book',
-        layout: eLayoutType.application, 
+        layout: eLayoutType.application,  
       } 
     ]); 
  

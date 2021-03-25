@@ -11,8 +11,9 @@ export interface DeleteDeparmentUserDto {
   userId?: string;
 }
 
-export interface DepartmentDto {
+export interface DepartmentDto   {
   name?: string;
+  id : number;
 }
 
 export interface DepartmentUserDto {

@@ -1,7 +1,8 @@
 import { ABP, DynamicLayoutComponent, ReplaceableComponents, ReplaceableRouteContainerComponent } from '@abp/ng.core';
-import { eIdentityComponents, RolesComponent, UsersComponent } from '@abp/ng.identity';
+import { eIdentityComponents, RolesComponent } from '@abp/ng.identity';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { UsersComponent } from './users/components'; 
 
 const routes: Routes = [
   {
@@ -24,15 +25,13 @@ const routes: Routes = [
       import('@abp/ng.setting-management').then(m => m.SettingManagementModule.forLazy()),
   },
   {
-    path: 'users',
-    component: ReplaceableRouteContainerComponent,
+    path: 'user.departments',   
+    component: UsersComponent,  
+    loadChildren: () =>
+      import('./users/identity.module').then(m => m.UserDepartmentModule.forLazy()),
     data: {
-      requiredPolicy: 'AbpIdentity.Users',
-      replaceableComponent: {
-        key: eIdentityComponents.Users,
-        defaultComponent: UsersComponent,
-      } as ReplaceableComponents.RouteData<UsersComponent>,
-    },
+      requiredPolicy: 'AbpIdentity.Users', 
+    }
   }
    
 ];
