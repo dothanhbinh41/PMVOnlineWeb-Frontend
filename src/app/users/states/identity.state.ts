@@ -72,7 +72,7 @@ export class IdentityState {
 
   @Action(GetUserDepartments)
   getUserDepartments({ patchState }: StateContext<Identity.State>, { payload }: GetUserDepartments) {
-    return this.departmentService.getDepartmentUsers(payload).pipe(
+    return this.departmentService.getUserDepartments(payload).pipe(
       tap(departments => patchState({departments}),
       ),
     );

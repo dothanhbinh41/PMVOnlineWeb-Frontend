@@ -70,10 +70,11 @@
               <input  
               type="checkbox"
               class="custom-control-input"
-              [attr.id]="'isleader-' + i"
+              [formControl]="departmentLeaderGroups[i].controls[departments[i].name]"
+              [attr.id]="'isLeader-' + i"
               
             />
-            <label class="custom-control-label" [attr.for]="'isleader-' + i">{{
+            <label class="custom-control-label" [attr.for]="'isLeader-' + i">{{
               'is Leader'| abpLocalization
             }}</label>
              </span>

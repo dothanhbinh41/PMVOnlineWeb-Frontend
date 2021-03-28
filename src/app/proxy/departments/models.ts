@@ -1,31 +1,36 @@
+import type { EntityDto } from '@abp/ng.core';
 import type { SimpleUserDto } from '../tasks/models';
 
-export interface CreateDeparmentUserDto {
-  deparmentId: number;
+export interface CreateDepartmentNameUserDto {
+  name?: string;
+  isLeader: boolean;
+}
+
+export interface CreateDepartmentUserDto {
+  departmentId: number;
   userId?: string;
   isLeader: boolean;
 }
 
-export interface DeleteDeparmentUserDto {
-  deparmentId: number;
+export interface DeleteDepartmentUserDto {
+  departmentId: number;
   userId?: string;
 }
 
-export interface DepartmentDto   {
+export interface DepartmentDto extends EntityDto<number> {
   name?: string;
-  id : number;
 }
 
-export interface DepartmentUserDto {
-  deparmentId: number;
+export interface DepartmentUserDto extends EntityDto<number> {
+  departmentId: number;
   deparment: DepartmentDto;
   userId?: string;
   user: SimpleUserDto;
   isLeader: boolean;
 }
 
-export interface UpdateDeparmentUserDto {
-  deparmentId: number;
+export interface UpdateDepartmentUserDto {
+  departmentId: number;
   userId?: string;
   isLeader: boolean;
 }

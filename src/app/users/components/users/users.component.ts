@@ -24,6 +24,7 @@ import {
   CreateUser,
   DeleteUser,
   GetUserById,
+  GetUserDepartments,
   GetUserRoles,
   GetUsers,
   UpdateUser,
@@ -83,6 +84,10 @@ export class UsersComponent implements OnInit {
     return snq(() => (this.form.get('departments') as FormArray).controls as FormGroup[], []);
   }
 
+  get departmentLeaderGroups(): FormGroup[] {
+    return snq(() => (this.form.get('departmentsLead') as FormArray).controls as FormGroup[], []);
+  }
+
   constructor(
     public readonly list: ListService<GetIdentityUsersInput>,
     protected confirmationService: ConfirmationService,
@@ -111,9 +116,25 @@ export class UsersComponent implements OnInit {
               [department.name]: [
                 this.selected.id
                   ? !!snq(() =>
-                      this.selectedUserDepartments.find(dep => dep.deparmentId === department.id)
+                      this.selectedUserDepartments.find(dep => dep.departmentId === department.id)
                     )
-                  : true
+                  : false
+              ],
+            })
+          )
+        )
+      );
+      this.form.addControl(
+        'departmentsLead',
+        this.fb.array(
+          this.departments.map(department =>
+            this.fb.group({
+              [department.name]: [
+                this.selected.id
+                  ? !!snq(() =>
+                      this.selectedUserDepartments.find(dep => dep.departmentId === department.id && dep.isLeader)
+                    )
+                  : false
               ],
             })
           )
@@ -137,7 +158,7 @@ export class UsersComponent implements OnInit {
     this.store
       .dispatch(new GetUserById(id))
       .pipe(
-        switchMap(() => this.store.dispatch(new GetUserRoles(id))),
+        switchMap(() => this.store.dispatch(new GetUserDepartments(id))),
         pluck('IdentityState'),
         take(1)
       )
@@ -150,14 +171,11 @@ export class UsersComponent implements OnInit {
 
   save() {
     if (!this.form.valid || this.modalBusy) return;
-    this.modalBusy = true;
-
-    const { roleNames } = this.form.value;
-    const mappedRoleNames = snq(
-      () =>
-        roleNames.filter(role => !!role[Object.keys(role)[0]]).map(role => Object.keys(role)[0]),
-      []
-    );
+    this.modalBusy = true; 
+    const mappedDepartments = snq( ()=>{ return  this.form.value.departments.filter(d=>Object.values(d)[0]).map(d=> this.form.value.departmentsLead[this.form.value.departments.indexOf(d)]).map(d=>{
+      var obj = { "name":Object.keys(d)[0],"isLeader":Object.values(d)[0] };
+      return obj;
+    });} );
 
     this.store
       .dispatch(
@@ -166,11 +184,11 @@ export class UsersComponent implements OnInit {
               ...this.selected,
               ...this.form.value,
               id: this.selected.id,
-              roleNames: mappedRoleNames,
+              departments: mappedDepartments,
             })
           : new CreateUser({
               ...this.form.value,
-              roleNames: mappedRoleNames,
+              departments: mappedDepartments,
             })
       )
       .pipe(finalize(() => (this.modalBusy = false)))

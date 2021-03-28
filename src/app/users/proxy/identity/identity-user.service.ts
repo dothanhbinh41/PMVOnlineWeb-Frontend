@@ -8,6 +8,7 @@ import type {
 import { RestService } from '@abp/ng.core';
 import type { ListResultDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
+import { UserDepartmentCreateDto } from '@proxy/users';
 
 @Injectable({
   providedIn: 'root',
@@ -15,10 +16,10 @@ import { Injectable } from '@angular/core';
 export class IdentityUserService {
   apiName = 'AbpIdentity';
 
-  create = (input: IdentityUserCreateDto) =>
+  create = (input: UserDepartmentCreateDto) =>
     this.restService.request<any, IdentityUserDto>({
       method: 'POST',
-      url: '/api/identity/users',
+      url: '/api/app/department-identity-user/new',
       body: input,
     },
     { apiName: this.apiName });
