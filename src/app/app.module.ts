@@ -13,7 +13,6 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { APP_ROUTE_PROVIDER } from './route.provider';
-import { AdminSettingComponent } from './admin-setting/admin-setting.component';
 
 @NgModule({
   imports: [
@@ -31,7 +30,7 @@ import { AdminSettingComponent } from './admin-setting/admin-setting.component';
     NgxsModule.forRoot(),
     ThemeBasicModule.forRoot(),
   ],
-  declarations: [AppComponent, AdminSettingComponent],
+  declarations: [AppComponent],
   providers: [APP_ROUTE_PROVIDER],
   bootstrap: [AppComponent],
 })
