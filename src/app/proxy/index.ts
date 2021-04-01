@@ -1,4 +1,9 @@
 import * as Controllers from './controllers';
+import * as Departments from './departments';
+import * as Files from './files';
+import * as Guides from './guides';
 import * as Microsoft from './microsoft';
 import * as Tasks from './tasks';
-export { Controllers, Microsoft, Tasks };
+import * as Users from './users';
+import * as Volo from './volo';
+export { Controllers, Departments, Files, Guides, Microsoft, Tasks, Users, Volo };

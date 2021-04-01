@@ -1,6 +1,9 @@
+import { ABP, DynamicLayoutComponent, ReplaceableComponents, ReplaceableRouteContainerComponent } from '@abp/ng.core';
+import { eIdentityComponents, RolesComponent } from '@abp/ng.identity';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminSettingComponent } from './admin-setting/admin-setting.component';
+import { UsersComponent } from './users/components'; 
 
 const routes: Routes = [
   {
@@ -19,16 +22,26 @@ const routes: Routes = [
     path: 'identity',
     loadChildren: () => import('@abp/ng.identity').then(m => m.IdentityModule.forLazy()),
   },
+  // {
+  //   path: 'tenant-management',
+  //   loadChildren: () =>
+  //     import('@abp/ng.tenant-management').then(m => m.TenantManagementModule.forLazy()),
+  // },
   {
-    path: 'tenant-management',
-    loadChildren: () =>
-      import('@abp/ng.tenant-management').then(m => m.TenantManagementModule.forLazy()),
-  },
-  {
-    path: 'setting-management',
+    path: 'setting-management', 
     loadChildren: () =>
       import('@abp/ng.setting-management').then(m => m.SettingManagementModule.forLazy()),
   },
+  {
+    path: 'user.departments',   
+    component: UsersComponent,  
+    loadChildren: () =>
+      import('./users/identity.module').then(m => m.UserDepartmentModule.forLazy()),
+    data: {
+      requiredPolicy: 'AbpIdentity.Users', 
+    }
+  }
+   
 ];
 
 @NgModule({

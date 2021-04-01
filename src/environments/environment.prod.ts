@@ -1,6 +1,6 @@
 import { Environment } from '@abp/ng.core';
 
-const baseUrl = 'http://localhost:4200';
+const baseUrl = 'https://pmvadmin.azurewebsites.net';
 
 export const environment = {
   production: true,
@@ -10,7 +10,7 @@ export const environment = {
     logoUrl: '',
   },
   oAuthConfig: {
-    issuer: 'https://localhost:44306',
+    issuer: 'https://pmvonline.azurewebsites.net',
     redirectUri: baseUrl,
     clientId: 'PMVOnline_App',
     responseType: 'code',
@@ -18,7 +18,7 @@ export const environment = {
   },
   apis: {
     default: {
-      url: 'https://localhost:44306',
+      url: 'https://pmvonline.azurewebsites.net',
       rootNamespace: 'PMVOnline',
     },
   },

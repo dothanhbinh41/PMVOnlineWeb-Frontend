@@ -1,11 +1,11 @@
 import type { Target } from './target.enum';
 import type { Priority } from './priority.enum';
-import type { EntityDto, PagedResultRequestDto } from '@abp/ng.core';
+import type { EntityDto } from '@abp/ng.core';
 import type { Status } from './status.enum';
 import type { ActionType } from './action-type.enum';
+import type { CommentFileDto } from '../files/models';
 
 export interface CommentRequestDto {
-  taskId: number;
   comment?: string;
   files: string[];
 }
@@ -31,6 +31,21 @@ export interface FollowTaskRequest extends EntityDto<number> {
   follow: boolean;
 }
 
+export interface FullTaskDto extends EntityDto<number> {
+  title?: string;
+  content?: string;
+  dueDate?: string;
+  completedDate?: string;
+  priority: Priority;
+  target: Target;
+  status: Status;
+  lastAction: ActionType;
+  assigneeId?: string;
+  creatorId?: string;
+  referenceTasks: ReferenceTaskDto[];
+  assignee: SimpleUserDto;
+}
+
 export interface MyTaskDto {
   id: number;
   title?: string;
@@ -50,7 +65,15 @@ export interface ProcessTaskRequest extends EntityDto<number> {
   note?: string;
 }
 
+export interface ReferenceTaskDto extends EntityDto<string> {
+  taskId: number;
+  referenceTaskId: number;
+}
+
 export interface ReopenTaskRequest extends EntityDto<number> {
+}
+
+export interface RequestTaskRequest extends EntityDto<number> {
 }
 
 export interface RoleDto {
@@ -65,6 +88,17 @@ export interface SimpleUserDto extends EntityDto<string> {
 export interface TaskActionDto {
   actor: SimpleUserDto;
   action: ActionType;
+  creationTime?: string;
+  note?: string;
+}
+
+export interface TaskCommentDto extends EntityDto<string> {
+  taskId: number;
+  comment?: string;
+  userId?: string;
+  fileIds: CommentFileDto[];
+  user: SimpleUserDto;
+  creationTime?: string;
 }
 
 export interface TaskDto extends EntityDto<number> {
@@ -76,10 +110,6 @@ export interface TaskDto extends EntityDto<number> {
   target: Target;
   status: Status;
   assigneeId?: string;
-}
-
-export interface TaskHistoryRequestDto extends PagedResultRequestDto {
-  taskId: number;
 }
 
 export interface UserDto extends SimpleUserDto {
