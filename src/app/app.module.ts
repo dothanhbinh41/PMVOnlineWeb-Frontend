@@ -1,15 +1,15 @@
-import { CoreModule } from '@abp/ng.core'; 
-import { NgxValidateCoreModule } from '@ngx-validate/core'; 
+import { CoreModule } from '@abp/ng.core';
+import { NgxValidateCoreModule } from '@ngx-validate/core';
 import {
-  NgbDatepickerModule, 
+  NgbDatepickerModule,
   NgbTimepickerModule,
   NgbTypeaheadModule,
-  NgbNavModule
+  NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
 
 import { registerLocale } from '@abp/ng.core/locale';
 import { IdentityExtensionsGuard, IdentityState, UsersComponent } from '@abp/ng.identity';
-import {PermissionManagementModule} from '@abp/ng.permission-management';
+import { PermissionManagementModule } from '@abp/ng.permission-management';
 import { IdentityConfigModule } from '@abp/ng.identity/config';
 import { SettingManagementConfigModule } from '@abp/ng.setting-management/config';
 import { TenantManagementConfigModule } from '@abp/ng.tenant-management/config';
@@ -24,8 +24,7 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { APP_ROUTE_PROVIDER } from './route.provider';
-import { from } from 'rxjs';
-import { SharedModule } from './shared/shared.module'; 
+import { SharedModule } from './shared/shared.module';
 import { UserDepartmentModule } from './users/identity.module';
 
 @NgModule({
@@ -42,16 +41,15 @@ import { UserDepartmentModule } from './users/identity.module';
     TenantManagementConfigModule.forRoot(),
     SettingManagementConfigModule.forRoot(),
     NgxsModule.forRoot(),
-    ThemeBasicModule.forRoot(), 
-    UiExtensionsModule, 
+    ThemeBasicModule.forRoot(),
+    UiExtensionsModule,
     PermissionManagementModule,
     NgxValidateCoreModule,
-    SharedModule, 
+    SharedModule,
     NgbNavModule,
-    UserDepartmentModule.forChild()
+    UserDepartmentModule.forChild(),
   ],
-  exports:[
-  ],
+  exports: [],
   declarations: [AppComponent],
   providers: [APP_ROUTE_PROVIDER],
   bootstrap: [AppComponent],

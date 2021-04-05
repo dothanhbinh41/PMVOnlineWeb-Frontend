@@ -4,11 +4,12 @@ import { Router } from '@angular/router';
 import { OAuthService } from 'angular-oauth2-oidc';
 
 @Component({
-  selector: 'app-admin-setting',
-  templateUrl: './admin-setting.component.html',
-  styleUrls: ['./admin-setting.component.scss'],
+  selector: 'app-tasks',
+  templateUrl: './tasks.component.html',
+  styleUrls: ['./tasks.component.scss']
 })
-export class AdminSettingComponent implements OnInit {
+export class TasksComponent implements OnInit {
+
   ngOnInit(): void {
     if (!this.hasLoggedIn) {
       this.authService.initLogin();
