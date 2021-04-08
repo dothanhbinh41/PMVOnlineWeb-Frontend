@@ -1,8 +1,28 @@
 <div class="container">
   <div id="scrollable-content">
     <ul>
-      <div *ngFor="let item of dataSource; let i = index" style="height: 200px">
-        {{ i }} {{ item.title }}
+      <div
+        *ngFor="let item of dataSource; let i = index"
+        class="card text-dark mb-2 mt-4 card-container"
+      >
+        <div
+          class="card-header d-flex justify-content-between"
+          [class.bg-success]="item.priority == 0"
+          [class.bg-warning]="item.priority == 1"
+          [class.bg-danger]="item.priority == 2"
+        >
+          #{{ item.id }} - {{ item.title }}
+          <div style="cursor: pointer" (click)="showDetail(item)">Detail >></div>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">
+            {{ item.assignee.name }} {{ item.assignee.surname }} {{ toAction(item.lastAction) }}
+          </h5>
+          <p class="card-text">Người tạo: {{ item.creator.name }} {{ item.creator.surname }}</p>
+          <p class="card-text">
+            {{ convertToLocalTime(item.dueDate) }}
+          </p>
+        </div>
       </div>
     </ul>
   </div>
@@ -30,6 +50,9 @@
     left: 0px;
     right: 0px;
     overflow: scroll;
-    background-color: blue;
+  }
+
+  .card-container {
+    max-width: 95%;
   }
 </style>
