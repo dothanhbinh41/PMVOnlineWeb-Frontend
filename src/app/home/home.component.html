@@ -11,20 +11,29 @@
           [class.bg-warning]="item.priority == 1"
           [class.bg-danger]="item.priority == 2"
         >
-          #{{ item.id }} - {{ item.title }}
+          #{{ item.id }} - {{ item.title }} ({{ timeToOutDateState(item.dueDate) }})
           <div style="cursor: pointer" (click)="showDetail(item)">Detail >></div>
         </div>
         <div class="card-body">
           <h5 class="card-title">
-            {{ item.assignee.name }} {{ item.assignee.surname }} {{ toAction(item.lastAction) }}
+            {{ item.lastModifier.surname }} {{ item.lastModifier.name }} {{ toAction(item.lastAction) }}
           </h5>
-          <p class="card-text">Người tạo: {{ item.creator.name }} {{ item.creator.surname }}</p>
+          <p class="card-text">Người tạo: {{ item.creator.surname }} {{ item.creator.name }}  - Đối tượng : {{item.assignee.surname}} {{item.assignee.name}}</p>
           <p class="card-text">
             {{ convertToLocalTime(item.dueDate) }}
           </p>
         </div>
       </div>
     </ul>
+  </div>
+  <button mat-fab color="primary" class="fab-button1" (click)="addNewTask()">
+    <mat-icon>add</mat-icon>
+  </button>
+  <button mat-fab color="primary" class="fab-button2" (click)="fetchData()">
+    <mat-icon>refresh</mat-icon>
+  </button>
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner color="primay" class="center-loading"></mat-spinner>
   </div>
 </div>
 
@@ -54,5 +63,37 @@
 
   .card-container {
     max-width: 95%;
+  }
+
+  .fab-button1 {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+  }
+
+  .fab-button2 {
+    position: fixed;
+    bottom: 104px;
+    right: 24px;
+  }
+
+  .loading-container {
+    pointer-events: none;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #bbbbbb6c;
+  }
+
+  .center-loading {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
   }
 </style>

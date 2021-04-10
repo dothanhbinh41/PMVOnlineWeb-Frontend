@@ -1,0 +1,18 @@
+<div mat-dialog-title class="d-flex justify-content-between">
+  <h2>Thêm Sự Vụ</h2>
+  <button (click)="onNoClick()">
+    Huỷ
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<div mat-dialog-content>
+  <p>What's your favorite animal?</p>
+  <!-- <mat-form-field>
+    <div>Favorite Animal</div>
+    <input matInput />
+  </mat-form-field> -->
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Huỷ</button>
+  <button mat-button cdkFocusInitial>Tạo Sự Vụ</button>
+</div>
