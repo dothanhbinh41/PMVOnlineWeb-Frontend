@@ -1,7 +1,6 @@
-import type { CommentRequestDto, CreateTaskRequestDto, FinishTaskRequest, FollowTaskRequest, FullTaskDto, MyTaskDto, ProcessTaskRequest, ReopenTaskRequest, RequestTaskRequest, TaskActionDto, TaskCommentDto, TaskDto, UserDto } from './models';
+import type { CommentRequestDto, CreateTaskRequestDto, FinishTaskRequest, FollowTaskRequest, FullTaskDto, MyTaskDto, ProcessTaskRequest, ReopenTaskRequest, RequestTaskRequest, SearchMyTaskRequestDto, SimpleUserDto, TaskActionDto, TaskCommentDto, TaskDto, UpdateTaskRequestDto, UserDto } from './models';
 import type { Target } from './target.enum';
 import { RestService } from '@abp/ng.core';
-import type { PagedResultRequestDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 import type { FileDto } from '../files/models';
 
@@ -58,19 +57,18 @@ export class TaskService {
     },
     { apiName: this.apiName });
 
-  getMyTasksByRequest = (request: PagedResultRequestDto) =>
-    this.restService.request<any, MyTaskDto[]>({
-      method: 'GET',
-      url: `/api/app/task/my-tasks`,
-      params: { maxResultCount: request.maxResultCount, skipCount: request.skipCount },
-    },
-    { apiName: this.apiName });
-
   getNoteById = (id: number) =>
     this.restService.request<any, string>({
       method: 'GET',
       responseType: 'text',
       url: `/api/app/task/${id}/note`,
+    },
+    { apiName: this.apiName });
+
+  getReferenceTasksById = (id: number) =>
+    this.restService.request<any, MyTaskDto[]>({
+      method: 'GET',
+      url: `/api/app/task/${id}/reference-tasks`,
     },
     { apiName: this.apiName });
 
@@ -102,6 +100,13 @@ export class TaskService {
     },
     { apiName: this.apiName });
 
+  getUsersInMyTasks = () =>
+    this.restService.request<any, SimpleUserDto[]>({
+      method: 'GET',
+      url: `/api/app/task/users-in-my-tasks`,
+    },
+    { apiName: this.apiName });
+
   processTaskByRequest = (request: ProcessTaskRequest) =>
     this.restService.request<any, boolean>({
       method: 'POST',
@@ -126,10 +131,26 @@ export class TaskService {
     },
     { apiName: this.apiName });
 
+  searchMyTasksByRequest = (request: SearchMyTaskRequestDto) =>
+    this.restService.request<any, MyTaskDto[]>({
+      method: 'POST',
+      url: `/api/app/task/search-my-tasks`,
+      body: request,
+    },
+    { apiName: this.apiName });
+
   sendCommentByIdAndRequest = (id: number, request: CommentRequestDto) =>
     this.restService.request<any, boolean>({
       method: 'POST',
       url: `/api/app/task/${id}/send-comment`,
+      body: request,
+    },
+    { apiName: this.apiName });
+
+  updateTaskByRequest = (request: UpdateTaskRequestDto) =>
+    this.restService.request<any, TaskDto>({
+      method: 'PUT',
+      url: `/api/app/task/task`,
       body: request,
     },
     { apiName: this.apiName });

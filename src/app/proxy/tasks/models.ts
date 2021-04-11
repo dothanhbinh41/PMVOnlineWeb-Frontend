@@ -1,6 +1,6 @@
 import type { Target } from './target.enum';
 import type { Priority } from './priority.enum';
-import type { EntityDto } from '@abp/ng.core';
+import type { EntityDto, PagedResultRequestDto } from '@abp/ng.core';
 import type { Status } from './status.enum';
 import type { ActionType } from './action-type.enum';
 import type { CommentFileDto } from '../files/models';
@@ -42,7 +42,6 @@ export interface FullTaskDto extends EntityDto<number> {
   lastAction: ActionType;
   assigneeId?: string;
   creatorId?: string;
-  referenceTasks: ReferenceTaskDto[];
   assignee: SimpleUserDto;
 }
 
@@ -65,19 +64,16 @@ export interface ProcessTaskRequest extends EntityDto<number> {
   note?: string;
 }
 
-export interface ReferenceTaskDto extends EntityDto<string> {
-  taskId: number;
-  referenceTaskId: number;
-}
-
 export interface ReopenTaskRequest extends EntityDto<number> {
 }
 
 export interface RequestTaskRequest extends EntityDto<number> {
 }
 
-export interface RoleDto {
-  roleId?: string;
+export interface SearchMyTaskRequestDto extends PagedResultRequestDto {
+  startDate?: string;
+  endDate?: string;
+  users: string[];
 }
 
 export interface SimpleUserDto extends EntityDto<string> {
@@ -112,6 +108,9 @@ export interface TaskDto extends EntityDto<number> {
   assigneeId?: string;
 }
 
+export interface UpdateTaskRequestDto extends CreateTaskRequestDto {
+  id: number;
+}
+
 export interface UserDto extends SimpleUserDto {
-  roles: RoleDto[];
 }
