@@ -26,6 +26,7 @@ import { AppComponent } from './app.component';
 import { APP_ROUTE_PROVIDER } from './route.provider';
 import { SharedModule } from './shared/shared.module';
 import { UserDepartmentModule } from './users/identity.module';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   imports: [
@@ -48,6 +49,7 @@ import { UserDepartmentModule } from './users/identity.module';
     SharedModule,
     NgbNavModule,
     UserDepartmentModule.forChild(),
+    MatDialogModule
   ],
   exports: [],
   declarations: [AppComponent],

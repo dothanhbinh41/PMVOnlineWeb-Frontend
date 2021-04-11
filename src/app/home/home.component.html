@@ -1,6 +1,20 @@
 <div class="container">
   <div id="scrollable-content">
     <ul>
+      <div class="d-flex mt-4">
+        <div class="d-flex mr-4">
+          <div class="bg-danger state-guide"></div>
+          Rất gấp
+        </div>
+        <div class="d-flex mr-4">
+          <div class="bg-warning state-guide"></div>
+          Gấp
+        </div>
+        <div class="d-flex mr-4">
+          <div class="bg-success state-guide"></div>
+          Bình Thường
+        </div>
+      </div>
       <div
         *ngFor="let item of dataSource; let i = index"
         class="card text-dark mb-2 mt-4 card-container"
@@ -16,9 +30,13 @@
         </div>
         <div class="card-body">
           <h5 class="card-title">
-            {{ item.lastModifier.surname }} {{ item.lastModifier.name }} {{ toAction(item.lastAction) }}
+            {{ item.lastModifier.surname }} {{ item.lastModifier.name }}
+            {{ toAction(item.lastAction) }}
           </h5>
-          <p class="card-text">Người tạo: {{ item.creator.surname }} {{ item.creator.name }}  - Đối tượng : {{item.assignee.surname}} {{item.assignee.name}}</p>
+          <p class="card-text">
+            Người tạo: {{ item.creator.surname }} {{ item.creator.name }} - Đối tượng :
+            {{ item.assignee.surname }} {{ item.assignee.name }}
+          </p>
           <p class="card-text">
             {{ convertToLocalTime(item.dueDate) }}
           </p>
@@ -26,12 +44,12 @@
       </div>
     </ul>
   </div>
-  <button mat-fab color="primary" class="fab-button1" (click)="addNewTask()">
-    <mat-icon>add</mat-icon>
-  </button>
-  <button mat-fab color="primary" class="fab-button2" (click)="fetchData()">
+  <button mat-fab color="primary" class="fab-button1" (click)="fetchData()">
     <mat-icon>refresh</mat-icon>
   </button>
+  <!-- <button mat-fab color="primary" class="fab-button2" (click)="fetchData()">
+    <mat-icon>refresh</mat-icon>
+  </button> -->
   <div class="loading-container" *ngIf="loading">
     <mat-spinner color="primay" class="center-loading"></mat-spinner>
   </div>
@@ -95,5 +113,12 @@
     transform: translate(-50%, -50%);
     width: 12px;
     height: 12px;
+  }
+
+  .state-guide {
+    height: 24px;
+    width: 24px;
+    border-radius: 12px;
+    margin-right: 4px;
   }
 </style>

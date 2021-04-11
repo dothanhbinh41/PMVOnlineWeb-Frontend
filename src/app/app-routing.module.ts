@@ -7,6 +7,7 @@ import {
 import { eIdentityComponents, RolesComponent } from '@abp/ng.identity';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AddTaskComponent } from './add-task/add-task.component';
 import { AdminSettingComponent } from './admin-setting/admin-setting.component';
 import { HelpsComponent } from './helps/helps.component';
 import { TasksComponent } from './tasks/tasks.component';
@@ -59,6 +60,12 @@ const routes: Routes = [
     pathMatch: 'full',
     loadChildren: () => import('./helps/helps.module').then(m => m.HelpsModule),
     component: HelpsComponent,
+  },
+  {
+    path: 'add-task',
+    pathMatch: 'full',
+    loadChildren: () => import('./add-task/add-task.module').then(m => m.AddTaskModule),
+    component: AddTaskComponent,
   },
 ];
 

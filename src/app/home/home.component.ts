@@ -7,7 +7,6 @@ import { OAuthService } from 'angular-oauth2-oidc';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
 import { AddTaskComponent } from '../add-task/add-task.component';
-import { TaskDetailComponent } from '../task-detail/task-detail.component';
 
 @Component({
   selector: 'app-home',
@@ -81,9 +80,7 @@ export class HomeComponent implements OnInit {
   }
 
   addNewTask() {
-    const dialogRef = this.dialog.open(AddTaskComponent, {
-      width: '80%'
-    });
+    const dialogRef = this.dialog.open(AddTaskComponent, {});
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
@@ -100,10 +97,10 @@ export class HomeComponent implements OnInit {
   timeToOutDateState(time: string) {
     const date = moment.utc(time).format('YYYY-MM-DD HH:mm:ss');
     const stillUtc = moment.utc(date);
-    console.log('=====x=====>', stillUtc);
-    console.log('=====x=====>', moment().utc());
-    console.log('=====x=====>', moment().utc().isAfter(stillUtc));
-    console.log('\n\n\n');
+    // console.log('=====x=====>', stillUtc);
+    // console.log('=====x=====>', moment().utc());
+    // console.log('=====x=====>', moment().utc().isAfter(stillUtc));
+    // console.log('\n\n\n');
     return moment().utc() > stillUtc ? 'Quá hạn' : '';
   }
 
