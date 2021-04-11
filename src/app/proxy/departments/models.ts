@@ -23,7 +23,7 @@ export interface DepartmentDto extends EntityDto<number> {
 
 export interface DepartmentUserDto extends EntityDto<number> {
   departmentId: number;
-  deparment: DepartmentDto;
+  department: DepartmentDto;
   userId?: string;
   user: SimpleUserDto;
   isLeader: boolean;

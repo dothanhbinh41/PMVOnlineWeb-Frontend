@@ -8,18 +8,18 @@ import { Injectable } from '@angular/core';
 export class DepartmentService {
   apiName = 'Default';
 
-  addUserToDeparment = (request: CreateDepartmentUserDto) =>
+  addUserToDepartment = (request: CreateDepartmentUserDto) =>
     this.restService.request<any, boolean>({
       method: 'POST',
-      url: `/api/app/department/user-to-deparment`,
+      url: `/api/app/department/user-to-department`,
       body: request,
     },
     { apiName: this.apiName });
 
-  deleteUserToDeparment = (request: DeleteDepartmentUserDto) =>
+  deleteUserToDepartment = (request: DeleteDepartmentUserDto) =>
     this.restService.request<any, boolean>({
       method: 'DELETE',
-      url: `/api/app/department/user-to-deparment`,
+      url: `/api/app/department/user-to-department`,
       params: { departmentId: request.departmentId, userId: request.userId },
     },
     { apiName: this.apiName });
@@ -46,6 +46,13 @@ export class DepartmentService {
     },
     { apiName: this.apiName });
 
+  getMyDepartments = () =>
+    this.restService.request<any, DepartmentUserDto[]>({
+      method: 'GET',
+      url: `/api/app/department/my-departments`,
+    },
+    { apiName: this.apiName });
+
   getUserDepartments = (id: string) =>
     this.restService.request<any, DepartmentUserDto[]>({
       method: 'GET',
@@ -53,10 +60,10 @@ export class DepartmentService {
     },
     { apiName: this.apiName });
 
-  updateUserToDeparment = (request: UpdateDepartmentUserDto) =>
+  updateUserToDepartment = (request: UpdateDepartmentUserDto) =>
     this.restService.request<any, boolean>({
       method: 'PUT',
-      url: `/api/app/department/user-to-deparment`,
+      url: `/api/app/department/user-to-department`,
       body: request,
     },
     { apiName: this.apiName });
