@@ -1,6 +1,6 @@
-import type { Target } from './target.enum';
 import type { Priority } from './priority.enum';
 import type { EntityDto, PagedResultRequestDto } from '@abp/ng.core';
+import type { TargetDto } from '../targets/models';
 import type { Status } from './status.enum';
 import type { ActionType } from './action-type.enum';
 import type { CommentFileDto } from '../files/models';
@@ -13,7 +13,7 @@ export interface CommentRequestDto {
 export interface CreateTaskRequestDto {
   title?: string;
   content?: string;
-  target: Target;
+  targetId: number;
   priority: Priority;
   dueDate?: string;
   files: string[];
@@ -37,7 +37,8 @@ export interface FullTaskDto extends EntityDto<number> {
   dueDate?: string;
   completedDate?: string;
   priority: Priority;
-  target: Target;
+  target: TargetDto;
+  targetId: number;
   status: Status;
   lastAction: ActionType;
   assigneeId?: string;
@@ -51,7 +52,8 @@ export interface MyTaskDto {
   dueDate?: string;
   completedDate?: string;
   priority: Priority;
-  target: Target;
+  targetId: number;
+  target: TargetDto;
   status: Status;
   assignee: SimpleUserDto;
   creator: SimpleUserDto;
@@ -103,7 +105,7 @@ export interface TaskDto extends EntityDto<number> {
   dueDate?: string;
   completedDate?: string;
   priority: Priority;
-  target: Target;
+  targetId: number;
   status: Status;
   assigneeId?: string;
 }

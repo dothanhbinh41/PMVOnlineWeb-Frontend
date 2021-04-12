@@ -1,5 +1,4 @@
 import type { CommentRequestDto, CreateTaskRequestDto, FinishTaskRequest, FollowTaskRequest, FullTaskDto, MyTaskDto, ProcessTaskRequest, ReopenTaskRequest, RequestTaskRequest, SearchMyTaskRequestDto, SimpleUserDto, TaskActionDto, TaskCommentDto, TaskDto, UpdateTaskRequestDto, UserDto } from './models';
-import type { Target } from './target.enum';
 import { RestService } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 import type { FileDto } from '../files/models';
@@ -34,7 +33,7 @@ export class TaskService {
     },
     { apiName: this.apiName });
 
-  getAllMemberByTarget = (target: Target) =>
+  getAllMemberByTarget = (target: number) =>
     this.restService.request<any, UserDto[]>({
       method: 'GET',
       url: `/api/app/task/member`,
@@ -42,7 +41,7 @@ export class TaskService {
     },
     { apiName: this.apiName });
 
-  getAssigneeByTarget = (target: Target) =>
+  getAssigneeByTarget = (target: number) =>
     this.restService.request<any, UserDto>({
       method: 'GET',
       url: `/api/app/task/assignee`,
