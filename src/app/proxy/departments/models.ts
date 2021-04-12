@@ -29,6 +29,10 @@ export interface DepartmentUserDto extends EntityDto<number> {
   isLeader: boolean;
 }
 
+export interface NameDepartmentDto {
+  name?: string;
+}
+
 export interface UpdateDepartmentUserDto {
   departmentId: number;
   userId?: string;
