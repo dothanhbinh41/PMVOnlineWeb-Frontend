@@ -44,7 +44,7 @@ export class TasksComponent implements OnInit {
 
   async loadTasks() {
     this.taskService
-      .getMyTasksByRequest({ maxResultCount: 20, skipCount: 0 })
+      .searchMyTasksByRequest({ maxResultCount: 20, skipCount: 0 ,users:[] })
       .pipe(finalize(() => {}))
       .subscribe(data => {
         this.tasks = data;
