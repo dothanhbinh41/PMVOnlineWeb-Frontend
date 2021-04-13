@@ -1,4 +1,4 @@
-import type { CreateDepartmentUserDto, DeleteDepartmentUserDto, DepartmentDto, DepartmentUserDto, UpdateDepartmentUserDto } from './models';
+import type { CreateDepartmentUserDto, DeleteDepartmentUserDto, DepartmentDto, DepartmentUserDto, NameDepartmentDto, UpdateDepartmentUserDto } from './models';
 import { RestService } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 
@@ -13,6 +13,21 @@ export class DepartmentService {
       method: 'POST',
       url: `/api/app/department/user-to-department`,
       body: request,
+    },
+    { apiName: this.apiName });
+
+  createTargets = (request: NameDepartmentDto) =>
+    this.restService.request<any, DepartmentDto>({
+      method: 'POST',
+      url: `/api/app/department/targets`,
+      body: request,
+    },
+    { apiName: this.apiName });
+
+  deleteTargets = (id: number) =>
+    this.restService.request<any, boolean>({
+      method: 'DELETE',
+      url: `/api/app/department/${id}/targets`,
     },
     { apiName: this.apiName });
 
@@ -57,6 +72,14 @@ export class DepartmentService {
     this.restService.request<any, DepartmentUserDto[]>({
       method: 'GET',
       url: `/api/app/department/${id}/user-departments`,
+    },
+    { apiName: this.apiName });
+
+  updateTargets = (id: number, request: NameDepartmentDto) =>
+    this.restService.request<any, DepartmentDto>({
+      method: 'PUT',
+      url: `/api/app/department/${id}/targets`,
+      body: request,
     },
     { apiName: this.apiName });
 
