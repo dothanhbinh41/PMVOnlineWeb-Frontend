@@ -1,5 +1,6 @@
 import { AuthService } from '@abp/ng.core';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SimpleChange } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TaskService } from '@proxy/tasks';
@@ -19,13 +20,27 @@ export class TasksComponent implements OnInit {
   users = [];
   tasks = [];
 
+  startDate: any
+  endDate: any
+
+  campaignOne: FormGroup;
+
   constructor(
     private router: Router,
     private oAuthService: OAuthService,
     private authService: AuthService,
     private taskService: TaskService,
     private dialog: MatDialog
-  ) {}
+  ) {
+    const today = new Date();
+    const month = today.getMonth();
+    const year = today.getFullYear();
+
+    this.campaignOne = new FormGroup({
+      start: new FormControl(new Date(year, month, 13)),
+      end: new FormControl(new Date(year, month, 16)),
+    });
+  }
 
   ngOnInit(): void {
     if (!this.hasLoggedIn) {
@@ -44,7 +59,7 @@ export class TasksComponent implements OnInit {
 
   async loadTasks() {
     this.taskService
-      .searchMyTasksByRequest({ maxResultCount: 20, skipCount: 0 ,users:[] })
+      .searchMyTasksByRequest({ maxResultCount: 20, skipCount: 0, users: [] })
       .pipe(finalize(() => {}))
       .subscribe(data => {
         this.tasks = data;
@@ -54,15 +69,14 @@ export class TasksComponent implements OnInit {
 
   async loadUsers() {
     this.taskService
-      .getMyActions()
+      .getUsersInMyTasks()
       .pipe(
         finalize(() => {
           this.loading = false;
         })
       )
       .subscribe(data => {
-        this.dataSource = data;
-        console.log(data);
+        this.users = ['Nghia', 'Binh', 'Ha'];
       });
   }
 
@@ -100,6 +114,7 @@ export class TasksComponent implements OnInit {
   }
 
   addNewTask() {
+    console.log(this.startDate);
     const dialogRef = this.dialog.open(AddTaskComponent, {});
 
     dialogRef.afterClosed().subscribe(result => {

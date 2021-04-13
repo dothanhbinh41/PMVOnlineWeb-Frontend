@@ -40,7 +40,7 @@
     ></ng-template>
 
     <form *ngIf="form; else loaderRef" [formGroup]="form" (ngSubmit)="save()">
-      <ul ngbNav #nav="ngbNav" class="nav-tabs" style="background-color: red;">
+      <ul ngbNav #nav="ngbNav" class="nav-tabs">
         <li ngbNavItem>
           <a ngbNavLink>{{ 'AbpIdentity::UserInformations' | abpLocalization }}</a>
           <ng-template ngbNavContent>
