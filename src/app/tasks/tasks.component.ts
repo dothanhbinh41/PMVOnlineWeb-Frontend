@@ -1,5 +1,5 @@
 import { AuthService } from '@abp/ng.core';
-import { Component, OnInit, SimpleChange } from '@angular/core';
+import { Component, Input, OnInit, SimpleChange, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -19,11 +19,14 @@ export class TasksComponent implements OnInit {
   dataSource = [];
   users = [];
   tasks = [];
-
-  startDate: any
-  endDate: any
-
-  campaignOne: FormGroup;
+  selectedUser;
+  startDate;
+  endDate;
+  dateRange;
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl(),
+  });
 
   constructor(
     private router: Router,
@@ -31,16 +34,7 @@ export class TasksComponent implements OnInit {
     private authService: AuthService,
     private taskService: TaskService,
     private dialog: MatDialog
-  ) {
-    const today = new Date();
-    const month = today.getMonth();
-    const year = today.getFullYear();
-
-    this.campaignOne = new FormGroup({
-      start: new FormControl(new Date(year, month, 13)),
-      end: new FormControl(new Date(year, month, 16)),
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
     if (!this.hasLoggedIn) {
@@ -58,12 +52,18 @@ export class TasksComponent implements OnInit {
   }
 
   async loadTasks() {
+    console.log(this.selectedUser);
     this.taskService
-      .searchMyTasksByRequest({ maxResultCount: 20, skipCount: 0, users: [] })
+      .searchMyTasksByRequest({
+        maxResultCount: 1000,
+        skipCount: 0,
+        users: this.selectedUser ? [this.selectedUser] : [],
+        endDate: this.range?.value?.end,
+        startDate: this.range?.value?.start,
+      })
       .pipe(finalize(() => {}))
       .subscribe(data => {
         this.tasks = data;
-        console.log(data);
       });
   }
 
@@ -114,7 +114,6 @@ export class TasksComponent implements OnInit {
   }
 
   addNewTask() {
-    console.log(this.startDate);
     const dialogRef = this.dialog.open(AddTaskComponent, {});
 
     dialogRef.afterClosed().subscribe(result => {
@@ -133,6 +132,17 @@ export class TasksComponent implements OnInit {
     const date = moment.utc(time).format('YYYY-MM-DD HH:mm:ss');
     const stillUtc = moment.utc(date);
     return moment().utc() > stillUtc ? 'Quá hạn' : '';
+  }
+
+  resetFilter() {
+    this.startDate = undefined;
+    this.endDate = undefined;
+    this.selectedUser = undefined;
+    this.range = new FormGroup({
+      start: new FormControl(),
+      end: new FormControl(),
+    });
+    this.loadTasks();
   }
 
   get hasLoggedIn(): boolean {
