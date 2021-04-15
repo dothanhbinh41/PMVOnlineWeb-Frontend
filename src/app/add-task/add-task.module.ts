@@ -15,7 +15,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatButtonModule,
     MatProgressSpinnerModule,
     MatDialogModule,
-    MatFormFieldModule
+    MatFormFieldModule,
   ],
 })
 export class AddTaskModule {}

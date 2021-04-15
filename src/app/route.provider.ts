@@ -25,14 +25,14 @@ function configureRoutes(routesService: RoutesService) {
         iconClass: 'fas fa-book',
         layout: eLayoutType.application,
       },
-      // {
-      //   path: 'user.departments',
-      //   name: 'users',
-      //   parentName: eThemeSharedRouteNames.Administration,
-      //   order: 2,
-      //   iconClass: 'fas fa-book',
-      //   layout: eLayoutType.application,
-      // },
+      {
+        path: 'user.departments',
+        name: 'Users',
+        parentName: 'Quản Lý',
+        order: 3,
+        iconClass: 'fas fa-book',
+        layout: eLayoutType.application,
+      },
       {
         path: '/admin-setting',
         name: 'Quản Lý',

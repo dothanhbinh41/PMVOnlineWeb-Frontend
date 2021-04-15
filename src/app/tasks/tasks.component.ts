@@ -1,5 +1,6 @@
 import { AuthService } from '@abp/ng.core';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChange, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TaskService } from '@proxy/tasks';
@@ -18,6 +19,14 @@ export class TasksComponent implements OnInit {
   dataSource = [];
   users = [];
   tasks = [];
+  selectedUser;
+  startDate;
+  endDate;
+  dateRange;
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl(),
+  });
 
   constructor(
     private router: Router,
@@ -43,26 +52,31 @@ export class TasksComponent implements OnInit {
   }
 
   async loadTasks() {
+    console.log(this.selectedUser);
     this.taskService
-      .searchMyTasksByRequest({ maxResultCount: 20, skipCount: 0 ,users:[] })
+      .searchMyTasksByRequest({
+        maxResultCount: 1000,
+        skipCount: 0,
+        users: this.selectedUser ? [this.selectedUser] : [],
+        endDate: this.range?.value?.end,
+        startDate: this.range?.value?.start,
+      })
       .pipe(finalize(() => {}))
       .subscribe(data => {
         this.tasks = data;
-        console.log(data);
       });
   }
 
   async loadUsers() {
     this.taskService
-      .getMyActions()
+      .getUsersInMyTasks()
       .pipe(
         finalize(() => {
           this.loading = false;
         })
       )
       .subscribe(data => {
-        this.dataSource = data;
-        console.log(data);
+        this.users = ['Nghia', 'Binh', 'Ha'];
       });
   }
 
@@ -118,6 +132,17 @@ export class TasksComponent implements OnInit {
     const date = moment.utc(time).format('YYYY-MM-DD HH:mm:ss');
     const stillUtc = moment.utc(date);
     return moment().utc() > stillUtc ? 'Quá hạn' : '';
+  }
+
+  resetFilter() {
+    this.startDate = undefined;
+    this.endDate = undefined;
+    this.selectedUser = undefined;
+    this.range = new FormGroup({
+      start: new FormControl(),
+      end: new FormControl(),
+    });
+    this.loadTasks();
   }
 
   get hasLoggedIn(): boolean {
