@@ -3,6 +3,19 @@
   <mat-icon (click)="onNoClick()" style="cursor: pointer">close</mat-icon>
 </div>
 <div mat-dialog-content class="form-container">
+  <form class="example-container" #options="ngForm">
+    <mat-form-field class="input-field" appearance="outline">
+      <input
+        name="id"
+        [(ngModel)]="uniqueId"
+        type="text"
+        matInput
+        placeholder="Unique ID"
+        required
+      />
+    </mat-form-field>
+  </form>
+
   <div class="container">
     <div class="row">
       <div class="input-group mb-3">
