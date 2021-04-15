@@ -5,8 +5,8 @@
         <mat-form-field appearance="outline" class="mr-4">
           <mat-label>Đối tượng liên quan</mat-label>
           <mat-select [(ngModel)]="selectedUser" (selectionChange)="loadTasks()">
-            <mat-option *ngFor="let user of users" [value]="user">
-              {{ user }}
+            <mat-option *ngFor="let user of users" [value]="user.id">
+              {{ user.name }} {{ user.surname }}
             </mat-option>
           </mat-select>
         </mat-form-field>

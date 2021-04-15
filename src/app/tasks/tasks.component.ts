@@ -63,7 +63,7 @@ export class TasksComponent implements OnInit {
       })
       .pipe(finalize(() => {}))
       .subscribe(data => {
-        this.tasks = data;
+        this.tasks = data ? data : [];
       });
   }
 
@@ -76,7 +76,7 @@ export class TasksComponent implements OnInit {
         })
       )
       .subscribe(data => {
-        this.users = ['Nghia', 'Binh', 'Ha'];
+        this.users = data;
       });
   }
 
