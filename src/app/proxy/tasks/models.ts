@@ -43,6 +43,7 @@ export interface FullTaskDto extends EntityDto<number> {
   lastAction: ActionType;
   assigneeId?: string;
   creatorId?: string;
+  creationTime?: string;
   assignee: SimpleUserDto;
 }
 
@@ -51,6 +52,7 @@ export interface MyTaskDto {
   title?: string;
   dueDate?: string;
   completedDate?: string;
+  creationTime?: string;
   priority: Priority;
   targetId: number;
   target: TargetDto;
@@ -104,6 +106,7 @@ export interface TaskDto extends EntityDto<number> {
   content?: string;
   dueDate?: string;
   completedDate?: string;
+  creationTime?: string;
   priority: Priority;
   targetId: number;
   status: Status;
