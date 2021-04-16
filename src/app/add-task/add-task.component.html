@@ -3,55 +3,66 @@
   <mat-icon (click)="onNoClick()" style="cursor: pointer">close</mat-icon>
 </div>
 <div mat-dialog-content class="form-container">
-  <form class="example-container" #options="ngForm">
-    <mat-form-field class="input-field" appearance="outline">
-      <input
-        name="id"
-        [(ngModel)]="uniqueId"
-        type="text"
-        matInput
-        placeholder="Unique ID"
-        required
-      />
+  <form class="form-content-container">
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Copy sự vụ</mat-label>
+      <mat-select>
+        <mat-option value="one">Sự vụ 1</mat-option>
+        <mat-option value="two">Sự vụ 2</mat-option>
+      </mat-select>
     </mat-form-field>
-  </form>
 
-  <div class="container">
-    <div class="row">
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">@</span>
-        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-      </div>
-      
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
-        <span class="input-group-text" id="basic-addon2">@example.com</span>
-      </div>
-      
-      <label for="basic-url" class="form-label">Your vanity URL</label>
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon3">https://example.com/users/</span>
-        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-      </div>
-      
-      <div class="input-group mb-3">
-        <span class="input-group-text">$</span>
-        <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-        <span class="input-group-text">.00</span>
-      </div>
-      
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Username" aria-label="Username">
-        <span class="input-group-text">@</span>
-        <input type="text" class="form-control" placeholder="Server" aria-label="Server">
-      </div>
-      
-      <div class="input-group">
-        <span class="input-group-text">With textarea</span>
-        <textarea class="form-control" aria-label="With textarea"></textarea>
-      </div>
-    </div>
-  </div>
+    <mat-form-field class="half-width" appearance="outline">
+      <mat-label>Yêu cầu</mat-label>
+      <mat-select>
+        <mat-option value="one">Yêu cầu 1</mat-option>
+        <mat-option value="two">Yêu cầu 2</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="half-width" appearance="outline">
+      <mat-label>Đối tượng</mat-label>
+      <mat-select>
+        <mat-option value="one">Đối tượng 1</mat-option>
+        <mat-option value="two">Đối tượng 2</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Mục đích</mat-label>
+      <input matInput />
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Nội dung</mat-label>
+      <input matInput />
+    </mat-form-field>
+
+    <mat-form-field class="half-width" appearance="outline">
+      <mat-label>Độ ưu tiên</mat-label>
+      <mat-select>
+        <mat-option value="one">Độ ưu tiên 1</mat-option>
+        <mat-option value="two">Độ ưu tiên 2</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="half-width" appearance="outline">
+      <mat-label>Thời hạn</mat-label>
+      <mat-select>
+        <mat-option value="one">Đối tượng 1</mat-option>
+        <mat-option value="two">Đối tượng 2</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Sự vụ liên quan</mat-label>
+      <mat-select>
+        <mat-option value="one">Sự vụ 1</mat-option>
+        <mat-option value="two">Sự vụ 2</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-label>Tệp đính kèm</mat-label>
+  </form>
 </div>
 <div mat-dialog-actions>
   <button mat-button cdkFocusInitial color="primary">Tạo Sự Vụ</button>
@@ -62,5 +73,25 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .form-content-container {
+    height: 100%;
+    width: 100%;
+  }
+
+  .full-width {
+    width: 100%;
+  }
+
+  .half-width {
+    width: 48%;
+    margin-right: 2%;
+  }
+
+  .half-width:nth-child(odd) {
+    width: 50%;
+    margin-right: 0;
   }
 </style>

@@ -10,11 +10,14 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { ControlsModule } from '../controls/controls.module';
 
 @NgModule({
   declarations: [AddTaskComponent],
   imports: [
     SharedModule,
+    ControlsModule,
     MatIconModule,
     MatButtonModule,
     MatProgressSpinnerModule,
@@ -24,7 +27,8 @@ import { MatInputModule } from '@angular/material/input';
     MatNativeDateModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatInputModule
+    MatInputModule,
+    MatGridListModule,
   ],
 })
 export class AddTaskModule {}
