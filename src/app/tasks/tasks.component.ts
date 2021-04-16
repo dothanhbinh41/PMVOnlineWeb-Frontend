@@ -114,7 +114,7 @@ export class TasksComponent implements OnInit {
   }
 
   addNewTask() {
-    const dialogRef = this.dialog.open(AddTaskComponent, { width: '50%', minWidth: '512px' });
+    const dialogRef = this.dialog.open(AddTaskComponent, { width: '50%', minWidth: '512px', disableClose: true });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');

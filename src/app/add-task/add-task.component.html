@@ -15,8 +15,7 @@
     <mat-form-field class="half-width" appearance="outline">
       <mat-label>Yêu cầu</mat-label>
       <mat-select>
-        <mat-option value="one">Yêu cầu 1</mat-option>
-        <mat-option value="two">Yêu cầu 2</mat-option>
+        <mat-option *ngFor="let target of targets" value="one" [value]="target.id">{{ target.name }}</mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -61,11 +60,41 @@
         <mat-option value="two">Sự vụ 2</mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-label>Tệp đính kèm</mat-label>
+    <mat-label class="full-width">Tệp đính kèm</mat-label>
+    <div class="d-flex full-width">
+      <button
+        mat-raised-button
+        color="primary"
+        onclick="document.getElementById('additionFile').click()"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+      <input
+        type="file"
+        id="additionFile"
+        style="display: none"
+        accept="image/x-png,image/gif,image/jpeg"
+        (change)="pickedFile($event)"
+        multiple
+      />
+    </div>
+    <div class="additionPhotos" *ngIf="isEmptyAddition">
+      <div class="addition-photo-container" *ngFor="let img of additionFiles;let i = index">
+        <img
+          [attr.src]="getFilePath(img)"
+          style="object-fit: cover; height: 100%; width: 100%"
+          ng-bind-html="desc"
+        />
+        <button mat-mini-fab color="warn" class="addition-photo-container-delete-button" (click)="deleteAdditionFile(i)">
+          <mat-icon style="font-size: small;">close</mat-icon>
+        </button>
+      </div>
+    </div>
   </form>
 </div>
-<div mat-dialog-actions>
-  <button mat-button cdkFocusInitial color="primary">Tạo Sự Vụ</button>
+<div mat-dialog-actions align="end" class="mt-2">
+  <button mat-button cdkFocusInitial color="primary" (click)="onNoClick()">Hủy</button>
+  <button mat-raised-button color="primary" cdkFocusInitial>Tạo sự vụ</button>
 </div>
 
 <style scoped>
@@ -93,5 +122,34 @@
   .half-width:nth-child(odd) {
     width: 50%;
     margin-right: 0;
+  }
+  .addition-photo-container {
+    position: relative;
+    height: 120px;
+    width: 120px;
+    margin-right: 16px;
+  }
+
+  .addition-photo-container-delete-button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 32px;
+    height: 32px;
+  }
+  .additionPhotos {
+    height: 132px;
+    overflow: auto;
+    white-space: nowrap;
+    margin-top: 12px;
+  }
+
+  .additionPhotos div {
+    height: 120px;
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px;
+    text-decoration: none;
   }
 </style>
