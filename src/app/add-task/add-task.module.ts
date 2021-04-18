@@ -11,7 +11,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { ControlsModule } from '../controls/controls.module';
+import { ControlsModule } from '../controls/controls.module'
 
 @NgModule({
   declarations: [AddTaskComponent],
@@ -28,7 +28,7 @@ import { ControlsModule } from '../controls/controls.module';
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
-    MatGridListModule,
+    MatGridListModule
   ],
 })
 export class AddTaskModule {}

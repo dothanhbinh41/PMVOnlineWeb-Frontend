@@ -14,8 +14,10 @@
 
     <mat-form-field class="half-width" appearance="outline">
       <mat-label>Yêu cầu</mat-label>
-      <mat-select>
-        <mat-option *ngFor="let target of targets" value="one" [value]="target.id">{{ target.name }}</mat-option>
+      <mat-select [value]="selectedTarget" (selectionChange)="onSelectedTargetChagne()">
+        <mat-option *ngFor="let target of targets" value="one" [value]="target.id">{{
+          target.name
+        }}</mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -29,28 +31,35 @@
 
     <mat-form-field class="full-width" appearance="outline">
       <mat-label>Mục đích</mat-label>
-      <input matInput />
+      <input matInput [value]="purpose" />
     </mat-form-field>
 
     <mat-form-field class="full-width" appearance="outline">
       <mat-label>Nội dung</mat-label>
-      <input matInput />
+      <input matInput [value]="content" />
     </mat-form-field>
 
     <mat-form-field class="half-width" appearance="outline">
       <mat-label>Độ ưu tiên</mat-label>
-      <mat-select>
-        <mat-option value="one">Độ ưu tiên 1</mat-option>
-        <mat-option value="two">Độ ưu tiên 2</mat-option>
+      <mat-select [value]="piority">
+        <mat-option [value]="0">Bình thường</mat-option>
+        <mat-option [value]="1">Gấp </mat-option>
+        <mat-option [value]="2">ASAP</mat-option>
       </mat-select>
     </mat-form-field>
 
+    <div class="half-width"></div>
+
     <mat-form-field class="half-width" appearance="outline">
-      <mat-label>Thời hạn</mat-label>
-      <mat-select>
-        <mat-option value="one">Đối tượng 1</mat-option>
-        <mat-option value="two">Đối tượng 2</mat-option>
-      </mat-select>
+      <mat-label >Hạn chót</mat-label>
+      <input matInput type="time" [value]="deadline"/>
+    </mat-form-field>
+
+    <mat-form-field class="half-width" appearance="outline">
+      <mat-label>Ngày</mat-label>
+      <input matInput [matDatepicker]="picker" [value]="deadline" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field class="full-width" appearance="outline">
@@ -79,14 +88,19 @@
       />
     </div>
     <div class="additionPhotos" *ngIf="isEmptyAddition">
-      <div class="addition-photo-container" *ngFor="let img of additionFiles;let i = index">
+      <div class="addition-photo-container" *ngFor="let img of additionFiles; let i = index">
         <img
           [attr.src]="getFilePath(img)"
           style="object-fit: cover; height: 100%; width: 100%"
           ng-bind-html="desc"
         />
-        <button mat-mini-fab color="warn" class="addition-photo-container-delete-button" (click)="deleteAdditionFile(i)">
-          <mat-icon style="font-size: small;">close</mat-icon>
+        <button
+          mat-mini-fab
+          color="warn"
+          class="addition-photo-container-delete-button"
+          (click)="deleteAdditionFile(i)"
+        >
+          <mat-icon style="font-size: small">close</mat-icon>
         </button>
       </div>
     </div>
@@ -95,6 +109,22 @@
 <div mat-dialog-actions align="end" class="mt-2">
   <button mat-button cdkFocusInitial color="primary" (click)="onNoClick()">Hủy</button>
   <button mat-raised-button color="primary" cdkFocusInitial>Tạo sự vụ</button>
+</div>
+<div
+  style="
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #bbbbbb6c;
+  "
+  *ngIf="loading"
+>
+  <mat-progress-spinner color="primary" mode="indeterminate"> </mat-progress-spinner>
 </div>
 
 <style scoped>
@@ -137,8 +167,9 @@
     width: 32px;
     height: 32px;
   }
+
   .additionPhotos {
-    height: 132px;
+    height: 140px;
     overflow: auto;
     white-space: nowrap;
     margin-top: 12px;

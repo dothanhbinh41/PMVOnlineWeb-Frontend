@@ -16,6 +16,14 @@ export class AddTaskComponent implements OnInit {
   uniqueId: string;
   additionFiles = [];
   targets = [];
+  loading = false;
+  selectedTarget;
+  purpose = '';
+  content = '';
+  piority;
+  deadline;
+  selectedCopyTask;
+  relatedTask;
 
   ngOnInit(): void {
     this.loadData();
@@ -28,21 +36,35 @@ export class AddTaskComponent implements OnInit {
     private targetService: TargetService
   ) {}
 
-  loadData(){
+  loadData() {
     this.loadTarget();
   }
 
-  loadTarget(){
-    this.targetService.getAllTargets()
-    .pipe(finalize(() => {}))
-    .subscribe(data => {
-      this.targets = data ?? [];
-      console.log(this.targets);
-    });
+  loadTarget() {
+    this.loading = true;
+    this.targetService
+      .getAllTargets()
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        })
+      )
+      .subscribe(data => {
+        this.targets = data ? data : [];
+      });
   }
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  loadUser() {
+    this.taskService
+      .getAllMemberByTarget(this.selectedTarget)
+      .pipe(finalize(() => {}))
+      .subscribe(data => {
+        console.log(data);
+      });
   }
 
   clear() {
@@ -62,6 +84,10 @@ export class AddTaskComponent implements OnInit {
   deleteAdditionFile(index) {
     if (!this.isEmptyAddition) return;
     this.additionFiles.splice(index, 1);
+  }
+
+  onSelectedTargetChagne(){
+    this.loadUser();
   }
 
   get isEmptyAddition() {
