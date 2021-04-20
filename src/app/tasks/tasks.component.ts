@@ -1,5 +1,6 @@
 import { AuthService } from '@abp/ng.core';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChange, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TaskService } from '@proxy/tasks';
@@ -9,18 +10,30 @@ import { finalize } from 'rxjs/operators';
 import { AddTaskComponent } from '../add-task/add-task.component';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
+  selector: 'app-tasks',
+  templateUrl: './tasks.component.html',
+  styleUrls: ['./tasks.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class TasksComponent implements OnInit {
   loading = false;
   dataSource = [];
+  users = [];
+  tasks = [];
+  selectedUser;
+  startDate;
+  endDate;
+  dateRange;
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl(),
+  });
+
   constructor(
     private router: Router,
     private oAuthService: OAuthService,
     private authService: AuthService,
     private taskService: TaskService,
-    public dialog: MatDialog
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -31,18 +44,39 @@ export class HomeComponent implements OnInit {
     this.fetchData();
   }
 
-  fetchData(): void {
+  async fetchData() {
     this.loading = true;
+    await this.loadTasks();
+    await this.loadUsers();
+    this.loading = false;
+  }
+
+  async loadTasks() {
+    console.log(this.selectedUser);
     this.taskService
-      .getMyActions()
+      .searchMyTasksByRequest({
+        maxResultCount: 1000,
+        skipCount: 0,
+        users: this.selectedUser ? [this.selectedUser] : [],
+        endDate: this.range?.value?.end,
+        startDate: this.range?.value?.start,
+      })
+      .pipe(finalize(() => {}))
+      .subscribe(data => {
+        this.tasks = data ? data : [];
+      });
+  }
+
+  async loadUsers() {
+    this.taskService
+      .getUsersInMyTasks()
       .pipe(
         finalize(() => {
           this.loading = false;
         })
       )
       .subscribe(data => {
-        this.dataSource = data;
-        console.log(data);
+        this.users = data;
       });
   }
 
@@ -80,7 +114,7 @@ export class HomeComponent implements OnInit {
   }
 
   addNewTask() {
-    const dialogRef = this.dialog.open(AddTaskComponent, {});
+    const dialogRef = this.dialog.open(AddTaskComponent, { width: '50%', minWidth: '512px', disableClose: true });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
@@ -97,11 +131,18 @@ export class HomeComponent implements OnInit {
   timeToOutDateState(time: string) {
     const date = moment.utc(time).format('YYYY-MM-DD HH:mm:ss');
     const stillUtc = moment.utc(date);
-    // console.log('=====x=====>', stillUtc);
-    // console.log('=====x=====>', moment().utc());
-    // console.log('=====x=====>', moment().utc().isAfter(stillUtc));
-    // console.log('\n\n\n');
     return moment().utc() > stillUtc ? 'Quá hạn' : '';
+  }
+
+  resetFilter() {
+    this.startDate = undefined;
+    this.endDate = undefined;
+    this.selectedUser = undefined;
+    this.range = new FormGroup({
+      start: new FormControl(),
+      end: new FormControl(),
+    });
+    this.loadTasks();
   }
 
   get hasLoggedIn(): boolean {

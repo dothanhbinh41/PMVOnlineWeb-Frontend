@@ -7,7 +7,7 @@ export const environment = {
   application: {
     baseUrl,
     name: 'PMVOnline',
-    logoUrl: '',
+    logoUrl: 'assets/logo.png',
   },
   oAuthConfig: {
     issuer: 'https://pmvonline.azurewebsites.net',

@@ -114,6 +114,14 @@ export class TaskService {
     },
     { apiName: this.apiName });
 
+  rateTask = (taskId: number, rating: number, note: string) =>
+    this.restService.request<any, boolean>({
+      method: 'POST',
+      url: `/api/app/task/rate-task/${taskId}`,
+      params: { rating: rating, note: note },
+    },
+    { apiName: this.apiName });
+
   reopenTaskByRequest = (request: ReopenTaskRequest) =>
     this.restService.request<any, boolean>({
       method: 'POST',

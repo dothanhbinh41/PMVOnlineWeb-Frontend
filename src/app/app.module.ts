@@ -1,15 +1,15 @@
-import { CoreModule } from '@abp/ng.core'; 
-import { NgxValidateCoreModule } from '@ngx-validate/core'; 
+import { CoreModule } from '@abp/ng.core';
+import { NgxValidateCoreModule } from '@ngx-validate/core';
 import {
-  NgbDatepickerModule, 
+  NgbDatepickerModule,
   NgbTimepickerModule,
   NgbTypeaheadModule,
-  NgbNavModule
+  NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
 
 import { registerLocale } from '@abp/ng.core/locale';
 import { IdentityExtensionsGuard, IdentityState, UsersComponent } from '@abp/ng.identity';
-import {PermissionManagementModule} from '@abp/ng.permission-management';
+import { PermissionManagementModule } from '@abp/ng.permission-management';
 import { IdentityConfigModule } from '@abp/ng.identity/config';
 import { SettingManagementConfigModule } from '@abp/ng.setting-management/config';
 import { TenantManagementConfigModule } from '@abp/ng.tenant-management/config';
@@ -24,9 +24,14 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { APP_ROUTE_PROVIDER } from './route.provider';
-import { from } from 'rxjs';
-import { SharedModule } from './shared/shared.module'; 
+import { SharedModule } from './shared/shared.module';
 import { UserDepartmentModule } from './users/identity.module';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   imports: [
@@ -42,18 +47,24 @@ import { UserDepartmentModule } from './users/identity.module';
     TenantManagementConfigModule.forRoot(),
     SettingManagementConfigModule.forRoot(),
     NgxsModule.forRoot(),
-    ThemeBasicModule.forRoot(), 
-    UiExtensionsModule, 
+    ThemeBasicModule.forRoot(),
+    UiExtensionsModule,
     PermissionManagementModule,
     NgxValidateCoreModule,
-    SharedModule, 
+    SharedModule,
     NgbNavModule,
-    UserDepartmentModule.forChild()
+    UserDepartmentModule.forChild(),
+    MatDialogModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatInputModule
   ],
-  exports:[
-  ],
+  exports: [],
   declarations: [AppComponent],
-  providers: [APP_ROUTE_PROVIDER],
+  providers: [
+    APP_ROUTE_PROVIDER,
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

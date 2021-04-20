@@ -2,18 +2,50 @@
   <div id="scrollable-content">
     <ul>
       <div class="d-flex mt-4">
-        <div class="d-flex mr-4">
-          <div class="bg-danger state-guide"></div>
-          Rất gấp
-        </div>
-        <div class="d-flex mr-4">
-          <div class="bg-warning state-guide"></div>
-          Gấp
-        </div>
-        <div class="d-flex mr-4">
-          <div class="bg-success state-guide"></div>
-          Bình Thường
-        </div>
+        <mat-form-field appearance="outline" class="mr-4">
+          <mat-label>Đối tượng liên quan</mat-label>
+          <mat-select [(ngModel)]="selectedUser" (selectionChange)="loadTasks()">
+            <mat-option *ngFor="let user of users" [value]="user.id">
+              {{ user.name }} {{ user.surname }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="mr-4">
+          <mat-label>Từ ngày > đến ngày</mat-label>
+          <mat-date-range-input [rangePicker]="picker" [formGroup]="range">
+            <input
+              matStartDate
+              placeholder="Từ ngày"
+              #dateRangeStart
+              readonly
+              formControlName="start"
+            />
+            <input
+              matEndDate
+              placeholder="đến ngày"
+              #dateRangeEnd
+              formControlName="end"
+              (dateChange)="loadTasks()"
+              readonly
+            />
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+          <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')"
+            >Ngày bắt đầu không hợp lệ</mat-error
+          >
+          <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')"
+            >Ngày kết thúc không hợp lệ</mat-error
+          >
+        </mat-form-field>
+        <button
+          mat-raised-button
+          color="primary"
+          style="height: 40px; margin-top: 8px"
+          (click)="resetFilter()"
+        >
+          Clear
+        </button>
       </div>
       <div
         *ngFor="let item of dataSource; let i = index"
@@ -44,12 +76,12 @@
       </div>
     </ul>
   </div>
-  <button mat-fab color="primary" class="fab-button1" (click)="fetchData()">
+  <button mat-fab color="primary" class="fab-button1" (click)="addNewTask()">
+    <mat-icon>add</mat-icon>
+  </button>
+  <button mat-fab color="primary" class="fab-button2" (click)="fetchData()">
     <mat-icon>refresh</mat-icon>
   </button>
-  <!-- <button mat-fab color="primary" class="fab-button2" (click)="fetchData()">
-    <mat-icon>refresh</mat-icon>
-  </button> -->
   <div class="loading-container" *ngIf="loading">
     <mat-spinner color="primay" class="center-loading"></mat-spinner>
   </div>
