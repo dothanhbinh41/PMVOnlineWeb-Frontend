@@ -16,18 +16,18 @@ export class DepartmentService {
     },
     { apiName: this.apiName });
 
-  createTargets = (request: NameDepartmentDto) =>
+  createDepartment = (request: NameDepartmentDto) =>
     this.restService.request<any, DepartmentDto>({
       method: 'POST',
-      url: `/api/app/department/targets`,
+      url: `/api/app/department/department`,
       body: request,
     },
     { apiName: this.apiName });
 
-  deleteTargets = (id: number) =>
+  deleteDepartment = (id: number) =>
     this.restService.request<any, boolean>({
       method: 'DELETE',
-      url: `/api/app/department/${id}/targets`,
+      url: `/api/app/department/${id}/department`,
     },
     { apiName: this.apiName });
 
@@ -75,10 +75,10 @@ export class DepartmentService {
     },
     { apiName: this.apiName });
 
-  updateTargets = (id: number, request: NameDepartmentDto) =>
+  updateDepartment = (id: number, request: NameDepartmentDto) =>
     this.restService.request<any, DepartmentDto>({
       method: 'PUT',
-      url: `/api/app/department/${id}/targets`,
+      url: `/api/app/department/${id}/department`,
       body: request,
     },
     { apiName: this.apiName });
