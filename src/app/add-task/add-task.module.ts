@@ -12,6 +12,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatMenuModule } from '@angular/material/menu';
 import { ControlsModule } from '../controls/controls.module';
 
 @NgModule({
@@ -30,7 +31,8 @@ import { ControlsModule } from '../controls/controls.module';
     MatSelectModule,
     MatInputModule,
     MatGridListModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatMenuModule
   ],
 })
 export class AddTaskModule {}

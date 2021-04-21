@@ -11,13 +11,12 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [TaskDetailComponent],
   imports: [
     SharedModule, 
-    MatDialogModule, 
-    MatFormFieldModule,
     MatIconModule,
     MatButtonModule,
     MatProgressSpinnerModule,
@@ -28,7 +27,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
-    MatGridListModule
+    MatGridListModule,
+    MatSnackBarModule
   ],
 })
 export class TaskDetailModule {}

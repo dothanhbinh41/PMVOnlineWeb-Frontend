@@ -5,13 +5,16 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from '../shared/shared.module';
+import { ConfirmDialog } from './confirm-dialog.component';
 import { FilePickerDirective } from './file-picker.directive';
+import { RejectTaskDialog } from './reject-task-dialog.component';
 
 @NgModule({
-  declarations: [FilePickerDirective],
+  declarations: [FilePickerDirective, ConfirmDialog, RejectTaskDialog],
   imports: [
     SharedModule,
     MatIconModule,
@@ -21,7 +24,8 @@ import { FilePickerDirective } from './file-picker.directive';
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
-    MatSelectModule
+    MatSelectModule,
+    MatInputModule
   ],
 })
 export class ControlsModule {}

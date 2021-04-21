@@ -77,14 +77,12 @@ export class HomeComponent implements OnInit {
   }
 
   showDetail(item: any) {
-    const dialogRef = this.dialog.open(TaskDetailComponent, {});
-    dialogRef.afterClosed().subscribe(result => {
-      // this.fetchData();
+    const dialogRef = this.dialog.open(AddTaskComponent, {
+      width: '50%',
+      minWidth: '512px',
+      disableClose: true,
+      data: item?.id,
     });
-  }
-
-  addNewTask() {
-    const dialogRef = this.dialog.open(AddTaskComponent, {});
     dialogRef.afterClosed().subscribe(result => {
       this.fetchData();
     });
@@ -102,7 +100,7 @@ export class HomeComponent implements OnInit {
     const stillUtc = moment.utc(date);
     if(moment().utc() >= stillUtc) return 'Quá hạn';
     const diffSec = stillUtc.diff(moment().utc(), 'seconds');
-    if(diffSec < 60*60) return `Còn: ${stillUtc.diff(moment().utc(), 'day')} phút`
+    if(diffSec < 60*60) return `Còn: ${stillUtc.diff(moment().utc(), 'minutes')} phút`
     if(diffSec < 7*24*60*60 ) return `Còn: ${stillUtc.diff(moment().utc(), 'hours')} giờ`
     return `Còn: ${stillUtc.diff(moment().utc(), 'day')} ngày`
   }

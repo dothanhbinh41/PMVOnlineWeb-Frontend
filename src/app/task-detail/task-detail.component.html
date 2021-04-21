@@ -1,12 +1,178 @@
-<h1 mat-dialog-title>Hi </h1>
-<div mat-dialog-content>
-  <p>What's your favorite animal?</p>
-  <!-- <mat-form-field>
-    <div>Favorite Animal</div>
-    <input matInput />
-  </mat-form-field> -->
+<!-- <div mat-dialog-title class="d-flex justify-content-between">
+  <h2>Thêm Sự Vụ</h2>
+  <mat-icon (click)="onNoClick()" style="cursor: pointer">close</mat-icon>
 </div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button cdkFocusInitial>Ok</button>
+<div mat-dialog-content class="form-container">
+  <div class="form-content-container">
+    <mat-form-field class="half-width" appearance="outline">
+      <mat-label>Yêu cầu</mat-label>
+      <mat-select [(ngModel)]="selectedTarget" (selectionChange)="onSelectedTargetChagne()" required>
+        <mat-option *ngFor="let target of targets" [value]="target.id">{{
+          target.name
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="half-width" appearance="outline">
+      <mat-label>Đối tượng</mat-label>
+      <mat-select [(ngModel)]="selectedUser" required>
+        <mat-option *ngFor="let user of users" [value]="user.id">{{
+          user.name
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Mục đích</mat-label>
+      <input matInput [(ngModel)]="purpose" required/>
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Nội dung</mat-label>
+      <input matInput [(ngModel)]="content" required/>
+    </mat-form-field>
+
+    <mat-form-field class="half-width" appearance="outline">
+      <mat-label>Độ ưu tiên</mat-label>
+      <mat-select [(ngModel)]="piority" required>
+        <mat-option [value]="0">Bình thường</mat-option>
+        <mat-option [value]="1">Gấp </mat-option>
+        <mat-option [value]="2">ASAP</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="half-width"></div>
+
+    <mat-form-field class="half-width" appearance="outline">
+      <mat-label>Hạn chót</mat-label>
+      <input matInput type="time" [(ngModel)]="deadlineTime" required/>
+    </mat-form-field>
+
+    <mat-form-field class="half-width" appearance="outline">
+      <mat-label>Ngày</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="deadline" required/>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Sự vụ liên quan</mat-label>
+      <mat-select [(ngModel)]="relatedTasks" multiple>
+        <mat-option  *ngFor="let task of myTasks" [value]="task.id">{{ task.title }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-label class="full-width">Tệp đính kèm</mat-label>
+    <div class="d-flex full-width">
+      <button
+        mat-raised-button
+        color="primary"
+        onclick="document.getElementById('additionFile').click()"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+      <input
+        type="file"
+        id="additionFile"
+        style="display: none"
+        accept="image/x-png,image/gif,image/jpeg"
+        (change)="pickedFile($event)"
+        multiple
+      />
+    </div>
+    <div class="additionPhotos" *ngIf="isEmptyAddition">
+      <div class="addition-photo-container" *ngFor="let img of additionFiles; let i = index">
+        <img
+          [attr.src]="getFilePath(img)"
+          style="object-fit: cover; height: 100%; width: 100%"
+          ng-bind-html="desc"
+        />
+        <button
+          mat-mini-fab
+          color="warn"
+          class="addition-photo-container-delete-button"
+          (click)="deleteAdditionFile(i)"
+        >
+          <mat-icon style="font-size: small">close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
+<div mat-dialog-actions align="end" class="mt-2">
+  <button mat-button color="primary" (click)="onNoClick()">Hủy</button>
+  <button mat-raised-button color="primary" (click)="createTask()">Tạo sự vụ</button>
+</div>
+<div
+  style="
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #bbbbbb6c;
+  "
+  *ngIf="loading"
+>
+  <mat-progress-spinner color="primary" mode="indeterminate"> </mat-progress-spinner>
+</div>
+
+<style scoped>
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .form-content-container {
+    height: 100%;
+    width: 100%;
+  }
+
+  .full-width {
+    width: 100%;
+  }
+
+  .half-width {
+    width: 48%;
+    margin-right: 2%;
+  }
+
+  .half-width:nth-child(odd) {
+    width: 50%;
+    margin-right: 0;
+  }
+  .addition-photo-container {
+    position: relative;
+    height: 120px;
+    width: 120px;
+    margin-right: 16px;
+  }
+
+  .addition-photo-container-delete-button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 32px;
+    height: 32px;
+  }
+
+  .additionPhotos {
+    height: 140px;
+    overflow: auto;
+    white-space: nowrap;
+    margin-top: 12px;
+  }
+
+  .additionPhotos div {
+    height: 120px;
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px;
+    text-decoration: none;
+  }
+</style> -->
