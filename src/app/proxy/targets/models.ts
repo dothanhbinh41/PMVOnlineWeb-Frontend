@@ -1,6 +1,10 @@
 
 export interface AddOrEditDepartmentsToTargetDto {
-  departments: number[];
+  departmentId: number;
+}
+
+export interface AddTargetDto extends NameTargetDto {
+  departmentId: number;
 }
 
 export interface NameTargetDto {

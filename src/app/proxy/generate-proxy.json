@@ -3,16 +3,1931 @@
     "app"
   ],
   "modules": {
-    "featureManagement": {
-      "rootPath": "featureManagement",
-      "remoteServiceName": "AbpFeatureManagement",
+    "app": {
+      "rootPath": "app",
+      "remoteServiceName": "Default",
       "controllers": {
-        "Volo.Abp.FeatureManagement.FeaturesController": {
-          "controllerName": "Features",
-          "type": "Volo.Abp.FeatureManagement.FeaturesController",
+        "PMVOnline.Controllers.FileController": {
+          "controllerName": "File",
+          "type": "PMVOnline.Controllers.FileController",
+          "interfaces": [],
+          "actions": {
+            "UploadFile": {
+              "uniqueName": "UploadFile",
+              "name": "UploadFile",
+              "httpMethod": "POST",
+              "url": "api/File/UploadFile",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.ActionResult<System.String>",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.ActionResult<string>"
+              }
+            },
+            "DownloadFileById": {
+              "uniqueName": "DownloadFileById",
+              "name": "DownloadFile",
+              "httpMethod": "GET",
+              "url": "api/File/DownloadFile",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Microsoft.AspNetCore.Mvc.ActionResult<System.String>",
+                "typeSimple": "Microsoft.AspNetCore.Mvc.ActionResult<string>"
+              }
+            }
+          }
+        },
+        "PMVOnline.Users.DeviceTokenAppService": {
+          "controllerName": "DeviceToken",
+          "type": "PMVOnline.Users.DeviceTokenAppService",
           "interfaces": [
             {
-              "type": "Volo.Abp.FeatureManagement.IFeatureAppService"
+              "type": "Volo.Abp.Validation.IValidationEnabled"
+            },
+            {
+              "type": "Volo.Abp.Auditing.IAuditingEnabled"
+            },
+            {
+              "type": "PMVOnline.Users.IDeviceTokenAppService"
+            }
+          ],
+          "actions": {
+            "SaveDeviceTokenAsyncByDto": {
+              "uniqueName": "SaveDeviceTokenAsyncByDto",
+              "name": "SaveDeviceTokenAsync",
+              "httpMethod": "POST",
+              "url": "api/app/device-token/save-device-token",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "dto",
+                  "typeAsString": "PMVOnline.Users.SaveDeviceTokenDto, PMVOnline.Application.Contracts",
+                  "type": "PMVOnline.Users.SaveDeviceTokenDto",
+                  "typeSimple": "PMVOnline.Users.SaveDeviceTokenDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "dto",
+                  "name": "dto",
+                  "type": "PMVOnline.Users.SaveDeviceTokenDto",
+                  "typeSimple": "PMVOnline.Users.SaveDeviceTokenDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              }
+            }
+          }
+        },
+        "PMVOnline.Users.DepartmentIdentityUserAppService": {
+          "controllerName": "DepartmentIdentityUser",
+          "type": "PMVOnline.Users.DepartmentIdentityUserAppService",
+          "interfaces": [
+            {
+              "type": "Volo.Abp.Validation.IValidationEnabled"
+            },
+            {
+              "type": "Volo.Abp.Auditing.IAuditingEnabled"
+            },
+            {
+              "type": "PMVOnline.Users.IDepartmentIdentityUserAppService"
+            }
+          ],
+          "actions": {
+            "CreateNewAsyncByInput": {
+              "uniqueName": "CreateNewAsyncByInput",
+              "name": "CreateNewAsync",
+              "httpMethod": "POST",
+              "url": "api/app/department-identity-user/new",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "PMVOnline.Users.UserDepartmentCreateDto, PMVOnline.Application.Contracts",
+                  "type": "PMVOnline.Users.UserDepartmentCreateDto",
+                  "typeSimple": "PMVOnline.Users.UserDepartmentCreateDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "type": "PMVOnline.Users.UserDepartmentCreateDto",
+                  "typeSimple": "PMVOnline.Users.UserDepartmentCreateDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.Abp.Identity.IdentityUserDto",
+                "typeSimple": "Volo.Abp.Identity.IdentityUserDto"
+              }
+            }
+          }
+        },
+        "PMVOnline.Tasks.TaskAppService": {
+          "controllerName": "Task",
+          "type": "PMVOnline.Tasks.TaskAppService",
+          "interfaces": [
+            {
+              "type": "Volo.Abp.Validation.IValidationEnabled"
+            },
+            {
+              "type": "Volo.Abp.Auditing.IAuditingEnabled"
+            },
+            {
+              "type": "PMVOnline.Tasks.ITaskAppService"
+            }
+          ],
+          "actions": {
+            "CreateTaskByRequest": {
+              "uniqueName": "CreateTaskByRequest",
+              "name": "CreateTask",
+              "httpMethod": "POST",
+              "url": "api/app/task/task",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "request",
+                  "typeAsString": "PMVOnline.Tasks.CreateTaskRequestDto, PMVOnline.Application.Contracts",
+                  "type": "PMVOnline.Tasks.CreateTaskRequestDto",
+                  "typeSimple": "PMVOnline.Tasks.CreateTaskRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "request",
+                  "name": "request",
+                  "type": "PMVOnline.Tasks.CreateTaskRequestDto",
+                  "typeSimple": "PMVOnline.Tasks.CreateTaskRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "PMVOnline.Tasks.TaskDto",
+                "typeSimple": "PMVOnline.Tasks.TaskDto"
+              }
+            },
+            "FinishTaskByRequest": {
+              "uniqueName": "FinishTaskByRequest",
+              "name": "FinishTask",
+              "httpMethod": "POST",
+              "url": "api/app/task/finish-task",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "request",
+                  "typeAsString": "PMVOnline.Tasks.FinishTaskRequest, PMVOnline.Application.Contracts",
+                  "type": "PMVOnline.Tasks.FinishTaskRequest",
+                  "typeSimple": "PMVOnline.Tasks.FinishTaskRequest",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "request",
+                  "name": "request",
+                  "type": "PMVOnline.Tasks.FinishTaskRequest",
+                  "typeSimple": "PMVOnline.Tasks.FinishTaskRequest",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              }
+            },
+            "FollowTaskByRequest": {
+              "uniqueName": "FollowTaskByRequest",
+              "name": "FollowTask",
+              "httpMethod": "POST",
+              "url": "api/app/task/follow-task",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "request",
+                  "typeAsString": "PMVOnline.Tasks.FollowTaskRequest, PMVOnline.Application.Contracts",
+                  "type": "PMVOnline.Tasks.FollowTaskRequest",
+                  "typeSimple": "PMVOnline.Tasks.FollowTaskRequest",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "request",
+                  "name": "request",
+                  "type": "PMVOnline.Tasks.FollowTaskRequest",
+                  "typeSimple": "PMVOnline.Tasks.FollowTaskRequest",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              }
+            },
+            "GetAllMemberByTarget": {
+              "uniqueName": "GetAllMemberByTarget",
+              "name": "GetAllMember",
+              "httpMethod": "GET",
+              "url": "api/app/task/member",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "target",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "target",
+                  "name": "target",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "PMVOnline.Tasks.UserDto[]",
+                "typeSimple": "[PMVOnline.Tasks.UserDto]"
+              }
+            },
+            "GetAssigneeByTarget": {
+              "uniqueName": "GetAssigneeByTarget",
+              "name": "GetAssignee",
+              "httpMethod": "GET",
+              "url": "api/app/task/assignee",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "target",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "target",
+                  "name": "target",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "PMVOnline.Tasks.UserDto",
+                "typeSimple": "PMVOnline.Tasks.UserDto"
+              }
+            },
+            "GetTaskHistoryById": {
+              "uniqueName": "GetTaskHistoryById",
+              "name": "GetTaskHistory",
+              "httpMethod": "GET",
+              "url": "api/app/task/{id}/task-history",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Int64, System.Private.CoreLib",
+                  "type": "System.Int64",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "type": "System.Int64",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "PMVOnline.Tasks.TaskActionDto[]",
+                "typeSimple": "[PMVOnline.Tasks.TaskActionDto]"
+              }
+            },
+            "ProcessTaskByRequest": {
+              "uniqueName": "ProcessTaskByRequest",
+              "name": "ProcessTask",
+              "httpMethod": "POST",
+              "url": "api/app/task/process-task",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "request",
+                  "typeAsString": "PMVOnline.Tasks.ProcessTaskRequest, PMVOnline.Application.Contracts",
+                  "type": "PMVOnline.Tasks.ProcessTaskRequest",
+                  "typeSimple": "PMVOnline.Tasks.ProcessTaskRequest",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "request",
+                  "name": "request",
+                  "type": "PMVOnline.Tasks.ProcessTaskRequest",
+                  "typeSimple": "PMVOnline.Tasks.ProcessTaskRequest",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              }
+            },
+            "ReopenTaskByRequest": {
+              "uniqueName": "ReopenTaskByRequest",
+              "name": "ReopenTask",
+              "httpMethod": "POST",
+              "url": "api/app/task/reopen-task",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "request",
+                  "typeAsString": "PMVOnline.Tasks.ReopenTaskRequest, PMVOnline.Application.Contracts",
+                  "type": "PMVOnline.Tasks.ReopenTaskRequest",
+                  "typeSimple": "PMVOnline.Tasks.ReopenTaskRequest",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "request",
+                  "name": "request",
+                  "type": "PMVOnline.Tasks.ReopenTaskRequest",
+                  "typeSimple": "PMVOnline.Tasks.ReopenTaskRequest",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              }
+            },
+            "SendCommentByIdAndRequest": {
+              "uniqueName": "SendCommentByIdAndRequest",
+              "name": "SendComment",
+              "httpMethod": "POST",
+              "url": "api/app/task/{id}/send-comment",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Int64, System.Private.CoreLib",
+                  "type": "System.Int64",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "request",
+                  "typeAsString": "PMVOnline.Tasks.CommentRequestDto, PMVOnline.Application.Contracts",
+                  "type": "PMVOnline.Tasks.CommentRequestDto",
+                  "typeSimple": "PMVOnline.Tasks.CommentRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "type": "System.Int64",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "request",
+                  "name": "request",
+                  "type": "PMVOnline.Tasks.CommentRequestDto",
+                  "typeSimple": "PMVOnline.Tasks.CommentRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              }
+            },
+            "GetMyActions": {
+              "uniqueName": "GetMyActions",
+              "name": "GetMyActions",
+              "httpMethod": "GET",
+              "url": "api/app/task/my-actions",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "PMVOnline.Tasks.MyTaskDto[]",
+                "typeSimple": "[PMVOnline.Tasks.MyTaskDto]"
+              }
+            },
+            "SearchMyTasksByRequest": {
+              "uniqueName": "SearchMyTasksByRequest",
+              "name": "SearchMyTasks",
+              "httpMethod": "POST",
+              "url": "api/app/task/search-my-tasks",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "request",
+                  "typeAsString": "PMVOnline.Tasks.SearchMyTaskRequestDto, PMVOnline.Application.Contracts",
+                  "type": "PMVOnline.Tasks.SearchMyTaskRequestDto",
+                  "typeSimple": "PMVOnline.Tasks.SearchMyTaskRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "request",
+                  "name": "request",
+                  "type": "PMVOnline.Tasks.SearchMyTaskRequestDto",
+                  "typeSimple": "PMVOnline.Tasks.SearchMyTaskRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "PMVOnline.Tasks.MyTaskDto[]",
+                "typeSimple": "[PMVOnline.Tasks.MyTaskDto]"
+              }
+            },
+            "GetTaskById": {
+              "uniqueName": "GetTaskById",
+              "name": "GetTask",
+              "httpMethod": "GET",
+              "url": "api/app/task/{id}/task",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Int64, System.Private.CoreLib",
+                  "type": "System.Int64",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "type": "System.Int64",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "PMVOnline.Tasks.FullTaskDto",
+                "typeSimple": "PMVOnline.Tasks.FullTaskDto"
+              }
+            },
+            "GetTaskCommentsById": {
+              "uniqueName": "GetTaskCommentsById",
+              "name": "GetTaskComments",
+              "httpMethod": "GET",
+              "url": "api/app/task/{id}/task-comments",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Int64, System.Private.CoreLib",
+                  "type": "System.Int64",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "type": "System.Int64",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "PMVOnline.Tasks.TaskCommentDto[]",
+                "typeSimple": "[PMVOnline.Tasks.TaskCommentDto]"
+              }
+            },
+            "GetTaskFilesById": {
+              "uniqueName": "GetTaskFilesById",
+              "name": "GetTaskFiles",
+              "httpMethod": "GET",
+              "url": "api/app/task/{id}/task-files",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Int64, System.Private.CoreLib",
+                  "type": "System.Int64",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "type": "System.Int64",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "PMVOnline.Files.FileDto[]",
+                "typeSimple": "[PMVOnline.Files.FileDto]"
+              }
+            },
+            "GetNoteById": {
+              "uniqueName": "GetNoteById",
+              "name": "GetNote",
+              "httpMethod": "GET",
+              "url": "api/app/task/{id}/note",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Int64, System.Private.CoreLib",
+                  "type": "System.Int64",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "type": "System.Int64",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.String",
+                "typeSimple": "string"
+              }
+            },
+            "RequestTaskByRequest": {
+              "uniqueName": "RequestTaskByRequest",
+              "name": "RequestTask",
+              "httpMethod": "POST",
+              "url": "api/app/task/request-task",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "request",
+                  "typeAsString": "PMVOnline.Tasks.RequestTaskRequest, PMVOnline.Application.Contracts",
+                  "type": "PMVOnline.Tasks.RequestTaskRequest",
+                  "typeSimple": "PMVOnline.Tasks.RequestTaskRequest",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "request",
+                  "name": "request",
+                  "type": "PMVOnline.Tasks.RequestTaskRequest",
+                  "typeSimple": "PMVOnline.Tasks.RequestTaskRequest",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              }
+            },
+            "GetUsersInMyTasks": {
+              "uniqueName": "GetUsersInMyTasks",
+              "name": "GetUsersInMyTasks",
+              "httpMethod": "GET",
+              "url": "api/app/task/users-in-my-tasks",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "PMVOnline.Tasks.SimpleUserDto[]",
+                "typeSimple": "[PMVOnline.Tasks.SimpleUserDto]"
+              }
+            },
+            "GetReferenceTasksById": {
+              "uniqueName": "GetReferenceTasksById",
+              "name": "GetReferenceTasks",
+              "httpMethod": "GET",
+              "url": "api/app/task/{id}/reference-tasks",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Int64, System.Private.CoreLib",
+                  "type": "System.Int64",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "type": "System.Int64",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "PMVOnline.Tasks.MyTaskDto[]",
+                "typeSimple": "[PMVOnline.Tasks.MyTaskDto]"
+              }
+            },
+            "UpdateTaskByRequest": {
+              "uniqueName": "UpdateTaskByRequest",
+              "name": "UpdateTask",
+              "httpMethod": "PUT",
+              "url": "api/app/task/task",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "request",
+                  "typeAsString": "PMVOnline.Tasks.UpdateTaskRequestDto, PMVOnline.Application.Contracts",
+                  "type": "PMVOnline.Tasks.UpdateTaskRequestDto",
+                  "typeSimple": "PMVOnline.Tasks.UpdateTaskRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "request",
+                  "name": "request",
+                  "type": "PMVOnline.Tasks.UpdateTaskRequestDto",
+                  "typeSimple": "PMVOnline.Tasks.UpdateTaskRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "PMVOnline.Tasks.TaskDto",
+                "typeSimple": "PMVOnline.Tasks.TaskDto"
+              }
+            },
+            "RateTaskAsyncByTaskIdAndRatingAndNote": {
+              "uniqueName": "RateTaskAsyncByTaskIdAndRatingAndNote",
+              "name": "RateTaskAsync",
+              "httpMethod": "POST",
+              "url": "api/app/task/rate-task/{taskId}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "taskId",
+                  "typeAsString": "System.Int64, System.Private.CoreLib",
+                  "type": "System.Int64",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "rating",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "note",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "taskId",
+                  "name": "taskId",
+                  "type": "System.Int64",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "rating",
+                  "name": "rating",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "note",
+                  "name": "note",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              }
+            }
+          }
+        },
+        "PMVOnline.Targets.TargetAppService": {
+          "controllerName": "Target",
+          "type": "PMVOnline.Targets.TargetAppService",
+          "interfaces": [
+            {
+              "type": "Volo.Abp.Validation.IValidationEnabled"
+            },
+            {
+              "type": "Volo.Abp.Auditing.IAuditingEnabled"
+            },
+            {
+              "type": "PMVOnline.Targets.ITargetAppService"
+            }
+          ],
+          "actions": {
+            "PushDepartmentsToTargetAsyncByTargetIdAndRequest": {
+              "uniqueName": "PushDepartmentsToTargetAsyncByTargetIdAndRequest",
+              "name": "PushDepartmentsToTargetAsync",
+              "httpMethod": "POST",
+              "url": "api/app/target/push-departments-to-target/{targetId}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "targetId",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "request",
+                  "typeAsString": "PMVOnline.Targets.AddOrEditDepartmentsToTargetDto, PMVOnline.Application.Contracts",
+                  "type": "PMVOnline.Targets.AddOrEditDepartmentsToTargetDto",
+                  "typeSimple": "PMVOnline.Targets.AddOrEditDepartmentsToTargetDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "targetId",
+                  "name": "targetId",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "request",
+                  "name": "request",
+                  "type": "PMVOnline.Targets.AddOrEditDepartmentsToTargetDto",
+                  "typeSimple": "PMVOnline.Targets.AddOrEditDepartmentsToTargetDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              }
+            },
+            "AddTargetsAsyncByRequest": {
+              "uniqueName": "AddTargetsAsyncByRequest",
+              "name": "AddTargetsAsync",
+              "httpMethod": "POST",
+              "url": "api/app/target/targets",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "request",
+                  "typeAsString": "PMVOnline.Targets.AddTargetDto, PMVOnline.Application.Contracts",
+                  "type": "PMVOnline.Targets.AddTargetDto",
+                  "typeSimple": "PMVOnline.Targets.AddTargetDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "request",
+                  "name": "request",
+                  "type": "PMVOnline.Targets.AddTargetDto",
+                  "typeSimple": "PMVOnline.Targets.AddTargetDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "PMVOnline.Targets.TargetDto",
+                "typeSimple": "PMVOnline.Targets.TargetDto"
+              }
+            },
+            "DeleteTargetsAsyncById": {
+              "uniqueName": "DeleteTargetsAsyncById",
+              "name": "DeleteTargetsAsync",
+              "httpMethod": "DELETE",
+              "url": "api/app/target/{id}/targets",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              }
+            },
+            "GetAllTargetsAsync": {
+              "uniqueName": "GetAllTargetsAsync",
+              "name": "GetAllTargetsAsync",
+              "httpMethod": "GET",
+              "url": "api/app/target/targets",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "PMVOnline.Targets.TargetDto[]",
+                "typeSimple": "[PMVOnline.Targets.TargetDto]"
+              }
+            },
+            "GetDepartmentsByTargetAsyncByTargetId": {
+              "uniqueName": "GetDepartmentsByTargetAsyncByTargetId",
+              "name": "GetDepartmentsByTargetAsync",
+              "httpMethod": "GET",
+              "url": "api/app/target/departments-by-target/{targetId}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "targetId",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "targetId",
+                  "name": "targetId",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "PMVOnline.Departments.DepartmentDto[]",
+                "typeSimple": "[PMVOnline.Departments.DepartmentDto]"
+              }
+            },
+            "UpdateTargetsAsyncByIdAndRequest": {
+              "uniqueName": "UpdateTargetsAsyncByIdAndRequest",
+              "name": "UpdateTargetsAsync",
+              "httpMethod": "PUT",
+              "url": "api/app/target/{id}/targets",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "request",
+                  "typeAsString": "PMVOnline.Targets.NameTargetDto, PMVOnline.Application.Contracts",
+                  "type": "PMVOnline.Targets.NameTargetDto",
+                  "typeSimple": "PMVOnline.Targets.NameTargetDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "request",
+                  "name": "request",
+                  "type": "PMVOnline.Targets.NameTargetDto",
+                  "typeSimple": "PMVOnline.Targets.NameTargetDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "PMVOnline.Targets.TargetDto",
+                "typeSimple": "PMVOnline.Targets.TargetDto"
+              }
+            }
+          }
+        },
+        "PMVOnline.Guides.GuideAppService": {
+          "controllerName": "Guide",
+          "type": "PMVOnline.Guides.GuideAppService",
+          "interfaces": [
+            {
+              "type": "Volo.Abp.Validation.IValidationEnabled"
+            },
+            {
+              "type": "Volo.Abp.Auditing.IAuditingEnabled"
+            },
+            {
+              "type": "PMVOnline.Guides.IGuideAppService"
+            }
+          ],
+          "actions": {
+            "SetGuideAsyncByGuide": {
+              "uniqueName": "SetGuideAsyncByGuide",
+              "name": "SetGuideAsync",
+              "httpMethod": "POST",
+              "url": "api/app/guide/set-guide",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "guide",
+                  "typeAsString": "PMVOnline.Guides.GuideDto, PMVOnline.Application.Contracts",
+                  "type": "PMVOnline.Guides.GuideDto",
+                  "typeSimple": "PMVOnline.Guides.GuideDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "guide",
+                  "name": "guide",
+                  "type": "PMVOnline.Guides.GuideDto",
+                  "typeSimple": "PMVOnline.Guides.GuideDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              }
+            },
+            "GetGuideAsync": {
+              "uniqueName": "GetGuideAsync",
+              "name": "GetGuideAsync",
+              "httpMethod": "GET",
+              "url": "api/app/guide/guide",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "PMVOnline.Guides.GuideDto",
+                "typeSimple": "PMVOnline.Guides.GuideDto"
+              }
+            }
+          }
+        },
+        "PMVOnline.Departments.DepartmentAppService": {
+          "controllerName": "Department",
+          "type": "PMVOnline.Departments.DepartmentAppService",
+          "interfaces": [
+            {
+              "type": "Volo.Abp.Validation.IValidationEnabled"
+            },
+            {
+              "type": "Volo.Abp.Auditing.IAuditingEnabled"
+            },
+            {
+              "type": "PMVOnline.Departments.IDepartmentAppService"
+            }
+          ],
+          "actions": {
+            "AddUserToDepartmentAsyncByRequest": {
+              "uniqueName": "AddUserToDepartmentAsyncByRequest",
+              "name": "AddUserToDepartmentAsync",
+              "httpMethod": "POST",
+              "url": "api/app/department/user-to-department",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "request",
+                  "typeAsString": "PMVOnline.Departments.CreateDepartmentUserDto, PMVOnline.Application.Contracts",
+                  "type": "PMVOnline.Departments.CreateDepartmentUserDto",
+                  "typeSimple": "PMVOnline.Departments.CreateDepartmentUserDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "request",
+                  "name": "request",
+                  "type": "PMVOnline.Departments.CreateDepartmentUserDto",
+                  "typeSimple": "PMVOnline.Departments.CreateDepartmentUserDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              }
+            },
+            "CreateTargetsAsyncByRequest": {
+              "uniqueName": "CreateTargetsAsyncByRequest",
+              "name": "CreateTargetsAsync",
+              "httpMethod": "POST",
+              "url": "api/app/department/targets",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "request",
+                  "typeAsString": "PMVOnline.Departments.NameDepartmentDto, PMVOnline.Application.Contracts",
+                  "type": "PMVOnline.Departments.NameDepartmentDto",
+                  "typeSimple": "PMVOnline.Departments.NameDepartmentDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "request",
+                  "name": "request",
+                  "type": "PMVOnline.Departments.NameDepartmentDto",
+                  "typeSimple": "PMVOnline.Departments.NameDepartmentDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "PMVOnline.Departments.DepartmentDto",
+                "typeSimple": "PMVOnline.Departments.DepartmentDto"
+              }
+            },
+            "DeleteTargetsAsyncById": {
+              "uniqueName": "DeleteTargetsAsyncById",
+              "name": "DeleteTargetsAsync",
+              "httpMethod": "DELETE",
+              "url": "api/app/department/{id}/targets",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              }
+            },
+            "DeleteUserToDepartmentAsyncByRequest": {
+              "uniqueName": "DeleteUserToDepartmentAsyncByRequest",
+              "name": "DeleteUserToDepartmentAsync",
+              "httpMethod": "DELETE",
+              "url": "api/app/department/user-to-department",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "request",
+                  "typeAsString": "PMVOnline.Departments.DeleteDepartmentUserDto, PMVOnline.Application.Contracts",
+                  "type": "PMVOnline.Departments.DeleteDepartmentUserDto",
+                  "typeSimple": "PMVOnline.Departments.DeleteDepartmentUserDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "request",
+                  "name": "DepartmentId",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "request"
+                },
+                {
+                  "nameOnMethod": "request",
+                  "name": "UserId",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "request"
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              }
+            },
+            "GetAllDepartmentsAsync": {
+              "uniqueName": "GetAllDepartmentsAsync",
+              "name": "GetAllDepartmentsAsync",
+              "httpMethod": "GET",
+              "url": "api/app/department/departments",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "PMVOnline.Departments.DepartmentDto[]",
+                "typeSimple": "[PMVOnline.Departments.DepartmentDto]"
+              }
+            },
+            "GetDepartmentUsersByIdAsyncByDepartmentId": {
+              "uniqueName": "GetDepartmentUsersByIdAsyncByDepartmentId",
+              "name": "GetDepartmentUsersByIdAsync",
+              "httpMethod": "GET",
+              "url": "api/app/department/department-users-by-id/{departmentId}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "departmentId",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "departmentId",
+                  "name": "departmentId",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "PMVOnline.Departments.DepartmentUserDto[]",
+                "typeSimple": "[PMVOnline.Departments.DepartmentUserDto]"
+              }
+            },
+            "GetDepartmentUsersByNameAsyncByDepartment": {
+              "uniqueName": "GetDepartmentUsersByNameAsyncByDepartment",
+              "name": "GetDepartmentUsersByNameAsync",
+              "httpMethod": "GET",
+              "url": "api/app/department/department-users-by-name",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "department",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "department",
+                  "name": "department",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "PMVOnline.Departments.DepartmentUserDto[]",
+                "typeSimple": "[PMVOnline.Departments.DepartmentUserDto]"
+              }
+            },
+            "GetMyDepartmentsAsync": {
+              "uniqueName": "GetMyDepartmentsAsync",
+              "name": "GetMyDepartmentsAsync",
+              "httpMethod": "GET",
+              "url": "api/app/department/my-departments",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "PMVOnline.Departments.DepartmentUserDto[]",
+                "typeSimple": "[PMVOnline.Departments.DepartmentUserDto]"
+              }
+            },
+            "GetUserDepartmentsAsyncById": {
+              "uniqueName": "GetUserDepartmentsAsyncById",
+              "name": "GetUserDepartmentsAsync",
+              "httpMethod": "GET",
+              "url": "api/app/department/{id}/user-departments",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "PMVOnline.Departments.DepartmentUserDto[]",
+                "typeSimple": "[PMVOnline.Departments.DepartmentUserDto]"
+              }
+            },
+            "UpdateTargetsAsyncByIdAndRequest": {
+              "uniqueName": "UpdateTargetsAsyncByIdAndRequest",
+              "name": "UpdateTargetsAsync",
+              "httpMethod": "PUT",
+              "url": "api/app/department/{id}/targets",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "request",
+                  "typeAsString": "PMVOnline.Departments.NameDepartmentDto, PMVOnline.Application.Contracts",
+                  "type": "PMVOnline.Departments.NameDepartmentDto",
+                  "typeSimple": "PMVOnline.Departments.NameDepartmentDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "request",
+                  "name": "request",
+                  "type": "PMVOnline.Departments.NameDepartmentDto",
+                  "typeSimple": "PMVOnline.Departments.NameDepartmentDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "PMVOnline.Departments.DepartmentDto",
+                "typeSimple": "PMVOnline.Departments.DepartmentDto"
+              }
+            },
+            "UpdateUserToDepartmentAsyncByRequest": {
+              "uniqueName": "UpdateUserToDepartmentAsyncByRequest",
+              "name": "UpdateUserToDepartmentAsync",
+              "httpMethod": "PUT",
+              "url": "api/app/department/user-to-department",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "request",
+                  "typeAsString": "PMVOnline.Departments.UpdateDepartmentUserDto, PMVOnline.Application.Contracts",
+                  "type": "PMVOnline.Departments.UpdateDepartmentUserDto",
+                  "typeSimple": "PMVOnline.Departments.UpdateDepartmentUserDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "request",
+                  "name": "request",
+                  "type": "PMVOnline.Departments.UpdateDepartmentUserDto",
+                  "typeSimple": "PMVOnline.Departments.UpdateDepartmentUserDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              }
+            }
+          }
+        }
+      }
+    },
+    "multi-tenancy": {
+      "rootPath": "multi-tenancy",
+      "remoteServiceName": "AbpTenantManagement",
+      "controllers": {
+        "Volo.Abp.TenantManagement.TenantController": {
+          "controllerName": "Tenant",
+          "type": "Volo.Abp.TenantManagement.TenantController",
+          "interfaces": [
+            {
+              "type": "Volo.Abp.TenantManagement.ITenantAppService"
+            }
+          ],
+          "actions": {
+            "GetAsyncById": {
+              "uniqueName": "GetAsyncById",
+              "name": "GetAsync",
+              "httpMethod": "GET",
+              "url": "api/multi-tenancy/tenants/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.Abp.TenantManagement.TenantDto",
+                "typeSimple": "Volo.Abp.TenantManagement.TenantDto"
+              }
+            },
+            "GetListAsyncByInput": {
+              "uniqueName": "GetListAsyncByInput",
+              "name": "GetListAsync",
+              "httpMethod": "GET",
+              "url": "api/multi-tenancy/tenants",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Volo.Abp.TenantManagement.GetTenantsInput, Volo.Abp.TenantManagement.Application.Contracts",
+                  "type": "Volo.Abp.TenantManagement.GetTenantsInput",
+                  "typeSimple": "Volo.Abp.TenantManagement.GetTenantsInput",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "Filter",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "Sorting",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "SkipCount",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "MaxResultCount",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.Abp.Application.Dtos.PagedResultDto<Volo.Abp.TenantManagement.TenantDto>",
+                "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<Volo.Abp.TenantManagement.TenantDto>"
+              }
+            },
+            "CreateAsyncByInput": {
+              "uniqueName": "CreateAsyncByInput",
+              "name": "CreateAsync",
+              "httpMethod": "POST",
+              "url": "api/multi-tenancy/tenants",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Volo.Abp.TenantManagement.TenantCreateDto, Volo.Abp.TenantManagement.Application.Contracts",
+                  "type": "Volo.Abp.TenantManagement.TenantCreateDto",
+                  "typeSimple": "Volo.Abp.TenantManagement.TenantCreateDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "type": "Volo.Abp.TenantManagement.TenantCreateDto",
+                  "typeSimple": "Volo.Abp.TenantManagement.TenantCreateDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.Abp.TenantManagement.TenantDto",
+                "typeSimple": "Volo.Abp.TenantManagement.TenantDto"
+              }
+            },
+            "UpdateAsyncByIdAndInput": {
+              "uniqueName": "UpdateAsyncByIdAndInput",
+              "name": "UpdateAsync",
+              "httpMethod": "PUT",
+              "url": "api/multi-tenancy/tenants/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "input",
+                  "typeAsString": "Volo.Abp.TenantManagement.TenantUpdateDto, Volo.Abp.TenantManagement.Application.Contracts",
+                  "type": "Volo.Abp.TenantManagement.TenantUpdateDto",
+                  "typeSimple": "Volo.Abp.TenantManagement.TenantUpdateDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "type": "Volo.Abp.TenantManagement.TenantUpdateDto",
+                  "typeSimple": "Volo.Abp.TenantManagement.TenantUpdateDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.Abp.TenantManagement.TenantDto",
+                "typeSimple": "Volo.Abp.TenantManagement.TenantDto"
+              }
+            },
+            "DeleteAsyncById": {
+              "uniqueName": "DeleteAsyncById",
+              "name": "DeleteAsync",
+              "httpMethod": "DELETE",
+              "url": "api/multi-tenancy/tenants/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              }
+            },
+            "GetDefaultConnectionStringAsyncById": {
+              "uniqueName": "GetDefaultConnectionStringAsyncById",
+              "name": "GetDefaultConnectionStringAsync",
+              "httpMethod": "GET",
+              "url": "api/multi-tenancy/tenants/{id}/default-connection-string",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.String",
+                "typeSimple": "string"
+              }
+            },
+            "UpdateDefaultConnectionStringAsyncByIdAndDefaultConnectionString": {
+              "uniqueName": "UpdateDefaultConnectionStringAsyncByIdAndDefaultConnectionString",
+              "name": "UpdateDefaultConnectionStringAsync",
+              "httpMethod": "PUT",
+              "url": "api/multi-tenancy/tenants/{id}/default-connection-string",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "defaultConnectionString",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "defaultConnectionString",
+                  "name": "defaultConnectionString",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              }
+            },
+            "DeleteDefaultConnectionStringAsyncById": {
+              "uniqueName": "DeleteDefaultConnectionStringAsyncById",
+              "name": "DeleteDefaultConnectionStringAsync",
+              "httpMethod": "DELETE",
+              "url": "api/multi-tenancy/tenants/{id}/default-connection-string",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              }
+            }
+          }
+        }
+      }
+    },
+    "permissionManagement": {
+      "rootPath": "permissionManagement",
+      "remoteServiceName": "AbpPermissionManagement",
+      "controllers": {
+        "Volo.Abp.PermissionManagement.PermissionsController": {
+          "controllerName": "Permissions",
+          "type": "Volo.Abp.PermissionManagement.PermissionsController",
+          "interfaces": [
+            {
+              "type": "Volo.Abp.PermissionManagement.IPermissionAppService"
             }
           ],
           "actions": {
@@ -20,7 +1935,7 @@
               "uniqueName": "GetAsyncByProviderNameAndProviderKey",
               "name": "GetAsync",
               "httpMethod": "GET",
-              "url": "api/feature-management/features",
+              "url": "api/permission-management/permissions",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
@@ -65,15 +1980,15 @@
                 }
               ],
               "returnValue": {
-                "type": "Volo.Abp.FeatureManagement.GetFeatureListResultDto",
-                "typeSimple": "Volo.Abp.FeatureManagement.GetFeatureListResultDto"
+                "type": "Volo.Abp.PermissionManagement.GetPermissionListResultDto",
+                "typeSimple": "Volo.Abp.PermissionManagement.GetPermissionListResultDto"
               }
             },
             "UpdateAsyncByProviderNameAndProviderKeyAndInput": {
               "uniqueName": "UpdateAsyncByProviderNameAndProviderKeyAndInput",
               "name": "UpdateAsync",
               "httpMethod": "PUT",
-              "url": "api/feature-management/features",
+              "url": "api/permission-management/permissions",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
@@ -94,9 +2009,9 @@
                 },
                 {
                   "name": "input",
-                  "typeAsString": "Volo.Abp.FeatureManagement.UpdateFeaturesDto, Volo.Abp.FeatureManagement.Application.Contracts",
-                  "type": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
-                  "typeSimple": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
+                  "typeAsString": "Volo.Abp.PermissionManagement.UpdatePermissionsDto, Volo.Abp.PermissionManagement.Application.Contracts",
+                  "type": "Volo.Abp.PermissionManagement.UpdatePermissionsDto",
+                  "typeSimple": "Volo.Abp.PermissionManagement.UpdatePermissionsDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
@@ -127,8 +2042,8 @@
                 {
                   "nameOnMethod": "input",
                   "name": "input",
-                  "type": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
-                  "typeSimple": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
+                  "type": "Volo.Abp.PermissionManagement.UpdatePermissionsDto",
+                  "typeSimple": "Volo.Abp.PermissionManagement.UpdatePermissionsDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -352,16 +2267,16 @@
         }
       }
     },
-    "permissionManagement": {
-      "rootPath": "permissionManagement",
-      "remoteServiceName": "AbpPermissionManagement",
+    "featureManagement": {
+      "rootPath": "featureManagement",
+      "remoteServiceName": "AbpFeatureManagement",
       "controllers": {
-        "Volo.Abp.PermissionManagement.PermissionsController": {
-          "controllerName": "Permissions",
-          "type": "Volo.Abp.PermissionManagement.PermissionsController",
+        "Volo.Abp.FeatureManagement.FeaturesController": {
+          "controllerName": "Features",
+          "type": "Volo.Abp.FeatureManagement.FeaturesController",
           "interfaces": [
             {
-              "type": "Volo.Abp.PermissionManagement.IPermissionAppService"
+              "type": "Volo.Abp.FeatureManagement.IFeatureAppService"
             }
           ],
           "actions": {
@@ -369,7 +2284,7 @@
               "uniqueName": "GetAsyncByProviderNameAndProviderKey",
               "name": "GetAsync",
               "httpMethod": "GET",
-              "url": "api/permission-management/permissions",
+              "url": "api/feature-management/features",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
@@ -414,15 +2329,15 @@
                 }
               ],
               "returnValue": {
-                "type": "Volo.Abp.PermissionManagement.GetPermissionListResultDto",
-                "typeSimple": "Volo.Abp.PermissionManagement.GetPermissionListResultDto"
+                "type": "Volo.Abp.FeatureManagement.GetFeatureListResultDto",
+                "typeSimple": "Volo.Abp.FeatureManagement.GetFeatureListResultDto"
               }
             },
             "UpdateAsyncByProviderNameAndProviderKeyAndInput": {
               "uniqueName": "UpdateAsyncByProviderNameAndProviderKeyAndInput",
               "name": "UpdateAsync",
               "httpMethod": "PUT",
-              "url": "api/permission-management/permissions",
+              "url": "api/feature-management/features",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
@@ -443,9 +2358,9 @@
                 },
                 {
                   "name": "input",
-                  "typeAsString": "Volo.Abp.PermissionManagement.UpdatePermissionsDto, Volo.Abp.PermissionManagement.Application.Contracts",
-                  "type": "Volo.Abp.PermissionManagement.UpdatePermissionsDto",
-                  "typeSimple": "Volo.Abp.PermissionManagement.UpdatePermissionsDto",
+                  "typeAsString": "Volo.Abp.FeatureManagement.UpdateFeaturesDto, Volo.Abp.FeatureManagement.Application.Contracts",
+                  "type": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
+                  "typeSimple": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
@@ -476,8 +2391,8 @@
                 {
                   "nameOnMethod": "input",
                   "name": "input",
-                  "type": "Volo.Abp.PermissionManagement.UpdatePermissionsDto",
-                  "typeSimple": "Volo.Abp.PermissionManagement.UpdatePermissionsDto",
+                  "type": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
+                  "typeSimple": "Volo.Abp.FeatureManagement.UpdateFeaturesDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -1557,1921 +3472,6 @@
                   "defaultValue": null,
                   "constraintTypes": null,
                   "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Void",
-                "typeSimple": "System.Void"
-              }
-            }
-          }
-        }
-      }
-    },
-    "app": {
-      "rootPath": "app",
-      "remoteServiceName": "Default",
-      "controllers": {
-        "PMVOnline.Controllers.FileController": {
-          "controllerName": "File",
-          "type": "PMVOnline.Controllers.FileController",
-          "interfaces": [],
-          "actions": {
-            "UploadFile": {
-              "uniqueName": "UploadFile",
-              "name": "UploadFile",
-              "httpMethod": "POST",
-              "url": "api/File/UploadFile",
-              "supportedVersions": [],
-              "parametersOnMethod": [],
-              "parameters": [],
-              "returnValue": {
-                "type": "Microsoft.AspNetCore.Mvc.ActionResult<System.String>",
-                "typeSimple": "Microsoft.AspNetCore.Mvc.ActionResult<string>"
-              }
-            },
-            "DownloadFileById": {
-              "uniqueName": "DownloadFileById",
-              "name": "DownloadFile",
-              "httpMethod": "GET",
-              "url": "api/File/DownloadFile",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Guid, System.Private.CoreLib",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Microsoft.AspNetCore.Mvc.ActionResult<System.String>",
-                "typeSimple": "Microsoft.AspNetCore.Mvc.ActionResult<string>"
-              }
-            }
-          }
-        },
-        "PMVOnline.Users.DeviceTokenAppService": {
-          "controllerName": "DeviceToken",
-          "type": "PMVOnline.Users.DeviceTokenAppService",
-          "interfaces": [
-            {
-              "type": "Volo.Abp.Validation.IValidationEnabled"
-            },
-            {
-              "type": "Volo.Abp.Auditing.IAuditingEnabled"
-            },
-            {
-              "type": "PMVOnline.Users.IDeviceTokenAppService"
-            }
-          ],
-          "actions": {
-            "SaveDeviceTokenAsyncByDto": {
-              "uniqueName": "SaveDeviceTokenAsyncByDto",
-              "name": "SaveDeviceTokenAsync",
-              "httpMethod": "POST",
-              "url": "api/app/device-token/save-device-token",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "dto",
-                  "typeAsString": "PMVOnline.Users.SaveDeviceTokenDto, PMVOnline.Application.Contracts",
-                  "type": "PMVOnline.Users.SaveDeviceTokenDto",
-                  "typeSimple": "PMVOnline.Users.SaveDeviceTokenDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "dto",
-                  "name": "dto",
-                  "type": "PMVOnline.Users.SaveDeviceTokenDto",
-                  "typeSimple": "PMVOnline.Users.SaveDeviceTokenDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Boolean",
-                "typeSimple": "boolean"
-              }
-            }
-          }
-        },
-        "PMVOnline.Users.DepartmentIdentityUserAppService": {
-          "controllerName": "DepartmentIdentityUser",
-          "type": "PMVOnline.Users.DepartmentIdentityUserAppService",
-          "interfaces": [
-            {
-              "type": "Volo.Abp.Validation.IValidationEnabled"
-            },
-            {
-              "type": "Volo.Abp.Auditing.IAuditingEnabled"
-            },
-            {
-              "type": "PMVOnline.Users.IDepartmentIdentityUserAppService"
-            }
-          ],
-          "actions": {
-            "CreateNewAsyncByInput": {
-              "uniqueName": "CreateNewAsyncByInput",
-              "name": "CreateNewAsync",
-              "httpMethod": "POST",
-              "url": "api/app/department-identity-user/new",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "input",
-                  "typeAsString": "PMVOnline.Users.UserDepartmentCreateDto, PMVOnline.Application.Contracts",
-                  "type": "PMVOnline.Users.UserDepartmentCreateDto",
-                  "typeSimple": "PMVOnline.Users.UserDepartmentCreateDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "input",
-                  "name": "input",
-                  "type": "PMVOnline.Users.UserDepartmentCreateDto",
-                  "typeSimple": "PMVOnline.Users.UserDepartmentCreateDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Volo.Abp.Identity.IdentityUserDto",
-                "typeSimple": "Volo.Abp.Identity.IdentityUserDto"
-              }
-            }
-          }
-        },
-        "PMVOnline.Tasks.TaskAppService": {
-          "controllerName": "Task",
-          "type": "PMVOnline.Tasks.TaskAppService",
-          "interfaces": [
-            {
-              "type": "Volo.Abp.Validation.IValidationEnabled"
-            },
-            {
-              "type": "Volo.Abp.Auditing.IAuditingEnabled"
-            },
-            {
-              "type": "PMVOnline.Tasks.ITaskAppService"
-            }
-          ],
-          "actions": {
-            "CreateTaskByRequest": {
-              "uniqueName": "CreateTaskByRequest",
-              "name": "CreateTask",
-              "httpMethod": "POST",
-              "url": "api/app/task/task",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "request",
-                  "typeAsString": "PMVOnline.Tasks.CreateTaskRequestDto, PMVOnline.Application.Contracts",
-                  "type": "PMVOnline.Tasks.CreateTaskRequestDto",
-                  "typeSimple": "PMVOnline.Tasks.CreateTaskRequestDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "request",
-                  "name": "request",
-                  "type": "PMVOnline.Tasks.CreateTaskRequestDto",
-                  "typeSimple": "PMVOnline.Tasks.CreateTaskRequestDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "PMVOnline.Tasks.TaskDto",
-                "typeSimple": "PMVOnline.Tasks.TaskDto"
-              }
-            },
-            "FinishTaskByRequest": {
-              "uniqueName": "FinishTaskByRequest",
-              "name": "FinishTask",
-              "httpMethod": "POST",
-              "url": "api/app/task/finish-task",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "request",
-                  "typeAsString": "PMVOnline.Tasks.FinishTaskRequest, PMVOnline.Application.Contracts",
-                  "type": "PMVOnline.Tasks.FinishTaskRequest",
-                  "typeSimple": "PMVOnline.Tasks.FinishTaskRequest",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "request",
-                  "name": "request",
-                  "type": "PMVOnline.Tasks.FinishTaskRequest",
-                  "typeSimple": "PMVOnline.Tasks.FinishTaskRequest",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Boolean",
-                "typeSimple": "boolean"
-              }
-            },
-            "FollowTaskByRequest": {
-              "uniqueName": "FollowTaskByRequest",
-              "name": "FollowTask",
-              "httpMethod": "POST",
-              "url": "api/app/task/follow-task",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "request",
-                  "typeAsString": "PMVOnline.Tasks.FollowTaskRequest, PMVOnline.Application.Contracts",
-                  "type": "PMVOnline.Tasks.FollowTaskRequest",
-                  "typeSimple": "PMVOnline.Tasks.FollowTaskRequest",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "request",
-                  "name": "request",
-                  "type": "PMVOnline.Tasks.FollowTaskRequest",
-                  "typeSimple": "PMVOnline.Tasks.FollowTaskRequest",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Boolean",
-                "typeSimple": "boolean"
-              }
-            },
-            "GetAllMemberByTarget": {
-              "uniqueName": "GetAllMemberByTarget",
-              "name": "GetAllMember",
-              "httpMethod": "GET",
-              "url": "api/app/task/member",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "target",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "target",
-                  "name": "target",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "PMVOnline.Tasks.UserDto[]",
-                "typeSimple": "[PMVOnline.Tasks.UserDto]"
-              }
-            },
-            "GetAssigneeByTarget": {
-              "uniqueName": "GetAssigneeByTarget",
-              "name": "GetAssignee",
-              "httpMethod": "GET",
-              "url": "api/app/task/assignee",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "target",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "target",
-                  "name": "target",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "PMVOnline.Tasks.UserDto",
-                "typeSimple": "PMVOnline.Tasks.UserDto"
-              }
-            },
-            "GetTaskHistoryById": {
-              "uniqueName": "GetTaskHistoryById",
-              "name": "GetTaskHistory",
-              "httpMethod": "GET",
-              "url": "api/app/task/{id}/task-history",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Int64, System.Private.CoreLib",
-                  "type": "System.Int64",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "type": "System.Int64",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "PMVOnline.Tasks.TaskActionDto[]",
-                "typeSimple": "[PMVOnline.Tasks.TaskActionDto]"
-              }
-            },
-            "ProcessTaskByRequest": {
-              "uniqueName": "ProcessTaskByRequest",
-              "name": "ProcessTask",
-              "httpMethod": "POST",
-              "url": "api/app/task/process-task",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "request",
-                  "typeAsString": "PMVOnline.Tasks.ProcessTaskRequest, PMVOnline.Application.Contracts",
-                  "type": "PMVOnline.Tasks.ProcessTaskRequest",
-                  "typeSimple": "PMVOnline.Tasks.ProcessTaskRequest",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "request",
-                  "name": "request",
-                  "type": "PMVOnline.Tasks.ProcessTaskRequest",
-                  "typeSimple": "PMVOnline.Tasks.ProcessTaskRequest",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Boolean",
-                "typeSimple": "boolean"
-              }
-            },
-            "ReopenTaskByRequest": {
-              "uniqueName": "ReopenTaskByRequest",
-              "name": "ReopenTask",
-              "httpMethod": "POST",
-              "url": "api/app/task/reopen-task",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "request",
-                  "typeAsString": "PMVOnline.Tasks.ReopenTaskRequest, PMVOnline.Application.Contracts",
-                  "type": "PMVOnline.Tasks.ReopenTaskRequest",
-                  "typeSimple": "PMVOnline.Tasks.ReopenTaskRequest",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "request",
-                  "name": "request",
-                  "type": "PMVOnline.Tasks.ReopenTaskRequest",
-                  "typeSimple": "PMVOnline.Tasks.ReopenTaskRequest",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Boolean",
-                "typeSimple": "boolean"
-              }
-            },
-            "SendCommentByIdAndRequest": {
-              "uniqueName": "SendCommentByIdAndRequest",
-              "name": "SendComment",
-              "httpMethod": "POST",
-              "url": "api/app/task/{id}/send-comment",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Int64, System.Private.CoreLib",
-                  "type": "System.Int64",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "request",
-                  "typeAsString": "PMVOnline.Tasks.CommentRequestDto, PMVOnline.Application.Contracts",
-                  "type": "PMVOnline.Tasks.CommentRequestDto",
-                  "typeSimple": "PMVOnline.Tasks.CommentRequestDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "type": "System.Int64",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "request",
-                  "name": "request",
-                  "type": "PMVOnline.Tasks.CommentRequestDto",
-                  "typeSimple": "PMVOnline.Tasks.CommentRequestDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Boolean",
-                "typeSimple": "boolean"
-              }
-            },
-            "GetMyActions": {
-              "uniqueName": "GetMyActions",
-              "name": "GetMyActions",
-              "httpMethod": "GET",
-              "url": "api/app/task/my-actions",
-              "supportedVersions": [],
-              "parametersOnMethod": [],
-              "parameters": [],
-              "returnValue": {
-                "type": "PMVOnline.Tasks.MyTaskDto[]",
-                "typeSimple": "[PMVOnline.Tasks.MyTaskDto]"
-              }
-            },
-            "SearchMyTasksByRequest": {
-              "uniqueName": "SearchMyTasksByRequest",
-              "name": "SearchMyTasks",
-              "httpMethod": "POST",
-              "url": "api/app/task/search-my-tasks",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "request",
-                  "typeAsString": "PMVOnline.Tasks.SearchMyTaskRequestDto, PMVOnline.Application.Contracts",
-                  "type": "PMVOnline.Tasks.SearchMyTaskRequestDto",
-                  "typeSimple": "PMVOnline.Tasks.SearchMyTaskRequestDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "request",
-                  "name": "request",
-                  "type": "PMVOnline.Tasks.SearchMyTaskRequestDto",
-                  "typeSimple": "PMVOnline.Tasks.SearchMyTaskRequestDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "PMVOnline.Tasks.MyTaskDto[]",
-                "typeSimple": "[PMVOnline.Tasks.MyTaskDto]"
-              }
-            },
-            "GetTaskById": {
-              "uniqueName": "GetTaskById",
-              "name": "GetTask",
-              "httpMethod": "GET",
-              "url": "api/app/task/{id}/task",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Int64, System.Private.CoreLib",
-                  "type": "System.Int64",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "type": "System.Int64",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "PMVOnline.Tasks.FullTaskDto",
-                "typeSimple": "PMVOnline.Tasks.FullTaskDto"
-              }
-            },
-            "GetTaskCommentsById": {
-              "uniqueName": "GetTaskCommentsById",
-              "name": "GetTaskComments",
-              "httpMethod": "GET",
-              "url": "api/app/task/{id}/task-comments",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Int64, System.Private.CoreLib",
-                  "type": "System.Int64",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "type": "System.Int64",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "PMVOnline.Tasks.TaskCommentDto[]",
-                "typeSimple": "[PMVOnline.Tasks.TaskCommentDto]"
-              }
-            },
-            "GetTaskFilesById": {
-              "uniqueName": "GetTaskFilesById",
-              "name": "GetTaskFiles",
-              "httpMethod": "GET",
-              "url": "api/app/task/{id}/task-files",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Int64, System.Private.CoreLib",
-                  "type": "System.Int64",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "type": "System.Int64",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "PMVOnline.Files.FileDto[]",
-                "typeSimple": "[PMVOnline.Files.FileDto]"
-              }
-            },
-            "GetNoteById": {
-              "uniqueName": "GetNoteById",
-              "name": "GetNote",
-              "httpMethod": "GET",
-              "url": "api/app/task/{id}/note",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Int64, System.Private.CoreLib",
-                  "type": "System.Int64",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "type": "System.Int64",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.String",
-                "typeSimple": "string"
-              }
-            },
-            "RequestTaskByRequest": {
-              "uniqueName": "RequestTaskByRequest",
-              "name": "RequestTask",
-              "httpMethod": "POST",
-              "url": "api/app/task/request-task",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "request",
-                  "typeAsString": "PMVOnline.Tasks.RequestTaskRequest, PMVOnline.Application.Contracts",
-                  "type": "PMVOnline.Tasks.RequestTaskRequest",
-                  "typeSimple": "PMVOnline.Tasks.RequestTaskRequest",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "request",
-                  "name": "request",
-                  "type": "PMVOnline.Tasks.RequestTaskRequest",
-                  "typeSimple": "PMVOnline.Tasks.RequestTaskRequest",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Boolean",
-                "typeSimple": "boolean"
-              }
-            },
-            "GetUsersInMyTasks": {
-              "uniqueName": "GetUsersInMyTasks",
-              "name": "GetUsersInMyTasks",
-              "httpMethod": "GET",
-              "url": "api/app/task/users-in-my-tasks",
-              "supportedVersions": [],
-              "parametersOnMethod": [],
-              "parameters": [],
-              "returnValue": {
-                "type": "PMVOnline.Tasks.SimpleUserDto[]",
-                "typeSimple": "[PMVOnline.Tasks.SimpleUserDto]"
-              }
-            },
-            "GetReferenceTasksById": {
-              "uniqueName": "GetReferenceTasksById",
-              "name": "GetReferenceTasks",
-              "httpMethod": "GET",
-              "url": "api/app/task/{id}/reference-tasks",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Int64, System.Private.CoreLib",
-                  "type": "System.Int64",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "type": "System.Int64",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "PMVOnline.Tasks.MyTaskDto[]",
-                "typeSimple": "[PMVOnline.Tasks.MyTaskDto]"
-              }
-            },
-            "UpdateTaskByRequest": {
-              "uniqueName": "UpdateTaskByRequest",
-              "name": "UpdateTask",
-              "httpMethod": "PUT",
-              "url": "api/app/task/task",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "request",
-                  "typeAsString": "PMVOnline.Tasks.UpdateTaskRequestDto, PMVOnline.Application.Contracts",
-                  "type": "PMVOnline.Tasks.UpdateTaskRequestDto",
-                  "typeSimple": "PMVOnline.Tasks.UpdateTaskRequestDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "request",
-                  "name": "request",
-                  "type": "PMVOnline.Tasks.UpdateTaskRequestDto",
-                  "typeSimple": "PMVOnline.Tasks.UpdateTaskRequestDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "PMVOnline.Tasks.TaskDto",
-                "typeSimple": "PMVOnline.Tasks.TaskDto"
-              }
-            },
-            "RateTaskAsyncByTaskIdAndRatingAndNote": {
-              "uniqueName": "RateTaskAsyncByTaskIdAndRatingAndNote",
-              "name": "RateTaskAsync",
-              "httpMethod": "POST",
-              "url": "api/app/task/rate-task/{taskId}",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "taskId",
-                  "typeAsString": "System.Int64, System.Private.CoreLib",
-                  "type": "System.Int64",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "rating",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "note",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "taskId",
-                  "name": "taskId",
-                  "type": "System.Int64",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "rating",
-                  "name": "rating",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "note",
-                  "name": "note",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Boolean",
-                "typeSimple": "boolean"
-              }
-            }
-          }
-        },
-        "PMVOnline.Targets.TargetAppService": {
-          "controllerName": "Target",
-          "type": "PMVOnline.Targets.TargetAppService",
-          "interfaces": [
-            {
-              "type": "Volo.Abp.Validation.IValidationEnabled"
-            },
-            {
-              "type": "Volo.Abp.Auditing.IAuditingEnabled"
-            },
-            {
-              "type": "PMVOnline.Targets.ITargetAppService"
-            }
-          ],
-          "actions": {
-            "AddOrEditDepartmentsToTargetAsyncByTargetIdAndRequest": {
-              "uniqueName": "AddOrEditDepartmentsToTargetAsyncByTargetIdAndRequest",
-              "name": "AddOrEditDepartmentsToTargetAsync",
-              "httpMethod": "POST",
-              "url": "api/app/target/or-edit-departments-to-target/{targetId}",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "targetId",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "request",
-                  "typeAsString": "PMVOnline.Targets.AddOrEditDepartmentsToTargetDto, PMVOnline.Application.Contracts",
-                  "type": "PMVOnline.Targets.AddOrEditDepartmentsToTargetDto",
-                  "typeSimple": "PMVOnline.Targets.AddOrEditDepartmentsToTargetDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "targetId",
-                  "name": "targetId",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "request",
-                  "name": "request",
-                  "type": "PMVOnline.Targets.AddOrEditDepartmentsToTargetDto",
-                  "typeSimple": "PMVOnline.Targets.AddOrEditDepartmentsToTargetDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "PMVOnline.Departments.DepartmentDto[]",
-                "typeSimple": "[PMVOnline.Departments.DepartmentDto]"
-              }
-            },
-            "CreateTargetsAsyncByRequest": {
-              "uniqueName": "CreateTargetsAsyncByRequest",
-              "name": "CreateTargetsAsync",
-              "httpMethod": "POST",
-              "url": "api/app/target/targets",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "request",
-                  "typeAsString": "PMVOnline.Targets.NameTargetDto, PMVOnline.Application.Contracts",
-                  "type": "PMVOnline.Targets.NameTargetDto",
-                  "typeSimple": "PMVOnline.Targets.NameTargetDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "request",
-                  "name": "request",
-                  "type": "PMVOnline.Targets.NameTargetDto",
-                  "typeSimple": "PMVOnline.Targets.NameTargetDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "PMVOnline.Targets.TargetDto",
-                "typeSimple": "PMVOnline.Targets.TargetDto"
-              }
-            },
-            "DeleteTargetsAsyncById": {
-              "uniqueName": "DeleteTargetsAsyncById",
-              "name": "DeleteTargetsAsync",
-              "httpMethod": "DELETE",
-              "url": "api/app/target/{id}/targets",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Boolean",
-                "typeSimple": "boolean"
-              }
-            },
-            "GetAllTargetsAsync": {
-              "uniqueName": "GetAllTargetsAsync",
-              "name": "GetAllTargetsAsync",
-              "httpMethod": "GET",
-              "url": "api/app/target/targets",
-              "supportedVersions": [],
-              "parametersOnMethod": [],
-              "parameters": [],
-              "returnValue": {
-                "type": "PMVOnline.Targets.TargetDto[]",
-                "typeSimple": "[PMVOnline.Targets.TargetDto]"
-              }
-            },
-            "GetDepartmentsByTargetAsyncByTargetId": {
-              "uniqueName": "GetDepartmentsByTargetAsyncByTargetId",
-              "name": "GetDepartmentsByTargetAsync",
-              "httpMethod": "GET",
-              "url": "api/app/target/departments-by-target/{targetId}",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "targetId",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "targetId",
-                  "name": "targetId",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "PMVOnline.Departments.DepartmentDto[]",
-                "typeSimple": "[PMVOnline.Departments.DepartmentDto]"
-              }
-            },
-            "UpdateTargetsAsyncByIdAndRequest": {
-              "uniqueName": "UpdateTargetsAsyncByIdAndRequest",
-              "name": "UpdateTargetsAsync",
-              "httpMethod": "PUT",
-              "url": "api/app/target/{id}/targets",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "request",
-                  "typeAsString": "PMVOnline.Targets.NameTargetDto, PMVOnline.Application.Contracts",
-                  "type": "PMVOnline.Targets.NameTargetDto",
-                  "typeSimple": "PMVOnline.Targets.NameTargetDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "request",
-                  "name": "request",
-                  "type": "PMVOnline.Targets.NameTargetDto",
-                  "typeSimple": "PMVOnline.Targets.NameTargetDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "PMVOnline.Targets.TargetDto",
-                "typeSimple": "PMVOnline.Targets.TargetDto"
-              }
-            }
-          }
-        },
-        "PMVOnline.Guides.GuideAppService": {
-          "controllerName": "Guide",
-          "type": "PMVOnline.Guides.GuideAppService",
-          "interfaces": [
-            {
-              "type": "Volo.Abp.Validation.IValidationEnabled"
-            },
-            {
-              "type": "Volo.Abp.Auditing.IAuditingEnabled"
-            },
-            {
-              "type": "PMVOnline.Guides.IGuideAppService"
-            }
-          ],
-          "actions": {
-            "SetGuideAsyncByGuide": {
-              "uniqueName": "SetGuideAsyncByGuide",
-              "name": "SetGuideAsync",
-              "httpMethod": "POST",
-              "url": "api/app/guide/set-guide",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "guide",
-                  "typeAsString": "PMVOnline.Guides.GuideDto, PMVOnline.Application.Contracts",
-                  "type": "PMVOnline.Guides.GuideDto",
-                  "typeSimple": "PMVOnline.Guides.GuideDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "guide",
-                  "name": "guide",
-                  "type": "PMVOnline.Guides.GuideDto",
-                  "typeSimple": "PMVOnline.Guides.GuideDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Boolean",
-                "typeSimple": "boolean"
-              }
-            },
-            "GetGuideAsync": {
-              "uniqueName": "GetGuideAsync",
-              "name": "GetGuideAsync",
-              "httpMethod": "GET",
-              "url": "api/app/guide/guide",
-              "supportedVersions": [],
-              "parametersOnMethod": [],
-              "parameters": [],
-              "returnValue": {
-                "type": "PMVOnline.Guides.GuideDto",
-                "typeSimple": "PMVOnline.Guides.GuideDto"
-              }
-            }
-          }
-        },
-        "PMVOnline.Departments.DepartmentAppService": {
-          "controllerName": "Department",
-          "type": "PMVOnline.Departments.DepartmentAppService",
-          "interfaces": [
-            {
-              "type": "Volo.Abp.Validation.IValidationEnabled"
-            },
-            {
-              "type": "Volo.Abp.Auditing.IAuditingEnabled"
-            },
-            {
-              "type": "PMVOnline.Departments.IDepartmentAppService"
-            }
-          ],
-          "actions": {
-            "AddUserToDepartmentAsyncByRequest": {
-              "uniqueName": "AddUserToDepartmentAsyncByRequest",
-              "name": "AddUserToDepartmentAsync",
-              "httpMethod": "POST",
-              "url": "api/app/department/user-to-department",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "request",
-                  "typeAsString": "PMVOnline.Departments.CreateDepartmentUserDto, PMVOnline.Application.Contracts",
-                  "type": "PMVOnline.Departments.CreateDepartmentUserDto",
-                  "typeSimple": "PMVOnline.Departments.CreateDepartmentUserDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "request",
-                  "name": "request",
-                  "type": "PMVOnline.Departments.CreateDepartmentUserDto",
-                  "typeSimple": "PMVOnline.Departments.CreateDepartmentUserDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Boolean",
-                "typeSimple": "boolean"
-              }
-            },
-            "CreateTargetsAsyncByRequest": {
-              "uniqueName": "CreateTargetsAsyncByRequest",
-              "name": "CreateTargetsAsync",
-              "httpMethod": "POST",
-              "url": "api/app/department/targets",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "request",
-                  "typeAsString": "PMVOnline.Departments.NameDepartmentDto, PMVOnline.Application.Contracts",
-                  "type": "PMVOnline.Departments.NameDepartmentDto",
-                  "typeSimple": "PMVOnline.Departments.NameDepartmentDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "request",
-                  "name": "request",
-                  "type": "PMVOnline.Departments.NameDepartmentDto",
-                  "typeSimple": "PMVOnline.Departments.NameDepartmentDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "PMVOnline.Departments.DepartmentDto",
-                "typeSimple": "PMVOnline.Departments.DepartmentDto"
-              }
-            },
-            "DeleteTargetsAsyncById": {
-              "uniqueName": "DeleteTargetsAsyncById",
-              "name": "DeleteTargetsAsync",
-              "httpMethod": "DELETE",
-              "url": "api/app/department/{id}/targets",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Boolean",
-                "typeSimple": "boolean"
-              }
-            },
-            "DeleteUserToDepartmentAsyncByRequest": {
-              "uniqueName": "DeleteUserToDepartmentAsyncByRequest",
-              "name": "DeleteUserToDepartmentAsync",
-              "httpMethod": "DELETE",
-              "url": "api/app/department/user-to-department",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "request",
-                  "typeAsString": "PMVOnline.Departments.DeleteDepartmentUserDto, PMVOnline.Application.Contracts",
-                  "type": "PMVOnline.Departments.DeleteDepartmentUserDto",
-                  "typeSimple": "PMVOnline.Departments.DeleteDepartmentUserDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "request",
-                  "name": "DepartmentId",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": "request"
-                },
-                {
-                  "nameOnMethod": "request",
-                  "name": "UserId",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": "request"
-                }
-              ],
-              "returnValue": {
-                "type": "System.Boolean",
-                "typeSimple": "boolean"
-              }
-            },
-            "GetAllDepartmentsAsync": {
-              "uniqueName": "GetAllDepartmentsAsync",
-              "name": "GetAllDepartmentsAsync",
-              "httpMethod": "GET",
-              "url": "api/app/department/departments",
-              "supportedVersions": [],
-              "parametersOnMethod": [],
-              "parameters": [],
-              "returnValue": {
-                "type": "PMVOnline.Departments.DepartmentDto[]",
-                "typeSimple": "[PMVOnline.Departments.DepartmentDto]"
-              }
-            },
-            "GetDepartmentUsersByIdAsyncByDepartmentId": {
-              "uniqueName": "GetDepartmentUsersByIdAsyncByDepartmentId",
-              "name": "GetDepartmentUsersByIdAsync",
-              "httpMethod": "GET",
-              "url": "api/app/department/department-users-by-id/{departmentId}",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "departmentId",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "departmentId",
-                  "name": "departmentId",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "PMVOnline.Departments.DepartmentUserDto[]",
-                "typeSimple": "[PMVOnline.Departments.DepartmentUserDto]"
-              }
-            },
-            "GetDepartmentUsersByNameAsyncByDepartment": {
-              "uniqueName": "GetDepartmentUsersByNameAsyncByDepartment",
-              "name": "GetDepartmentUsersByNameAsync",
-              "httpMethod": "GET",
-              "url": "api/app/department/department-users-by-name",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "department",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "department",
-                  "name": "department",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "PMVOnline.Departments.DepartmentUserDto[]",
-                "typeSimple": "[PMVOnline.Departments.DepartmentUserDto]"
-              }
-            },
-            "GetMyDepartmentsAsync": {
-              "uniqueName": "GetMyDepartmentsAsync",
-              "name": "GetMyDepartmentsAsync",
-              "httpMethod": "GET",
-              "url": "api/app/department/my-departments",
-              "supportedVersions": [],
-              "parametersOnMethod": [],
-              "parameters": [],
-              "returnValue": {
-                "type": "PMVOnline.Departments.DepartmentUserDto[]",
-                "typeSimple": "[PMVOnline.Departments.DepartmentUserDto]"
-              }
-            },
-            "GetUserDepartmentsAsyncById": {
-              "uniqueName": "GetUserDepartmentsAsyncById",
-              "name": "GetUserDepartmentsAsync",
-              "httpMethod": "GET",
-              "url": "api/app/department/{id}/user-departments",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Guid, System.Private.CoreLib",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "PMVOnline.Departments.DepartmentUserDto[]",
-                "typeSimple": "[PMVOnline.Departments.DepartmentUserDto]"
-              }
-            },
-            "UpdateTargetsAsyncByIdAndRequest": {
-              "uniqueName": "UpdateTargetsAsyncByIdAndRequest",
-              "name": "UpdateTargetsAsync",
-              "httpMethod": "PUT",
-              "url": "api/app/department/{id}/targets",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Int32, System.Private.CoreLib",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "request",
-                  "typeAsString": "PMVOnline.Departments.NameDepartmentDto, PMVOnline.Application.Contracts",
-                  "type": "PMVOnline.Departments.NameDepartmentDto",
-                  "typeSimple": "PMVOnline.Departments.NameDepartmentDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "request",
-                  "name": "request",
-                  "type": "PMVOnline.Departments.NameDepartmentDto",
-                  "typeSimple": "PMVOnline.Departments.NameDepartmentDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "PMVOnline.Departments.DepartmentDto",
-                "typeSimple": "PMVOnline.Departments.DepartmentDto"
-              }
-            },
-            "UpdateUserToDepartmentAsyncByRequest": {
-              "uniqueName": "UpdateUserToDepartmentAsyncByRequest",
-              "name": "UpdateUserToDepartmentAsync",
-              "httpMethod": "PUT",
-              "url": "api/app/department/user-to-department",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "request",
-                  "typeAsString": "PMVOnline.Departments.UpdateDepartmentUserDto, PMVOnline.Application.Contracts",
-                  "type": "PMVOnline.Departments.UpdateDepartmentUserDto",
-                  "typeSimple": "PMVOnline.Departments.UpdateDepartmentUserDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "request",
-                  "name": "request",
-                  "type": "PMVOnline.Departments.UpdateDepartmentUserDto",
-                  "typeSimple": "PMVOnline.Departments.UpdateDepartmentUserDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Boolean",
-                "typeSimple": "boolean"
-              }
-            }
-          }
-        }
-      }
-    },
-    "multi-tenancy": {
-      "rootPath": "multi-tenancy",
-      "remoteServiceName": "AbpTenantManagement",
-      "controllers": {
-        "Volo.Abp.TenantManagement.TenantController": {
-          "controllerName": "Tenant",
-          "type": "Volo.Abp.TenantManagement.TenantController",
-          "interfaces": [
-            {
-              "type": "Volo.Abp.TenantManagement.ITenantAppService"
-            }
-          ],
-          "actions": {
-            "GetAsyncById": {
-              "uniqueName": "GetAsyncById",
-              "name": "GetAsync",
-              "httpMethod": "GET",
-              "url": "api/multi-tenancy/tenants/{id}",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Guid, System.Private.CoreLib",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Volo.Abp.TenantManagement.TenantDto",
-                "typeSimple": "Volo.Abp.TenantManagement.TenantDto"
-              }
-            },
-            "GetListAsyncByInput": {
-              "uniqueName": "GetListAsyncByInput",
-              "name": "GetListAsync",
-              "httpMethod": "GET",
-              "url": "api/multi-tenancy/tenants",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "input",
-                  "typeAsString": "Volo.Abp.TenantManagement.GetTenantsInput, Volo.Abp.TenantManagement.Application.Contracts",
-                  "type": "Volo.Abp.TenantManagement.GetTenantsInput",
-                  "typeSimple": "Volo.Abp.TenantManagement.GetTenantsInput",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "input",
-                  "name": "Filter",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": "input"
-                },
-                {
-                  "nameOnMethod": "input",
-                  "name": "Sorting",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": "input"
-                },
-                {
-                  "nameOnMethod": "input",
-                  "name": "SkipCount",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": "input"
-                },
-                {
-                  "nameOnMethod": "input",
-                  "name": "MaxResultCount",
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": "input"
-                }
-              ],
-              "returnValue": {
-                "type": "Volo.Abp.Application.Dtos.PagedResultDto<Volo.Abp.TenantManagement.TenantDto>",
-                "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<Volo.Abp.TenantManagement.TenantDto>"
-              }
-            },
-            "CreateAsyncByInput": {
-              "uniqueName": "CreateAsyncByInput",
-              "name": "CreateAsync",
-              "httpMethod": "POST",
-              "url": "api/multi-tenancy/tenants",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "input",
-                  "typeAsString": "Volo.Abp.TenantManagement.TenantCreateDto, Volo.Abp.TenantManagement.Application.Contracts",
-                  "type": "Volo.Abp.TenantManagement.TenantCreateDto",
-                  "typeSimple": "Volo.Abp.TenantManagement.TenantCreateDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "input",
-                  "name": "input",
-                  "type": "Volo.Abp.TenantManagement.TenantCreateDto",
-                  "typeSimple": "Volo.Abp.TenantManagement.TenantCreateDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Volo.Abp.TenantManagement.TenantDto",
-                "typeSimple": "Volo.Abp.TenantManagement.TenantDto"
-              }
-            },
-            "UpdateAsyncByIdAndInput": {
-              "uniqueName": "UpdateAsyncByIdAndInput",
-              "name": "UpdateAsync",
-              "httpMethod": "PUT",
-              "url": "api/multi-tenancy/tenants/{id}",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Guid, System.Private.CoreLib",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "input",
-                  "typeAsString": "Volo.Abp.TenantManagement.TenantUpdateDto, Volo.Abp.TenantManagement.Application.Contracts",
-                  "type": "Volo.Abp.TenantManagement.TenantUpdateDto",
-                  "typeSimple": "Volo.Abp.TenantManagement.TenantUpdateDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "input",
-                  "name": "input",
-                  "type": "Volo.Abp.TenantManagement.TenantUpdateDto",
-                  "typeSimple": "Volo.Abp.TenantManagement.TenantUpdateDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "Volo.Abp.TenantManagement.TenantDto",
-                "typeSimple": "Volo.Abp.TenantManagement.TenantDto"
-              }
-            },
-            "DeleteAsyncById": {
-              "uniqueName": "DeleteAsyncById",
-              "name": "DeleteAsync",
-              "httpMethod": "DELETE",
-              "url": "api/multi-tenancy/tenants/{id}",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Guid, System.Private.CoreLib",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Void",
-                "typeSimple": "System.Void"
-              }
-            },
-            "GetDefaultConnectionStringAsyncById": {
-              "uniqueName": "GetDefaultConnectionStringAsyncById",
-              "name": "GetDefaultConnectionStringAsync",
-              "httpMethod": "GET",
-              "url": "api/multi-tenancy/tenants/{id}/default-connection-string",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Guid, System.Private.CoreLib",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.String",
-                "typeSimple": "string"
-              }
-            },
-            "UpdateDefaultConnectionStringAsyncByIdAndDefaultConnectionString": {
-              "uniqueName": "UpdateDefaultConnectionStringAsyncByIdAndDefaultConnectionString",
-              "name": "UpdateDefaultConnectionStringAsync",
-              "httpMethod": "PUT",
-              "url": "api/multi-tenancy/tenants/{id}/default-connection-string",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Guid, System.Private.CoreLib",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "defaultConnectionString",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "defaultConnectionString",
-                  "name": "defaultConnectionString",
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Void",
-                "typeSimple": "System.Void"
-              }
-            },
-            "DeleteDefaultConnectionStringAsyncById": {
-              "uniqueName": "DeleteDefaultConnectionStringAsyncById",
-              "name": "DeleteDefaultConnectionStringAsync",
-              "httpMethod": "DELETE",
-              "url": "api/multi-tenancy/tenants/{id}/default-connection-string",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Guid, System.Private.CoreLib",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
                   "descriptorName": ""
                 }
               ],
@@ -6940,9 +6940,24 @@
       "genericArguments": null,
       "properties": [
         {
-          "name": "Departments",
-          "type": "[System.Int32]",
-          "typeSimple": "[number]",
+          "name": "DepartmentId",
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false
+        }
+      ]
+    },
+    "PMVOnline.Targets.AddTargetDto": {
+      "baseType": "PMVOnline.Targets.NameTargetDto",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "DepartmentId",
+          "type": "System.Int32",
+          "typeSimple": "number",
           "isRequired": false
         }
       ]
