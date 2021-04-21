@@ -3,17 +3,17 @@
   <mat-icon (click)="onNoClick()" style="cursor: pointer">close</mat-icon>
 </div>
 <div mat-dialog-content class="form-container">
-  <form class="form-content-container">
+  <div class="form-content-container">
     <mat-form-field class="full-width" appearance="outline">
       <mat-label>Copy sự vụ</mat-label>
-      <mat-select [(ngModel)]="clonedTask">
+      <mat-select [(ngModel)]="clonedTask"  (selectionChange)="onSelectedClonedTask()">
         <mat-option  *ngFor="let task of myTasks" [value]="task">{{ task.title }}</mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field class="half-width" appearance="outline">
       <mat-label>Yêu cầu</mat-label>
-      <mat-select [(ngModel)]="selectedTarget" (selectionChange)="onSelectedTargetChagne()">
+      <mat-select [(ngModel)]="selectedTarget" (selectionChange)="onSelectedTargetChagne()" required>
         <mat-option *ngFor="let target of targets" [value]="target.id">{{
           target.name
         }}</mat-option>
@@ -22,8 +22,8 @@
 
     <mat-form-field class="half-width" appearance="outline">
       <mat-label>Đối tượng</mat-label>
-      <mat-select [(ngModel)]="selectedUser">
-        <mat-option *ngFor="let user of users" [value]="user">{{
+      <mat-select [(ngModel)]="selectedUser" required>
+        <mat-option *ngFor="let user of users" [value]="user.id">{{
           user.name
         }}</mat-option>
       </mat-select>
@@ -31,17 +31,17 @@
 
     <mat-form-field class="full-width" appearance="outline">
       <mat-label>Mục đích</mat-label>
-      <input matInput [(ngModel)]="purpose" />
+      <input matInput [(ngModel)]="purpose" required/>
     </mat-form-field>
 
     <mat-form-field class="full-width" appearance="outline">
       <mat-label>Nội dung</mat-label>
-      <input matInput [(ngModel)]="content" />
+      <input matInput [(ngModel)]="content" required/>
     </mat-form-field>
 
     <mat-form-field class="half-width" appearance="outline">
       <mat-label>Độ ưu tiên</mat-label>
-      <mat-select [(ngModel)]="piority">
+      <mat-select [(ngModel)]="piority" required>
         <mat-option [value]="0">Bình thường</mat-option>
         <mat-option [value]="1">Gấp </mat-option>
         <mat-option [value]="2">ASAP</mat-option>
@@ -52,20 +52,20 @@
 
     <mat-form-field class="half-width" appearance="outline">
       <mat-label>Hạn chót</mat-label>
-      <input matInput type="time" [(ngModel)]="deadline" />
+      <input matInput type="time" [(ngModel)]="deadlineTime" required/>
     </mat-form-field>
 
     <mat-form-field class="half-width" appearance="outline">
       <mat-label>Ngày</mat-label>
-      <input matInput [matDatepicker]="picker" [(ngModel)]="deadline" />
+      <input matInput [matDatepicker]="picker" [(ngModel)]="deadline" required/>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field class="full-width" appearance="outline">
       <mat-label>Sự vụ liên quan</mat-label>
-      <mat-select [(ngModel)]="relatedTask">
-        <mat-option  *ngFor="let task of myTasks" [value]="task">{{ task.title }}</mat-option>
+      <mat-select [(ngModel)]="relatedTasks" multiple>
+        <mat-option  *ngFor="let task of myTasks" [value]="task.id">{{ task.title }}</mat-option>
       </mat-select>
     </mat-form-field>
     <mat-label class="full-width">Tệp đính kèm</mat-label>
@@ -103,11 +103,11 @@
         </button>
       </div>
     </div>
-  </form>
+  </div>
 </div>
 <div mat-dialog-actions align="end" class="mt-2">
-  <button mat-button cdkFocusInitial color="primary" (click)="onNoClick()">Hủy</button>
-  <button mat-raised-button color="primary" cdkFocusInitial (click)="createTask()">Tạo sự vụ</button>
+  <button mat-button color="primary" (click)="onNoClick()">Hủy</button>
+  <button mat-raised-button color="primary" (click)="createTask()">Tạo sự vụ</button>
 </div>
 <div
   style="

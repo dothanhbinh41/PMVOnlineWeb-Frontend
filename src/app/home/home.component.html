@@ -25,20 +25,20 @@
           [class.bg-warning]="item.priority == 1"
           [class.bg-danger]="item.priority == 2"
         >
-          #{{ item.id }} - {{ item.title }} ({{ timeToOutDateState(item.dueDate) }})
+          <b>#{{ item.id }} - {{ item.title }} ({{ timeToOutDateState(item.dueDate) }})</b>
           <div style="cursor: pointer" (click)="showDetail(item)">Detail >></div>
         </div>
         <div class="card-body">
-          <h5 class="card-title">
-            {{ item.lastModifier.surname }} {{ item.lastModifier.name }}
+          <p class="card-title">
+            <b>{{ item.lastModifier.surname }} {{ item.lastModifier.name }}  </b>
             {{ toAction(item.lastAction) }}
-          </h5>
-          <p class="card-text">
-            Người tạo: {{ item.creator.surname }} {{ item.creator.name }} - Đối tượng :
-            {{ item.assignee.surname }} {{ item.assignee.name }}
           </p>
           <p class="card-text">
-            {{ convertToLocalTime(item.dueDate) }}
+            Người tạo: <b>{{ item.creator.surname }} {{ item.creator.name }}</b> - Đối tượng:
+            <b>{{ item.assignee.surname }} {{ item.assignee.name }}</b>
+          </p>
+          <p class="card-text">
+            Thời hạn: <b>{{ convertToLocalTime(item.dueDate) }}</b>
           </p>
         </div>
       </div>

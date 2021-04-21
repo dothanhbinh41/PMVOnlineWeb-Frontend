@@ -7,6 +7,7 @@ import { OAuthService } from 'angular-oauth2-oidc';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
 import { AddTaskComponent } from '../add-task/add-task.component';
+import { TaskDetailComponent } from '../task-detail/task-detail.component';
 
 @Component({
   selector: 'app-home',
@@ -76,14 +77,16 @@ export class HomeComponent implements OnInit {
   }
 
   showDetail(item: any) {
-    console.log(item);
+    const dialogRef = this.dialog.open(TaskDetailComponent, {});
+    dialogRef.afterClosed().subscribe(result => {
+      // this.fetchData();
+    });
   }
 
   addNewTask() {
     const dialogRef = this.dialog.open(AddTaskComponent, {});
-
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      this.fetchData();
     });
   }
 
@@ -97,11 +100,11 @@ export class HomeComponent implements OnInit {
   timeToOutDateState(time: string) {
     const date = moment.utc(time).format('YYYY-MM-DD HH:mm:ss');
     const stillUtc = moment.utc(date);
-    // console.log('=====x=====>', stillUtc);
-    // console.log('=====x=====>', moment().utc());
-    // console.log('=====x=====>', moment().utc().isAfter(stillUtc));
-    // console.log('\n\n\n');
-    return moment().utc() > stillUtc ? 'Quá hạn' : '';
+    if(moment().utc() >= stillUtc) return 'Quá hạn';
+    const diffSec = stillUtc.diff(moment().utc(), 'seconds');
+    if(diffSec < 60*60) return `Còn: ${stillUtc.diff(moment().utc(), 'day')} phút`
+    if(diffSec < 7*24*60*60 ) return `Còn: ${stillUtc.diff(moment().utc(), 'hours')} giờ`
+    return `Còn: ${stillUtc.diff(moment().utc(), 'day')} ngày`
   }
 
   get hasLoggedIn(): boolean {

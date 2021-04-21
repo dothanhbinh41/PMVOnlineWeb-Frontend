@@ -15,7 +15,7 @@ export interface CreateTaskRequestDto {
   content?: string;
   targetId: number;
   priority: Priority;
-  dueDate?: string;
+  dueDate?: Date;
   files: string[];
   referenceTasks: number[];
   assigneeId?: string;

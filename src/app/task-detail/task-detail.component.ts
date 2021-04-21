@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TaskService } from '@proxy/tasks';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-task-detail',
@@ -7,10 +9,29 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./task-detail.component.scss'],
 })
 export class TaskDetailComponent implements OnInit {
-  ngOnInit(): void {}
+  taskDetail;
+  loading;
+  constructor(
+    public dialogRef: MatDialogRef<TaskDetailComponent>,
+    @Inject(MAT_DIALOG_DATA) data,
+    private taskService: TaskService) {
+      this.taskDetail = data;
+    }
 
-  constructor(public dialogRef: MatDialogRef<TaskDetailComponent>) {}
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  ngOnInit(): void {
+    this.taskService
+    .getTaskById(this.taskDetail.id)
+    .pipe(
+      finalize(() => {
+        this.loading = false;
+      })
+    )
+    .subscribe(data => {
+      this.taskDetail = data;
+    });
   }
 }

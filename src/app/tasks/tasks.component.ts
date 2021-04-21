@@ -8,6 +8,7 @@ import { OAuthService } from 'angular-oauth2-oidc';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
 import { AddTaskComponent } from '../add-task/add-task.component';
+import { TaskDetailComponent } from '../task-detail/task-detail.component';
 
 @Component({
   selector: 'app-tasks',
@@ -27,6 +28,7 @@ export class TasksComponent implements OnInit {
     start: new FormControl(),
     end: new FormControl(),
   });
+  isShowDialog = false;
 
   constructor(
     private router: Router,
@@ -52,7 +54,6 @@ export class TasksComponent implements OnInit {
   }
 
   async loadTasks() {
-    console.log(this.selectedUser);
     this.taskService
       .searchMyTasksByRequest({
         maxResultCount: 1000,
@@ -63,6 +64,7 @@ export class TasksComponent implements OnInit {
       })
       .pipe(finalize(() => {}))
       .subscribe(data => {
+        console.log(data);
         this.tasks = data ? data : [];
       });
   }
@@ -110,18 +112,24 @@ export class TasksComponent implements OnInit {
   }
 
   showDetail(item: any) {
-    console.log(item);
+    this.isShowDialog = true;
+    const dialogRef = this.dialog.open(TaskDetailComponent, { width: '50%', minWidth: '512px', disableClose: true, data: item });
+    dialogRef.afterClosed().subscribe(result => {
+      this.isShowDialog = false;
+      this.fetchData();
+    });
   }
 
   addNewTask() {
     const dialogRef = this.dialog.open(AddTaskComponent, { width: '50%', minWidth: '512px', disableClose: true });
-
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      this.isShowDialog = false;
+      this.fetchData();
     });
   }
 
   convertToLocalTime(time: string) {
+    if(this.isShowDialog) return;
     const date = moment.utc(time).format('YYYY-MM-DD HH:mm:ss');
     const stillUtc = moment.utc(date).toDate();
     const local = moment(stillUtc).local().format('YYYY-MM-DD HH:mm:ss');
@@ -131,7 +139,11 @@ export class TasksComponent implements OnInit {
   timeToOutDateState(time: string) {
     const date = moment.utc(time).format('YYYY-MM-DD HH:mm:ss');
     const stillUtc = moment.utc(date);
-    return moment().utc() > stillUtc ? 'Quá hạn' : '';
+    if(moment().utc() >= stillUtc) return 'Quá hạn';
+    const diffSec = stillUtc.diff(moment().utc(), 'seconds');
+    if(diffSec < 60*60) return `Còn: ${stillUtc.diff(moment().utc(), 'day')} phút`
+    if(diffSec < 7*24*60*60 ) return `Còn: ${stillUtc.diff(moment().utc(), 'hours')} giờ`
+    return `Còn: ${stillUtc.diff(moment().utc(), 'day')} ngày`
   }
 
   resetFilter() {
