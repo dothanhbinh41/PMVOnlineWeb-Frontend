@@ -17,6 +17,8 @@ import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
 import { ConfirmDialog } from '../controls/confirm-dialog.component';
 import { RejectTaskDialog } from '../controls/reject-task-dialog.component';
+import axios, { AxiosResponse } from 'axios';
+import toPromise from '../utils/promise-extension';
 
 @Component({
   selector: 'app-add-task',
@@ -67,101 +69,93 @@ export class AddTaskComponent implements OnInit {
     this.currentTaskId = data;
   }
 
-  loadData() {
-    this.loadTarget();
-    this.loadMyTasks();
-    if (!this.addMode) {
-      this.getMyDepartment();
-      this.loadRelateTasks();
+  async loadData() {
+    this.loading = true;
+    if (this.addMode) {
+      await Promise.all([this.loadTarget(), this.loadMyTasks()]);
+      this.loading = false;
+      return;
     }
+    await Promise.all([
+      this.loadTarget(),
+      this.loadMyTasks(),
+      this.getMyDepartment(),
+      this.loadRelateTasks(),
+    ]);
+    this.loading = false;
   }
 
-  getMyDepartment() {
-    this.loading = true;
-    this.departmentService
-      .getMyDepartments()
-      .pipe(finalize(() => {}))
-      .subscribe(data => {
-        this.departments = data;
-        this.loadTaskDetail();
-      });
+  async getMyDepartment() {
+    const data = await toPromise(this.departmentService.getMyDepartments());
+    if (!data) {
+      this.showMessage('Xảy ra lỗi, vui lòng thử lại sau.', false);
+      this.onNoClick();
+      return;
+    }
+    this.departments = data;
+    this.loadTaskDetail();
   }
 
-  loadMyTasks() {
-    this.taskService
-      .searchMyTasksByRequest({ maxResultCount: 100, users: [] })
-      .pipe(finalize(() => {}))
-      .subscribe(data => {
-        this.myTasks = data;
-      });
+  async loadMyTasks() {
+    const data = await toPromise(
+      this.taskService.searchMyTasksByRequest({ maxResultCount: 100, users: [] })
+    );
+    this.myTasks = data;
   }
 
-  loadTarget() {
-    this.loading = true;
-    this.targetService
-      .getAllTargets()
-      .pipe(
-        finalize(() => {
-          this.loading = false;
-        })
-      )
-      .subscribe(data => {
-        this.targets = data ? data : [];
-      });
+  async loadTarget() {
+    const data = await toPromise(this.targetService.getAllTargets());
+    if (!data) {
+      this.showMessage('Xảy ra lỗi, vui lòng thử lại sau.', false);
+      this.onNoClick();
+      return;
+    }
+    this.targets = data ? data : [];
   }
 
-  loadTaskDetail() {
-    this.taskService
-      .getTaskById(this.currentTaskId)
-      .pipe(
-        finalize(() => {
-          this.loading = false;
-        })
-      )
-      .subscribe(data => {
-        this.taskDetail = data;
-        this.purpose = data.title;
-        this.content = data.content;
-        this.piority = data.priority;
-        this.selectedTarget = data.targetId;
-        this.loadUser(data.assigneeId);
-        const cloneDate = this.toDate(data.dueDate);
-        this.deadline = cloneDate;
-        const hour = cloneDate.getHours() < 10 ? `0${cloneDate.getHours()}` : cloneDate.getHours();
-        const mins =
-          cloneDate.getMinutes() < 10 ? `0${cloneDate.getMinutes()}` : cloneDate.getMinutes();
-        this.deadlineTime = `${hour}:${mins}`;
-        this.isShowVerifyTask =
-          this.departments?.find(d => d.department?.name === 'director') &&
-          data.status === Status.Requested;
-      });
+  async loadTaskDetail() {
+    const data = await toPromise(this.taskService.getTaskById(this.currentTaskId));
+    if (!data) {
+      this.showMessage('Xảy ra lỗi, vui lòng thử lại sau.', false);
+      this.onNoClick();
+      return;
+    }
+
+    this.taskDetail = data;
+    this.purpose = data.title;
+    this.content = data.content;
+    this.piority = data.priority;
+    this.selectedTarget = data.targetId;
+    this.loadUser(data.assigneeId);
+    const cloneDate = this.toDate(data.dueDate);
+    this.deadline = cloneDate;
+    const hour = cloneDate.getHours() < 10 ? `0${cloneDate.getHours()}` : cloneDate.getHours();
+    const mins =
+      cloneDate.getMinutes() < 10 ? `0${cloneDate.getMinutes()}` : cloneDate.getMinutes();
+    this.deadlineTime = `${hour}:${mins}`;
+    this.isShowVerifyTask =
+      this.departments?.find(d => d.department?.name === 'director') &&
+      data.status === Status.Requested;
   }
 
-  loadRelateTasks() {
-    this.taskService
-      .getReferenceTasksById(this.currentTaskId)
-      .pipe(
-        finalize(() => {
-          this.loading = false;
-        })
-      )
-      .subscribe(data => {
-        this.relatedTasks = data.map(d => d.id);
-      });
+  async loadRelateTasks() {
+    const data = await toPromise(this.taskService.getReferenceTasksById(this.currentTaskId));
+    if (!data) {
+      this.showMessage('Xảy ra lỗi, vui lòng thử lại sau.', false);
+      this.onNoClick();
+      return;
+    }
+    this.relatedTasks = data.map(d => d.id);
   }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  loadUser(_selectedUser: any = undefined) {
-    this.taskService
-      .getAllMemberByTarget(this.selectedTarget)
-      .pipe(finalize(() => {}))
-      .subscribe(data => {
-        this.users = data;
-        this.selectedUser = _selectedUser;
-      });
+  async loadUser(_selectedUser: any = undefined) {
+    const data = await toPromise(this.taskService.getAllMemberByTarget(this.selectedTarget));
+    this.users = data;
+    this.selectedUser = _selectedUser;
   }
 
   validateData() {
@@ -175,11 +169,19 @@ export class AddTaskComponent implements OnInit {
     return true;
   }
 
-  createTask() {
+  async createTask() {
     if (!this.validateData()) {
       this.showMessage('Vui lòng điền đầy đủ thông tin!', false);
       return;
     }
+
+    this.loading = true;
+    let uploadResult: AxiosResponse<{ id; name; path }>[];
+    if (this.additionFiles?.length > 0) {
+      const uploadTasks = this.additionFiles.map(d => this.uploadFile(d));
+      uploadResult = await Promise.all(uploadTasks);
+    }
+
     const time = this.deadlineTime.split(':');
     const hour = parseInt(time[0]);
     const min = parseInt(time[1]);
@@ -188,7 +190,7 @@ export class AddTaskComponent implements OnInit {
 
     var dto: CreateTaskRequestDto = {
       title: this.purpose,
-      files: [],
+      files: uploadResult ? uploadResult.map(d => d.data.id) : [],
       priority: this.piority as Priority,
       targetId: this.selectedTarget,
       content: this.content,
@@ -196,25 +198,19 @@ export class AddTaskComponent implements OnInit {
       dueDate: this.deadline,
       referenceTasks: this.relatedTasks ? this.relatedTasks : [],
     };
-    this.loading = true;
-    this.taskService
-      .createTaskByRequest(dto)
-      .pipe(
-        finalize(() => {
-          this.loading = false;
-        })
-      )
-      .subscribe(data => {
-        if (data) {
-          this.showMessage('Tạo sự vụ thành công!', true);
-          this.onNoClick();
-        }
-      });
+
+    const data = await toPromise(this.taskService.createTaskByRequest(dto));
+    this.loading = false;
+    if (!data) {
+      this.showMessage('Tạo sự vụ thất bại!', false);
+      return;
+    }
+    this.showMessage('Tạo sự vụ thành công!', true);
+    this.onNoClick();
   }
 
-  pickedFile(event: any) {
+  async pickedFile(event: any) {
     this.additionFiles = event.target.files ? Array.from(event.target.files) : [];
-    this.uploadFile();
   }
 
   getFilePath(file) {
@@ -226,33 +222,33 @@ export class AddTaskComponent implements OnInit {
     this.additionFiles.splice(index, 1);
   }
 
-  onSelectedTargetChagne() {
+  async onSelectedTargetChagne() {
     this.users = [];
-    this.loadUser();
+    this.loading = true;
+    await this.loadUser();
+    this.loading = false;
   }
 
-  onSelectedClonedTask() {
+  async onSelectedClonedTask() {
     this.loading = true;
-    this.taskService
-      .getTaskById(this.clonedTask.id)
-      .pipe(
-        finalize(() => {
-          this.loading = false;
-        })
-      )
-      .subscribe(data => {
-        this.purpose = data.title;
-        this.content = data.content;
-        this.piority = data.priority;
-        this.selectedTarget = data.targetId;
-        this.loadUser(data.assigneeId);
-        const cloneDate = this.toDate(data.dueDate);
-        this.deadline = cloneDate;
-        const hour = cloneDate.getHours() < 10 ? `0${cloneDate.getHours()}` : cloneDate.getHours();
-        const mins =
-          cloneDate.getMinutes() < 10 ? `0${cloneDate.getMinutes()}` : cloneDate.getMinutes();
-        this.deadlineTime = `${hour}:${mins}`;
-      });
+    const data = await toPromise(this.taskService.getTaskById(this.clonedTask.id));
+    this.loading = false;
+    if (!data) {
+      this.clonedTask = undefined;
+      this.showMessage('Xảy ra lỗi, vui lòng thử lại sau.', false);
+      return;
+    }
+    this.purpose = data.title;
+    this.content = data.content;
+    this.piority = data.priority;
+    this.selectedTarget = data.targetId;
+    await this.loadUser(data.assigneeId);
+    const cloneDate = this.toDate(data.dueDate);
+    this.deadline = cloneDate;
+    const hour = cloneDate.getHours() < 10 ? `0${cloneDate.getHours()}` : cloneDate.getHours();
+    const mins =
+      cloneDate.getMinutes() < 10 ? `0${cloneDate.getMinutes()}` : cloneDate.getMinutes();
+    this.deadlineTime = `${hour}:${mins}`;
   }
 
   toDate(dateString: string) {
@@ -260,7 +256,20 @@ export class AddTaskComponent implements OnInit {
     const stillUtc = moment.utc(date);
     return stillUtc.toDate();
   }
-  uploadFile() {}
+
+  uploadFile(file: File) {
+    var formData = new FormData();
+    formData.append('file', file);
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+    return axios.post('https://pmvonline.azurewebsites.net/api/File/UploadFile', formData, config);
+  }
+  downloadString(id: string) {
+    return `https://pmvonline.azurewebsites.net/api/File/DownloadFile?id=${id}`;
+  }
   //detail section
   unsubscribe() {}
 
@@ -278,37 +287,26 @@ export class AddTaskComponent implements OnInit {
       'Có',
       'Không',
       rs => {
-        if(rs)
-        this.requireConfirmTask();
+        if (rs) this.requireConfirmTask();
       }
     );
   }
 
-  requireConfirmTask() {
+  async requireConfirmTask() {
     if (this.taskDetail.status === Status.Approved) {
       this.showMessage('Thành công!', true);
       this.onNoClick();
       return;
     }
     this.loading = true;
-    this.taskService
-      .requestTaskByRequest({ id: this.taskDetail.id })
-      .pipe(
-        finalize(() => {
-          this.loading = false;
-        })
-      )
-      .subscribe(
-        data => {
-          if (data) {
-            this.showMessage('Yêu cầu duyệt thành công!', true);
-            this.onNoClick();
-          }
-        },
-        err => {
-          this.showMessage('Yêu cầu duyệt thất bại!', false);
-        }
-      );
+    const data = await toPromise(this.taskService.requestTaskByRequest({ id: this.taskDetail.id }));
+    this.loading = false;
+    if (!data) {
+      this.showMessage('Yêu cầu duyệt thất bại!', false);
+      return;
+    }
+    this.showMessage('Yêu cầu duyệt thành công!', true);
+    this.onNoClick();
   }
 
   confirmTask(isConfirm: boolean) {
@@ -332,26 +330,23 @@ export class AddTaskComponent implements OnInit {
     });
   }
 
-  processTask(approved: boolean, note: string) {
+  async processTask(approved: boolean, note: string) {
     if (!approved && !note) return;
-    this.taskService
-      .processTaskByRequest({
+    this.loading = true;
+    const data = await toPromise(
+      this.taskService.processTaskByRequest({
         id: this.taskDetail.id,
         approved,
         note,
       })
-      .pipe(finalize(() => {}))
-      .subscribe(
-        data => {
-          if (data) {
-            this.showMessage('Duyệt thành công!', true);
-            this.onNoClick();
-          }
-        },
-        err => {
-          this.showMessage('Duyệt thất bại!', false);
-        }
-      );
+    );
+    this.loading = false;
+    if (!data) {
+      this.showMessage('Duyệt thất bại!', false);
+      return;
+    }
+    this.showMessage('Duyệt thành công!', true);
+    this.onNoClick();
   }
   get requireButtonTitle() {
     return this.taskDetail?.status === Status.Pending ? 'Yêu cầu duyệt' : 'Kết thúc';
@@ -371,7 +366,7 @@ export class AddTaskComponent implements OnInit {
       panelClass: isSuccess ? 'notif-success' : 'notif-error',
     });
   }
-  
+
   showConfirm(message: string, okButton: string, cancelButton: string, callback: any) {
     const dialogRef = this.dialog.open(ConfirmDialog, {
       disableClose: true,
