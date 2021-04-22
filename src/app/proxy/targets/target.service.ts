@@ -1,4 +1,4 @@
-import type { AddOrEditDepartmentsToTargetDto, NameTargetDto, TargetDto } from './models';
+import type { AddTargetDto, TargetDto } from './models';
 import { RestService } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 import type { DepartmentDto } from '../departments/models';
@@ -9,15 +9,7 @@ import type { DepartmentDto } from '../departments/models';
 export class TargetService {
   apiName = 'Default';
 
-  addOrEditDepartmentsToTarget = (targetId: number, request: AddOrEditDepartmentsToTargetDto) =>
-    this.restService.request<any, DepartmentDto[]>({
-      method: 'POST',
-      url: `/api/app/target/or-edit-departments-to-target/${targetId}`,
-      body: request,
-    },
-    { apiName: this.apiName });
-
-  createTargets = (request: NameTargetDto) =>
+  addTargets = (request: AddTargetDto) =>
     this.restService.request<any, TargetDto>({
       method: 'POST',
       url: `/api/app/target/targets`,
@@ -46,7 +38,7 @@ export class TargetService {
     },
     { apiName: this.apiName });
 
-  updateTargets = (id: number, request: NameTargetDto) =>
+  updateTargets = (id: number, request: AddTargetDto) =>
     this.restService.request<any, TargetDto>({
       method: 'PUT',
       url: `/api/app/target/${id}/targets`,
