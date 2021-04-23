@@ -10,7 +10,9 @@
       <mat-form-field class="full-width" appearance="outline" *ngIf="addMode">
         <mat-label>Copy sự vụ</mat-label>
         <mat-select [(ngModel)]="clonedTask" (selectionChange)="onSelectedClonedTask()">
-          <mat-option *ngFor="let task of myTasks" [value]="task">#{{ task.id }} {{ task.title }}</mat-option>
+          <mat-option *ngFor="let task of myTasks" [value]="task"
+            >#{{ task.id }} {{ task.title }}</mat-option
+          >
         </mat-select>
       </mat-form-field>
 
@@ -72,7 +74,9 @@
       <mat-form-field class="full-width" appearance="outline">
         <mat-label>Sự vụ liên quan</mat-label>
         <mat-select [(ngModel)]="relatedTasks" multiple>
-          <mat-option *ngFor="let task of myTasks" [value]="task.id">#{{ task.id }} {{ task.title }}</mat-option>
+          <mat-option *ngFor="let task of myTasks" [value]="task.id"
+            >#{{ task.id }} {{ task.title }}</mat-option
+          >
         </mat-select>
       </mat-form-field>
       <mat-label class="full-width">Tệp đính kèm</mat-label>
@@ -96,7 +100,7 @@
       <div class="additionPhotos" *ngIf="isEmptyAddition">
         <div class="addition-photo-container" *ngFor="let img of additionFiles; let i = index">
           <img
-            [attr.src]="getFilePath(img)"
+            [attr.src]="downloadString(img?.id)"
             style="object-fit: cover; height: 100%; width: 100%"
             ng-bind-html="desc"
           />

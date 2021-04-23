@@ -69,8 +69,8 @@ export class AddTaskComponent implements OnInit {
     this.loadData();
   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
+  onNoClick(isChanged = false): void {
+    this.dialogRef.close(isChanged);
   }
 
   async loadData() {
@@ -124,7 +124,6 @@ export class AddTaskComponent implements OnInit {
     this.content = data.content;
     this.piority = data.priority;
     this.selectedTarget = data.targetId;
-    this.loadUser(data.assigneeId);
     const cloneDate = this.toDate(data.dueDate);
     this.deadline = cloneDate;
     const hour = cloneDate.getHours() < 10 ? `0${cloneDate.getHours()}` : cloneDate.getHours();
@@ -134,6 +133,7 @@ export class AddTaskComponent implements OnInit {
     this.isShowVerifyTask =
       this.departments?.find(d => d.department?.name === 'director') &&
       data.status === Status.Requested;
+    await Promise.all([this.loadUser(data.assigneeId), this.loadAdditionFiles()]);
   }
 
   async loadRelateTasks() {
@@ -146,6 +146,12 @@ export class AddTaskComponent implements OnInit {
     this.relatedTasks = data.map(d => d.id);
   }
 
+  async loadAdditionFiles() {
+    const data = await toPromise(this.taskService.getTaskFilesById(this.currentTaskId));
+    if (data?.length > 0) {
+      this.additionFiles = data;
+    }
+  }
   async loadUser(selectedUser: string = null) {
     const data = await toPromise(this.taskService.getAllMemberByTarget(this.selectedTarget));
     this.users = data;
@@ -186,12 +192,6 @@ export class AddTaskComponent implements OnInit {
     }
 
     this.loading = true;
-    let uploadResult: AxiosResponse<{ id; name; path }>[];
-    if (this.additionFiles?.length > 0) {
-      const uploadTasks = this.additionFiles.map(d => this.uploadFile(d));
-      uploadResult = await Promise.all(uploadTasks);
-    }
-
     const time = this.deadlineTime.split(':');
     // tslint:disable-next-line:radix
     const hour = parseInt(time[0]);
@@ -202,7 +202,12 @@ export class AddTaskComponent implements OnInit {
 
     const dto: CreateTaskRequestDto = {
       title: this.purpose,
-      files: uploadResult ? uploadResult.map(d => d.data.id) : [],
+      files: this.additionFiles
+        ? this.additionFiles.map(d => {
+            const { id } = d;
+            return id;
+          })
+        : [],
       priority: this.piority as Priority,
       targetId: this.selectedTarget,
       content: this.content,
@@ -218,11 +223,19 @@ export class AddTaskComponent implements OnInit {
       return;
     }
     this.showMessage('Tạo sự vụ thành công!', true);
-    this.onNoClick();
+    this.onNoClick(true);
   }
 
   async pickedFile(event: any) {
-    this.additionFiles = event.target.files ? Array.from(event.target.files) : [];
+    const files = event.target.files ? Array.from(event.target.files) : [];
+    const uploadTasks = files.map(d => this.uploadFile(d));
+    this.loading = true;
+    const uploadResults = await Promise.all(uploadTasks);
+    const uploadDatas = uploadResults.map(d => d.data);
+    this.loading = false;
+    if (uploadResults) {
+      this.additionFiles = this.additionFiles.concat(uploadDatas);
+    }
   }
 
   getFilePath(file) {
@@ -271,7 +284,7 @@ export class AddTaskComponent implements OnInit {
     return stillUtc.toDate();
   }
 
-  uploadFile(file: File) {
+  uploadFile(file: any) {
     const formData = new FormData();
     formData.append('file', file);
     const config = {
