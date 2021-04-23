@@ -1,4 +1,3 @@
-import { IdentityUserService } from '@abp/ng.identity';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -35,7 +34,7 @@ export class AddTaskComponent implements OnInit {
   loading = false;
   clonedTask: MyTaskDto;
   selectedTarget;
-  selectedUser;
+  selectedUser: string;
   purpose = '';
   content = '';
   piority;
@@ -48,10 +47,7 @@ export class AddTaskComponent implements OnInit {
   departments: DepartmentUserDto[];
   isShowVerifyTask;
 
-  ngOnInit(): void {
-    this.loadData();
-  }
-
+  //#region init function
   constructor(
     public dialogRef: MatDialogRef<AddTaskComponent>,
     private dialog: MatDialog,
@@ -69,20 +65,39 @@ export class AddTaskComponent implements OnInit {
     this.currentTaskId = data;
   }
 
+  ngOnInit(): void {
+    this.loadData();
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
   async loadData() {
     this.loading = true;
-    if (this.addMode) {
-      await Promise.all([this.loadTarget(), this.loadMyTasks()]);
-      this.loading = false;
+    let lstInitTasks = [this.loadTarget(), this.loadMyTasks()];
+    if (!this.addMode) {
+      lstInitTasks = [this.getMyDepartment(), this.loadRelateTasks(), ...lstInitTasks];
+    }
+    await Promise.all(lstInitTasks);
+    this.loading = false;
+  }
+
+  async loadTarget() {
+    const data = await toPromise(this.targetService.getAllTargets());
+    if (!data) {
+      this.showMessage('Xảy ra lỗi, vui lòng thử lại sau.', false);
+      this.onNoClick();
       return;
     }
-    await Promise.all([
-      this.loadTarget(),
-      this.loadMyTasks(),
-      this.getMyDepartment(),
-      this.loadRelateTasks(),
-    ]);
-    this.loading = false;
+    this.targets = data ? data : [];
+  }
+
+  async loadMyTasks() {
+    const data = await toPromise(
+      this.taskService.searchMyTasksByRequest({ maxResultCount: 100, users: [] })
+    );
+    this.myTasks = data;
   }
 
   async getMyDepartment() {
@@ -94,23 +109,6 @@ export class AddTaskComponent implements OnInit {
     }
     this.departments = data;
     this.loadTaskDetail();
-  }
-
-  async loadMyTasks() {
-    const data = await toPromise(
-      this.taskService.searchMyTasksByRequest({ maxResultCount: 100, users: [] })
-    );
-    this.myTasks = data;
-  }
-
-  async loadTarget() {
-    const data = await toPromise(this.targetService.getAllTargets());
-    if (!data) {
-      this.showMessage('Xảy ra lỗi, vui lòng thử lại sau.', false);
-      this.onNoClick();
-      return;
-    }
-    this.targets = data ? data : [];
   }
 
   async loadTaskDetail() {
@@ -148,24 +146,36 @@ export class AddTaskComponent implements OnInit {
     this.relatedTasks = data.map(d => d.id);
   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-  async loadUser(_selectedUser: any = undefined) {
+  async loadUser(selectedUser: string = null) {
     const data = await toPromise(this.taskService.getAllMemberByTarget(this.selectedTarget));
     this.users = data;
-    this.selectedUser = _selectedUser;
+    this.selectedUser = selectedUser;
   }
+  //#endregion
 
+  //#region add task function
   validateData() {
-    if (!this.purpose) return false;
-    if (!this.content) return false;
-    if (!this.selectedTarget) return false;
-    if (!this.selectedUser) return false;
-    if (!this.deadline) return false;
-    if (!this.deadlineTime) return false;
-    if (!this.piority) return false;
+    if (!this.purpose) {
+      return false;
+    }
+    if (!this.content) {
+      return false;
+    }
+    if (!this.selectedTarget) {
+      return false;
+    }
+    if (!this.selectedUser) {
+      return false;
+    }
+    if (!this.deadline) {
+      return false;
+    }
+    if (!this.deadlineTime) {
+      return false;
+    }
+    if (!this.piority) {
+      return false;
+    }
     return true;
   }
 
@@ -183,12 +193,14 @@ export class AddTaskComponent implements OnInit {
     }
 
     const time = this.deadlineTime.split(':');
+    // tslint:disable-next-line:radix
     const hour = parseInt(time[0]);
+    // tslint:disable-next-line:radix
     const min = parseInt(time[1]);
     this.deadline.setHours(hour);
     this.deadline.setMinutes(min);
 
-    var dto: CreateTaskRequestDto = {
+    const dto: CreateTaskRequestDto = {
       title: this.purpose,
       files: uploadResult ? uploadResult.map(d => d.data.id) : [],
       priority: this.piority as Priority,
@@ -218,7 +230,9 @@ export class AddTaskComponent implements OnInit {
   }
 
   deleteAdditionFile(index) {
-    if (!this.isEmptyAddition) return;
+    if (!this.isEmptyAddition) {
+      return;
+    }
     this.additionFiles.splice(index, 1);
   }
 
@@ -258,7 +272,7 @@ export class AddTaskComponent implements OnInit {
   }
 
   uploadFile(file: File) {
-    var formData = new FormData();
+    const formData = new FormData();
     formData.append('file', file);
     const config = {
       headers: {
@@ -267,18 +281,12 @@ export class AddTaskComponent implements OnInit {
     };
     return axios.post('https://pmvonline.azurewebsites.net/api/File/UploadFile', formData, config);
   }
+  //#endregion
+
+  //#region task detail function
   downloadString(id: string) {
     return `https://pmvonline.azurewebsites.net/api/File/DownloadFile?id=${id}`;
   }
-  //detail section
-  unsubscribe() {}
-
-  comment() {}
-
-  showHistory() {}
-
-  reOpen() {}
-
   updateTask() {}
 
   requireTask() {
@@ -287,7 +295,9 @@ export class AddTaskComponent implements OnInit {
       'Có',
       'Không',
       rs => {
-        if (rs) this.requireConfirmTask();
+        if (rs) {
+          this.requireConfirmTask();
+        }
       }
     );
   }
@@ -325,13 +335,17 @@ export class AddTaskComponent implements OnInit {
       },
     });
     confirmRef.afterClosed().subscribe(result => {
-      if (!result?.isReject) return;
+      if (!result?.isReject) {
+        return;
+      }
       this.processTask(false, result.note);
     });
   }
 
   async processTask(approved: boolean, note: string) {
-    if (!approved && !note) return;
+    if (!approved && !note) {
+      return;
+    }
     this.loading = true;
     const data = await toPromise(
       this.taskService.processTaskByRequest({
@@ -351,7 +365,6 @@ export class AddTaskComponent implements OnInit {
   get requireButtonTitle() {
     return this.taskDetail?.status === Status.Pending ? 'Yêu cầu duyệt' : 'Kết thúc';
   }
-  //end detail section
   get isEmptyAddition() {
     return this.additionFiles && this.additionFiles.length > 0;
   }
@@ -359,7 +372,16 @@ export class AddTaskComponent implements OnInit {
   get pageTitle() {
     return this.addMode ? 'Thêm Sự Vụ' : 'Chi Tiết Sự Vụ';
   }
+  //#endregion
 
+  //#region common function
+  unsubscribe() {}
+
+  comment() {}
+
+  showHistory() {}
+
+  reOpen() {}
   showMessage(message, isSuccess) {
     this.snackBar.open(message, undefined, {
       duration: 2000,
@@ -384,4 +406,5 @@ export class AddTaskComponent implements OnInit {
       }
     });
   }
+  //#endregion
 }

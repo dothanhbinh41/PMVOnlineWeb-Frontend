@@ -143,10 +143,10 @@ export class TasksComponent implements OnInit {
   timeToOutDateState(time: string) {
     const date = moment.utc(time).format('YYYY-MM-DD HH:mm:ss');
     const stillUtc = moment.utc(date);
-    if (moment().utc() >= stillUtc) return 'Quá hạn';
+    if (moment().utc() >= stillUtc) { return 'Quá hạn'; }
     const diffSec = stillUtc.diff(moment().utc(), 'seconds');
-    if (diffSec < 60 * 60) return `Còn: ${stillUtc.diff(moment().utc(), 'day')} phút`;
-    if (diffSec < 7 * 24 * 60 * 60) return `Còn: ${stillUtc.diff(moment().utc(), 'hours')} giờ`;
+    if (diffSec < 60 * 60) { return `Còn: ${stillUtc.diff(moment().utc(), 'day')} phút`; }
+    if (diffSec < 7 * 24 * 60 * 60) { return `Còn: ${stillUtc.diff(moment().utc(), 'hours')} giờ`; }
     return `Còn: ${stillUtc.diff(moment().utc(), 'day')} ngày`;
   }
 

@@ -2,11 +2,13 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'reject-task-dialog',
   templateUrl: 'reject-task-dialog.html',
 })
+// tslint:disable-next-line:component-class-suffix
 export class RejectTaskDialog {
-  message: string = 'Are you sure?';
+  message = 'Are you sure?';
   confirmButtonText = 'Yes';
   cancelButtonText = 'Cancel';
   note;

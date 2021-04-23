@@ -98,13 +98,13 @@ export class TaskDetailComponent implements OnInit {
   }
 
   validateData() {
-    if (!this.purpose) return false;
-    if (!this.content) return false;
-    if (!this.selectedTarget) return false;
-    if (!this.selectedUser) return false;
-    if (!this.deadline) return false;
-    if (!this.deadlineTime) return false;
-    if (!this.piority) return false;
+    if (!this.purpose) { return false; }
+    if (!this.content) { return false; }
+    if (!this.selectedTarget) { return false; }
+    if (!this.selectedUser) { return false; }
+    if (!this.deadline) { return false; }
+    if (!this.deadlineTime) { return false; }
+    if (!this.piority) { return false; }
     return true;
   }
 
@@ -122,7 +122,7 @@ export class TaskDetailComponent implements OnInit {
     this.deadline.setHours(hour);
     this.deadline.setMinutes(min);
 
-    var dto: CreateTaskRequestDto = {
+    const dto: CreateTaskRequestDto = {
       title: this.purpose,
       files: [],
       priority: this.piority as Priority,
@@ -141,11 +141,12 @@ export class TaskDetailComponent implements OnInit {
         })
       )
       .subscribe(data => {
-        if (data)
+        if (data) {
           this.snackBar.open('Tạo sự vụ thành công!', undefined, {
             duration: 2000,
             panelClass: 'notif-success',
           });
+        }
         this.onNoClick();
       });
   }
@@ -160,7 +161,7 @@ export class TaskDetailComponent implements OnInit {
   }
 
   deleteAdditionFile(index) {
-    if (!this.isEmptyAddition) return;
+    if (!this.isEmptyAddition) { return; }
     this.additionFiles.splice(index, 1);
   }
 

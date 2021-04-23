@@ -6,7 +6,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: 'confirm-dialog.html',
 })
 export class ConfirmDialog {
-  message: string = 'Are you sure?';
+  message = 'Are you sure?';
   confirmButtonText = 'Yes';
   cancelButtonText = 'Cancel';
   constructor(
