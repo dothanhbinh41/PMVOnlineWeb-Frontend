@@ -12,6 +12,7 @@ import {
   Status,
   TaskCommentDto,
   TaskService,
+  UpdateTaskRequestDto,
 } from '@proxy/tasks';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
@@ -327,7 +328,47 @@ export class AddTaskComponent implements OnInit {
   downloadString(id: string) {
     return `https://pmvonline.azurewebsites.net/api/File/DownloadFile?id=${id}`;
   }
-  updateTask() {}
+  async updateTask() {
+    if (!this.validateData()) {
+      this.showMessage('Vui lòng điền đầy đủ thông tin!', false);
+      return;
+    }
+
+    this.loading = true;
+    const time = this.deadlineTime.split(':');
+    // tslint:disable-next-line:radix
+    const hour = parseInt(time[0]);
+    // tslint:disable-next-line:radix
+    const min = parseInt(time[1]);
+    this.deadline.setHours(hour);
+    this.deadline.setMinutes(min);
+
+    const dto: UpdateTaskRequestDto = {
+      id: this.currentTaskId,
+      title: this.purpose,
+      files: this.additionFiles
+        ? this.additionFiles.map(d => {
+            const { id } = d;
+            return id;
+          })
+        : [],
+      priority: this.piority as Priority,
+      targetId: this.selectedTarget,
+      content: this.content,
+      assigneeId: this.selectedUser,
+      dueDate: this.deadline,
+      referenceTasks: this.relatedTasks ? this.relatedTasks : [],
+    };
+
+    const data = await toPromise(this.taskService.updateTaskByRequest(dto));
+    this.loading = false;
+    if (!data) {
+      this.showMessage('Cập nhật sự vụ thất bại!', false);
+      return;
+    }
+    this.showMessage('Cập nhật sự vụ thành công!', true);
+    this.onNoClick(true);
+  }
 
   requireTask() {
     this.showConfirm(
