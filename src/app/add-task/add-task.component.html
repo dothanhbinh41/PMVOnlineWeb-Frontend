@@ -119,7 +119,7 @@
           </button>
         </div>
       </div>
-      <div style="padding-top: 16px;">
+      <div style="padding-top: 16px">
         <mat-label class="full-width" *ngIf="!addMode">Bình luận</mat-label>
       </div>
       <mat-form-field
@@ -203,7 +203,7 @@
   <button
     mat-raised-button
     color="primary"
-    *ngIf="!addMode && taskDetail?.status !== 3"
+    *ngIf="!addMode && !isTaskFinish"
     [matMenuTriggerFor]="menu"
     style="margin-right: 10px"
   >
@@ -227,7 +227,7 @@
     mat-raised-button
     color="primary"
     (click)="confirmTask(false)"
-    *ngIf="isShowVerifyTask && taskDetail?.status !== 3"
+    *ngIf="isShowVerifyTask && !isTaskFinish"
   >
     Không duyệt
   </button>
@@ -235,7 +235,7 @@
     mat-raised-button
     color="primary"
     (click)="confirmTask(true)"
-    *ngIf="isShowVerifyTask && taskDetail?.status !== 3"
+    *ngIf="isShowVerifyTask && !isTaskFinish"
   >
     Duyệt
   </button>
@@ -243,7 +243,7 @@
     mat-raised-button
     color="primary"
     (click)="updateTask()"
-    *ngIf="!addMode && !isShowVerifyTask && taskDetail?.status !== 2 && taskDetail?.status !== 3"
+    *ngIf="!addMode && !isShowVerifyTask && taskDetail?.status === 0"
   >
     Cập nhật
   </button>
@@ -251,7 +251,7 @@
     mat-raised-button
     color="primary"
     (click)="requireTask()"
-    *ngIf="!addMode && !isShowVerifyTask && taskDetail?.status !== 3"
+    *ngIf="!addMode && !isShowVerifyTask && !isTaskFinish"
   >
     {{ requireButtonTitle }}
   </button>

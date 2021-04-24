@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SharedModule } from '../shared/shared.module';
 import { ConfirmDialog } from './confirm-dialog.component';
 import { FilePickerDirective } from './file-picker.directive';
@@ -36,6 +37,7 @@ import { RejectTaskDialog } from './reject-task-dialog.component';
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
+    MatCheckboxModule
   ],
 })
 export class ControlsModule {}

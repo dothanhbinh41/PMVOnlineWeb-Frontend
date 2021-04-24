@@ -8,28 +8,30 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 // tslint:disable-next-line:component-class-suffix
 export class FinishTaskDialog {
-  message = 'Are you sure?';
-  confirmButtonText = 'Yes';
-  cancelButtonText = 'Cancel';
   note;
+  deadline: Date;
+  deadlineTime: string;
+  taskId;
+  isComplete = true;
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
     private dialogRef: MatDialogRef<FinishTaskDialog>
   ) {
     if (data) {
-      this.message = data.message || this.message;
-      if (data.buttonText) {
-        this.confirmButtonText = data.buttonText.ok || this.confirmButtonText;
-        this.cancelButtonText = data.buttonText.cancel || this.cancelButtonText;
-      }
+      this.taskId = data.taskId;
     }
   }
 
   onConfirmClick(): void {
-    this.dialogRef.close({ isReject: true, note: this.note });
+    this.dialogRef.close({
+      isComplete: this.isComplete,
+      note: this.note,
+      time: this.deadlineTime,
+      date: this.deadline,
+    });
   }
 
   onCancelClick() {
-    this.dialogRef.close({ isReject: false, note: this.note });
+    this.dialogRef.close();
   }
 }

@@ -22,6 +22,7 @@ import axios, { AxiosResponse } from 'axios';
 import toPromise from '../utils/promise-extension';
 import { PreviewDialog } from '../controls/preview-dialog.component';
 import { HistoryDialog } from '../controls/history-dialog.component';
+import { FinishTaskDialog } from '../controls/finish-task-dialog.component';
 
 @Component({
   selector: 'app-add-task',
@@ -372,6 +373,10 @@ export class AddTaskComponent implements OnInit {
   }
 
   requireTask() {
+    if (this.taskDetail.status !== Status.Pending) {
+      this.finishTask();
+      return;
+    }
     this.showConfirm(
       `Bạn muốn ${this.requireButtonTitle.toLowerCase()} sự vụ không?`,
       'Có',
@@ -385,11 +390,6 @@ export class AddTaskComponent implements OnInit {
   }
 
   async requireConfirmTask() {
-    if (this.taskDetail.status === Status.Approved) {
-      this.showMessage('Thành công!', true);
-      this.onNoClick();
-      return;
-    }
     this.loading = true;
     const data = await toPromise(this.taskService.requestTaskByRequest({ id: this.taskDetail.id }));
     this.loading = false;
@@ -399,6 +399,41 @@ export class AddTaskComponent implements OnInit {
     }
     this.showMessage('Yêu cầu duyệt thành công!', true);
     this.onNoClick();
+  }
+
+  finishTask() {
+    const dialogRef = this.dialog.open(FinishTaskDialog, {
+      disableClose: true,
+      data: {
+        taskId: this.currentTaskId,
+      },
+    });
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result) {
+        const time = result.time.split(':');
+        const hour = parseInt(time[0]);
+        const min = parseInt(time[1]);
+        const date = result.date;
+        date.setHours(hour);
+        date.setMinutes(min);
+        this.loading = true;
+        const finishResult = await toPromise(
+          this.taskService.finishTaskByRequest({
+            completed: result.isComplete,
+            completedDate: date,
+            id: this.currentTaskId,
+            note: result.note,
+          })
+        );
+        this.loading = false;
+        if (!finishResult) {
+          this.showMessage('Kết thúc sự vụ thất bại', false);
+          return;
+        }
+        this.showMessage('Kết thúc sự vụ thành công', true);
+        this.onNoClick(true);
+      }
+    });
   }
 
   confirmTask(isConfirm: boolean) {
@@ -563,6 +598,17 @@ export class AddTaskComponent implements OnInit {
 
   get canEditable() {
     return this.addMode || this.taskDetail?.status == Status.Pending;
+  }
+
+  get isTaskFinish() {
+    return (
+      this.taskDetail &&
+      (this.taskDetail.status == Status.Completed ||
+        this.taskDetail.status == Status.Done ||
+        this.taskDetail.status == Status.Incompleted ||
+        this.taskDetail.status == Status.LeaderRated ||
+        this.taskDetail.status == Status.Rated)
+    );
   }
   //#endregion
 }
