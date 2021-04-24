@@ -95,7 +95,7 @@ export class RolesComponent implements OnInit {
   }
 
   save() {
-    if (!this.form.valid) return;
+    if (!this.form.valid) { return; }
     this.modalBusy = true;
 
     this.store

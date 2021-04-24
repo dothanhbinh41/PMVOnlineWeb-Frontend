@@ -1,1 +1,37 @@
-<p>helps works!</p>
+<div class="container">
+  <div class="scrollable-content">
+    <div class="row" style="width: 100%">
+      <div class="col-sm" style="width: 100%; height: 80%">
+        <mat-form-field appearance="outline" style="width: 100%">
+          <mat-label>Hướng dẫn</mat-label>
+          <textarea style="height: 400px" matInput [(ngModel)]="htmlString"></textarea>
+        </mat-form-field>
+      </div>
+      <div
+        class="col-sm"
+        style="
+          width: 100%;
+          padding: 14px;
+          margin-top: 4px;
+          margin-bottom: 22px;
+          border-radius: 4px;
+          border: solid 1px #DADBDC;
+        "
+      >
+        <div [innerHTML]="htmlString"></div>
+      </div>
+    </div>
+    <div class="row" style="width: 100%; display: flex; justify-content: space-around; padding-right: 16px;">
+      <button mat-raised-button color="primary" (click)="saveGuide()">Lưu</button>
+    </div>
+  </div>
+</div>
+<style scoped>
+  .scrollable-content {
+    position: absolute;
+    top: 120px;
+    bottom: 0px;
+    left: 10%;
+    right: 10%;
+  }
+</style>
