@@ -7,116 +7,119 @@
 <div mat-dialog-content class="form-container">
   <div class="form-content-container">
     <div class="input-content-container">
-      <mat-form-field class="full-width" appearance="outline" *ngIf="addMode">
-        <mat-label>Copy sự vụ</mat-label>
-        <mat-select [(ngModel)]="clonedTask" (selectionChange)="onSelectedClonedTask()">
-          <mat-option *ngFor="let task of myTasks" [value]="task"
-            >#{{ task.id }} {{ task.title }}</mat-option
+      <div class="input-content-container">
+        <mat-form-field class="full-width" appearance="outline" *ngIf="addMode">
+          <mat-label>Copy sự vụ</mat-label>
+          <mat-select [(ngModel)]="clonedTask" (selectionChange)="onSelectedClonedTask()">
+            <mat-option *ngFor="let task of myTasks" [value]="task"
+              >#{{ task.id }} {{ task.title }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+
+        <div *ngIf="!addMode"></div>
+
+        <mat-form-field class="half-width" appearance="outline">
+          <mat-label>Yêu cầu</mat-label>
+          <mat-select
+            [(ngModel)]="selectedTarget"
+            (selectionChange)="onSelectedTargetChagne()"
+            required
           >
-        </mat-select>
-      </mat-form-field>
+            <mat-option *ngFor="let target of targets" [value]="target.id">{{
+              target.name
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-      <div *ngIf="!addMode"></div>
+        <mat-form-field class="half-width" appearance="outline">
+          <mat-label>Đối tượng</mat-label>
+          <mat-select [(ngModel)]="selectedUser" required>
+            <mat-option *ngFor="let user of users" [value]="user.id">{{ user.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-      <mat-form-field class="half-width" appearance="outline">
-        <mat-label>Yêu cầu</mat-label>
-        <mat-select
-          [(ngModel)]="selectedTarget"
-          (selectionChange)="onSelectedTargetChagne()"
-          required
-        >
-          <mat-option *ngFor="let target of targets" [value]="target.id">{{
-            target.name
-          }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Mục đích</mat-label>
+          <input matInput [(ngModel)]="purpose" required />
+        </mat-form-field>
 
-      <mat-form-field class="half-width" appearance="outline">
-        <mat-label>Đối tượng</mat-label>
-        <mat-select [(ngModel)]="selectedUser" required>
-          <mat-option *ngFor="let user of users" [value]="user.id">{{ user.name }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Nội dung</mat-label>
+          <input matInput [(ngModel)]="content" required />
+        </mat-form-field>
 
-      <mat-form-field class="full-width" appearance="outline">
-        <mat-label>Mục đích</mat-label>
-        <input matInput [(ngModel)]="purpose" required />
-      </mat-form-field>
+        <mat-form-field class="half-width" appearance="outline">
+          <mat-label>Độ ưu tiên</mat-label>
+          <mat-select [(ngModel)]="piority" required>
+            <mat-option [value]="0">Bình thường</mat-option>
+            <mat-option [value]="1">Gấp </mat-option>
+            <mat-option [value]="2">ASAP</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-      <mat-form-field class="full-width" appearance="outline">
-        <mat-label>Nội dung</mat-label>
-        <input matInput [(ngModel)]="content" required />
-      </mat-form-field>
+        <div class="half-width"></div>
 
-      <mat-form-field class="half-width" appearance="outline">
-        <mat-label>Độ ưu tiên</mat-label>
-        <mat-select [(ngModel)]="piority" required>
-          <mat-option [value]="0">Bình thường</mat-option>
-          <mat-option [value]="1">Gấp </mat-option>
-          <mat-option [value]="2">ASAP</mat-option>
-        </mat-select>
-      </mat-form-field>
+        <mat-form-field class="half-width" appearance="outline">
+          <mat-label>Hạn chót</mat-label>
+          <input matInput type="time" [(ngModel)]="deadlineTime" required />
+        </mat-form-field>
 
-      <div class="half-width"></div>
+        <mat-form-field class="half-width" appearance="outline">
+          <mat-label>Ngày</mat-label>
+          <input matInput [matDatepicker]="picker" [(ngModel)]="deadline" required />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
 
-      <mat-form-field class="half-width" appearance="outline">
-        <mat-label>Hạn chót</mat-label>
-        <input matInput type="time" [(ngModel)]="deadlineTime" required />
-      </mat-form-field>
-
-      <mat-form-field class="half-width" appearance="outline">
-        <mat-label>Ngày</mat-label>
-        <input matInput [matDatepicker]="picker" [(ngModel)]="deadline" required />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-
-      <mat-form-field class="full-width" appearance="outline">
-        <mat-label>Sự vụ liên quan</mat-label>
-        <mat-select [(ngModel)]="relatedTasks" multiple>
-          <mat-option *ngFor="let task of myTasks" [value]="task.id"
-            >#{{ task.id }} {{ task.title }}</mat-option
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Sự vụ liên quan</mat-label>
+          <mat-select [(ngModel)]="relatedTasks" multiple>
+            <mat-option *ngFor="let task of myTasks" [value]="task.id"
+              >#{{ task.id }} {{ task.title }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+        <mat-label class="full-width">Tệp đính kèm</mat-label>
+        <div class="d-flex full-width">
+          <button
+            mat-raised-button
+            color="primary"
+            onclick="document.getElementById('additionFile').click()"
           >
-        </mat-select>
-      </mat-form-field>
-      <mat-label class="full-width">Tệp đính kèm</mat-label>
-      <div class="d-flex full-width">
-        <button
-          mat-raised-button
-          color="primary"
-          onclick="document.getElementById('additionFile').click()"
-        >
-          <mat-icon>add</mat-icon>
-        </button>
-        <input
-          type="file"
-          id="additionFile"
-          style="display: none"
-          accept="image/x-png,image/gif,image/jpeg"
-          (change)="pickedFile($event)"
-          multiple
-        />
+            <mat-icon>add</mat-icon>
+          </button>
+          <input
+            type="file"
+            id="additionFile"
+            style="display: none"
+            accept="image/x-png,image/gif,image/jpeg"
+            (change)="pickedFile($event)"
+            multiple
+          />
+        </div>
+        <div class="mark" (click)="({})" *ngIf="!canEditable"></div>
       </div>
       <div class="additionPhotos" *ngIf="isEmptyAddition">
         <div class="addition-photo-container" *ngFor="let img of additionFiles; let i = index">
-          <a [href]="downloadString(img?.id)">
-            <img
-              [attr.src]="downloadString(img?.id)"
-              style="object-fit: cover; height: 100%; width: 100%"
-              ng-bind-html="desc"
-            />
-          </a>
+          <img
+            [attr.src]="downloadString(img?.id)"
+            style="object-fit: cover; height: 100%; width: 100%"
+            ng-bind-html="desc"
+            (click)="showPhotoPreview(downloadString(img?.id))"
+          />
           <button
             mat-mini-fab
             color="warn"
             class="addition-photo-container-delete-button"
             (click)="deleteAdditionFile(i)"
+            *ngIf="canEditable"
           >
             <mat-icon style="font-size: small">close</mat-icon>
           </button>
         </div>
       </div>
-      <mat-label class="full-width" *ngIf="!addMode">Bình luận</mat-label>
+      <mat-label class="full-width" *ngIf="!addMode" style="padding-top: 16px; height: 32px;">Bình luận</mat-label>
       <mat-form-field
         class="full-width"
         appearance="outline"
@@ -140,16 +143,19 @@
             style="display: none"
             accept="image/x-png,image/gif,image/jpeg"
             (change)="commentPickedFile($event)"
-            multiple
           />
         </div>
         <div class="additionPhotos" *ngIf="isNotEmptyCommentAddition">
-          <div class="addition-photo-container" *ngFor="let img of commentAdditionFiles; let i = index">
+          <div
+            class="addition-photo-container"
+            *ngFor="let img of commentAdditionFiles; let i = index"
+          >
             <img
-                [attr.src]="downloadString(img?.id)"
-                style="object-fit: cover; height: 100%; width: 100%"
-                ng-bind-html="desc"
-              />
+              [attr.src]="downloadString(img?.id)"
+              style="object-fit: cover; height: 100%; width: 100%"
+              ng-bind-html="desc"
+              (click)="showPhotoPreview(downloadString(img?.id))"
+            />
             <button
               mat-mini-fab
               color="warn"
@@ -173,8 +179,20 @@
         <span style="color: black; font-size: small">
           {{ comment.comment }}
         </span>
+        <div
+          class="additionPhotos"
+          style="height: 80px"
+          *ngIf="!isArrayNullOrEmpty(comment.fileIds)"
+        >
+          <img
+            *ngFor="let file of comment.fileIds"
+            [attr.src]="downloadString(file?.fileId)"
+            style="object-fit: cover; height: 80px; width: 80px"
+            ng-bind-html="desc"
+            (click)="showPhotoPreview(downloadString(file?.fileId))"
+          />
+        </div>
       </div>
-      <div class="mark" (click)="({})" *ngIf="isShowVerifyTask || taskDetail?.status === 3"></div>
     </div>
   </div>
 </div>

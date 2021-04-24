@@ -11,10 +11,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from '../shared/shared.module';
 import { ConfirmDialog } from './confirm-dialog.component';
 import { FilePickerDirective } from './file-picker.directive';
+import { PreviewDialog } from './preview-dialog.component';
 import { RejectTaskDialog } from './reject-task-dialog.component';
 
 @NgModule({
-  declarations: [FilePickerDirective, ConfirmDialog, RejectTaskDialog],
+  declarations: [FilePickerDirective, ConfirmDialog, RejectTaskDialog, PreviewDialog],
   imports: [
     SharedModule,
     MatIconModule,
@@ -25,7 +26,7 @@ import { RejectTaskDialog } from './reject-task-dialog.component';
     MatNativeDateModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatInputModule
+    MatInputModule,
   ],
 })
 export class ControlsModule {}

@@ -1,0 +1,25 @@
+<div mat-dialog-content class="dialog-content-container">
+  <img class="img-preview" [attr.src]="url" />
+  <a class="dowload-button" [href]="url">Bấm vào đây để tải xuống</a>
+</div>
+
+<style scoped>
+  .dialog-content-container {
+    position: relative;
+    min-height: 80%;
+    width: auto;
+  }
+  .img-preview {
+    width: 50vh;
+    height: 50vh;
+    margin-bottom: 32px;
+    object-fit: contain;
+  }
+  .dowload-button {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    text-align: center;
+  }
+</style>

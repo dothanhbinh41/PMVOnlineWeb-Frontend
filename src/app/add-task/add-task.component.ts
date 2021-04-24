@@ -19,6 +19,7 @@ import { ConfirmDialog } from '../controls/confirm-dialog.component';
 import { RejectTaskDialog } from '../controls/reject-task-dialog.component';
 import axios, { AxiosResponse } from 'axios';
 import toPromise from '../utils/promise-extension';
+import { PreviewDialog } from '../controls/preview-dialog.component';
 
 @Component({
   selector: 'app-add-task',
@@ -442,6 +443,7 @@ export class AddTaskComponent implements OnInit {
       files: commentAdditionFileId,
     };
     this.newMessage = '';
+    this.commentAdditionFiles = new Array();
     const result = await toPromise(
       this.taskService.sendCommentByIdAndRequest(this.currentTaskId, dto)
     );
@@ -482,6 +484,23 @@ export class AddTaskComponent implements OnInit {
         callback(result);
       }
     });
+  }
+
+  showPhotoPreview(url: string) {
+    this.dialog.open(PreviewDialog, {
+      disableClose: false,
+      data: {
+        url,
+      },
+    });
+  }
+
+  isArrayNullOrEmpty(arr: []) {
+    return !arr || arr?.length <= 0;
+  }
+
+  get canEditable() {
+    return this.addMode || this.taskDetail?.status == Status.Pending;
   }
   //#endregion
 }
