@@ -7,7 +7,6 @@ import { OAuthService } from 'angular-oauth2-oidc';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
 import { AddTaskComponent } from '../add-task/add-task.component';
-import { TaskDetailComponent } from '../task-detail/task-detail.component';
 
 @Component({
   selector: 'app-home',
