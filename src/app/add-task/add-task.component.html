@@ -99,11 +99,13 @@
       </div>
       <div class="additionPhotos" *ngIf="isEmptyAddition">
         <div class="addition-photo-container" *ngFor="let img of additionFiles; let i = index">
-          <img
-            [attr.src]="downloadString(img?.id)"
-            style="object-fit: cover; height: 100%; width: 100%"
-            ng-bind-html="desc"
-          />
+          <a [href]="downloadString(img?.id)">
+            <img
+              [attr.src]="downloadString(img?.id)"
+              style="object-fit: cover; height: 100%; width: 100%"
+              ng-bind-html="desc"
+            />
+          </a>
           <button
             mat-mini-fab
             color="warn"
@@ -113,6 +115,64 @@
             <mat-icon style="font-size: small">close</mat-icon>
           </button>
         </div>
+      </div>
+      <mat-label class="full-width" *ngIf="!addMode">Bình luận</mat-label>
+      <mat-form-field
+        class="full-width"
+        appearance="outline"
+        style="margin-top: 14px"
+        *ngIf="!addMode"
+      >
+        <mat-label>Bình luận</mat-label>
+        <input matInput [(ngModel)]="newMessage" (keyup)="sentComment($event)" />
+        <mat-icon matSuffix (click)="sentComment()" style="cursor: pointer">send</mat-icon>
+        <div class="d-flex" style="margin-top: 16px">
+          <button
+            mat-raised-button
+            color="primary"
+            onclick="document.getElementById('commentAdditionFile').click()"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+          <input
+            type="file"
+            id="commentAdditionFile"
+            style="display: none"
+            accept="image/x-png,image/gif,image/jpeg"
+            (change)="commentPickedFile($event)"
+            multiple
+          />
+        </div>
+        <div class="additionPhotos" *ngIf="isNotEmptyCommentAddition">
+          <div class="addition-photo-container" *ngFor="let img of commentAdditionFiles; let i = index">
+            <img
+                [attr.src]="downloadString(img?.id)"
+                style="object-fit: cover; height: 100%; width: 100%"
+                ng-bind-html="desc"
+              />
+            <button
+              mat-mini-fab
+              color="warn"
+              class="addition-photo-container-delete-button"
+              (click)="deleteCommentAdditionFile(i)"
+            >
+              <mat-icon style="font-size: small">close</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-form-field>
+      <div *ngFor="let comment of taskComments" class="comment-content-container">
+        <span>
+          <div style="color: #3b4caa; font-size: medium">
+            {{ comment.user.name }} {{ comment.user.surname }}
+          </div>
+          <div style="font-size: small; color: gray">
+            {{ convertToLocalTime(comment.creationTime) }}
+          </div>
+        </span>
+        <span style="color: black; font-size: small">
+          {{ comment.comment }}
+        </span>
       </div>
       <div class="mark" (click)="({})" *ngIf="isShowVerifyTask || taskDetail?.status === 3"></div>
     </div>
@@ -133,10 +193,6 @@
     <button mat-menu-item (click)="unsubscribe()">
       <mat-icon>thumb_down</mat-icon>
       <span>Bỏ theo dõi</span>
-    </button>
-    <button mat-menu-item (click)="comment()">
-      <mat-icon>chat_bubble</mat-icon>
-      <span>Bình luận</span>
     </button>
     <button mat-menu-item (click)="showHistory()">
       <mat-icon>history</mat-icon>
@@ -261,6 +317,12 @@
     width: 120px;
     margin-right: 16px;
   }
+  .addition-photo-container:hover {
+    position: relative;
+    height: 120px;
+    width: 120px;
+    margin-right: 16px;
+  }
 
   .addition-photo-container-delete-button {
     position: absolute;
@@ -284,5 +346,18 @@
     text-align: center;
     padding: 14px;
     text-decoration: none;
+  }
+
+  .comment-content-container {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    padding: 14px;
+    display: flexbox;
+    margin-top: 14px;
+  }
+
+  .comment-content-container:first-child {
+    margin-top: 0px;
   }
 </style>

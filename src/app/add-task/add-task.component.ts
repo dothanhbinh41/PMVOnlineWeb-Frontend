@@ -10,6 +10,7 @@ import {
   MyTaskDto,
   Priority,
   Status,
+  TaskCommentDto,
   TaskService,
 } from '@proxy/tasks';
 import * as moment from 'moment';
@@ -45,7 +46,10 @@ export class AddTaskComponent implements OnInit {
   currentTaskId;
   taskDetail: FullTaskDto;
   departments: DepartmentUserDto[];
+  taskComments: TaskCommentDto[] = [];
   isShowVerifyTask;
+  newMessage = '';
+  commentAdditionFiles = [];
 
   //#region init function
   constructor(
@@ -77,7 +81,12 @@ export class AddTaskComponent implements OnInit {
     this.loading = true;
     let lstInitTasks = [this.loadTarget(), this.loadMyTasks()];
     if (!this.addMode) {
-      lstInitTasks = [this.getMyDepartment(), this.loadRelateTasks(), ...lstInitTasks];
+      lstInitTasks = [
+        this.getMyDepartment(),
+        this.loadRelateTasks(),
+        this.loadTaskComments(),
+        ...lstInitTasks,
+      ];
     }
     await Promise.all(lstInitTasks);
     this.loading = false;
@@ -156,6 +165,23 @@ export class AddTaskComponent implements OnInit {
     const data = await toPromise(this.taskService.getAllMemberByTarget(this.selectedTarget));
     this.users = data;
     this.selectedUser = selectedUser;
+  }
+  async loadTaskComments() {
+    const data = await toPromise(this.taskService.getTaskCommentsById(this.currentTaskId));
+    if (data) {
+      this.taskComments = data;
+    }
+  }
+  async commentPickedFile(event: any) {
+    const files = event.target.files ? Array.from(event.target.files) : [];
+    const uploadTasks = files.map(d => this.uploadFile(d));
+    this.loading = true;
+    const uploadResults = await Promise.all(uploadTasks);
+    const uploadDatas = uploadResults.map(d => d.data);
+    this.loading = false;
+    if (uploadResults) {
+      this.commentAdditionFiles = this.commentAdditionFiles.concat(uploadDatas);
+    }
   }
   //#endregion
 
@@ -375,26 +401,64 @@ export class AddTaskComponent implements OnInit {
     this.showMessage('Duyệt thành công!', true);
     this.onNoClick();
   }
+
   get requireButtonTitle() {
     return this.taskDetail?.status === Status.Pending ? 'Yêu cầu duyệt' : 'Kết thúc';
   }
+
   get isEmptyAddition() {
     return this.additionFiles && this.additionFiles.length > 0;
   }
 
+  get isNotEmptyCommentAddition() {
+    return this.commentAdditionFiles && this.commentAdditionFiles.length > 0;
+  }
+
   get pageTitle() {
     return this.addMode ? 'Thêm Sự Vụ' : 'Chi Tiết Sự Vụ';
+  }
+
+  deleteCommentAdditionFile(index) {
+    if (!this.isNotEmptyCommentAddition) {
+      return;
+    }
+    this.commentAdditionFiles.splice(index, 1);
   }
   //#endregion
 
   //#region common function
   unsubscribe() {}
 
-  comment() {}
+  async sentComment(event = undefined) {
+    if (event) {
+      if (event?.keyCode !== 13) return;
+    }
+    if (!this.newMessage?.trim()) return;
+    const commentAdditionFileId = this.isNotEmptyCommentAddition
+      ? this.commentAdditionFiles.map(d => d.id)
+      : [];
+    const dto = {
+      comment: this.newMessage?.trim(),
+      files: commentAdditionFileId,
+    };
+    this.newMessage = '';
+    const result = await toPromise(
+      this.taskService.sendCommentByIdAndRequest(this.currentTaskId, dto)
+    );
+    if (result) this.loadTaskComments();
+  }
 
   showHistory() {}
 
   reOpen() {}
+
+  convertToLocalTime(time: string) {
+    const date = moment.utc(time).format('YYYY-MM-DD HH:mm:ss');
+    const stillUtc = moment.utc(date).toDate();
+    const local = moment(stillUtc).local().format('YYYY-MM-DD HH:mm:ss');
+    return local;
+  }
+
   showMessage(message, isSuccess) {
     this.snackBar.open(message, undefined, {
       duration: 2000,

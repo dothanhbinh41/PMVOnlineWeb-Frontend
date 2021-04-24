@@ -14,6 +14,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
 import { ControlsModule } from '../controls/controls.module';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [AddTaskComponent],
@@ -32,7 +33,8 @@ import { ControlsModule } from '../controls/controls.module';
     MatInputModule,
     MatGridListModule,
     MatSnackBarModule,
-    MatMenuModule
+    MatMenuModule,
+    MatListModule
   ],
 })
 export class AddTaskModule {}
