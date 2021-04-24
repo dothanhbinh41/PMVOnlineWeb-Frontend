@@ -501,7 +501,20 @@ export class AddTaskComponent implements OnInit {
     });
   }
 
-  reOpen() {}
+  async reOpen() {
+    this.loading = true;
+    const result = await toPromise(
+      this.taskService.reopenTaskByRequest({ id: this.currentTaskId })
+    );
+    if (!result) {
+      this.loading = false;
+      this.showMessage('Mở lại sự vụ thất bại!', false);
+      return;
+    }
+    await this.loadTaskDetail();
+    this.loading = false;
+    this.showMessage('Mở lại sự vụ thành công!', false);
+  }
 
   convertToLocalTime(time: string) {
     const date = moment.utc(time).format('YYYY-MM-DD HH:mm:ss');
