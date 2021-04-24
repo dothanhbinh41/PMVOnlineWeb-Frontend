@@ -21,6 +21,7 @@ import { RejectTaskDialog } from '../controls/reject-task-dialog.component';
 import axios, { AxiosResponse } from 'axios';
 import toPromise from '../utils/promise-extension';
 import { PreviewDialog } from '../controls/preview-dialog.component';
+import { HistoryDialog } from '../controls/history-dialog.component';
 
 @Component({
   selector: 'app-add-task',
@@ -491,7 +492,14 @@ export class AddTaskComponent implements OnInit {
     if (result) this.loadTaskComments();
   }
 
-  showHistory() {}
+  showHistory() {
+    const dialogRef = this.dialog.open(HistoryDialog, {
+      disableClose: true,
+      data: {
+        taskId: this.currentTaskId,
+      },
+    });
+  }
 
   reOpen() {}
 

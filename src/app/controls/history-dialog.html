@@ -1,0 +1,29 @@
+<div mat-dialog-content>
+  <div style="width: 100%">
+    <ul style="padding-left: 0px">
+      <div
+        *ngFor="let item of histories; let i = index"
+        class="card text-dark mb-2 mt-4 card-container ml-0 mr-0"
+      >
+        <div class="card-body">
+          <p class="card-title">
+            <b>{{ item.actor.surname }} {{ item.actor.name }} </b>
+            {{ toAction(item.action) }}
+          </p>
+          <p class="card-text">Thời gian: <b>{{ convertToLocalTime(item.creationTime) }}</b></p>
+          <p class="card-text" *ngIf="item.note">Ghi chú: {{ item.note }}</p>
+        </div>
+      </div>
+    </ul>
+  </div>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button color="primary" (click)="onCancelClick()">Đóng</button>
+</div>
+
+<style scoped>
+  .card-container {
+    max-width: 100%;
+    min-width: 400px;
+  }
+</style>
