@@ -250,6 +250,13 @@
   <button
     mat-raised-button
     color="primary"
+    (click)="rateTask()"
+  >
+    Đánh giá
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
     (click)="requireTask()"
     *ngIf="!addMode && !isShowVerifyTask && !isTaskFinish"
   >

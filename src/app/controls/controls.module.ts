@@ -16,6 +16,8 @@ import { FinishTaskDialog } from './finish-task-dialog.component';
 import { HistoryDialog } from './history-dialog.component';
 import { PreviewDialog } from './preview-dialog.component';
 import { RejectTaskDialog } from './reject-task-dialog.component';
+import { RateTaskDialog } from './rate-task-dialog.component';
+import { RatingModule } from 'ng-starrating';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,7 @@ import { RejectTaskDialog } from './reject-task-dialog.component';
     PreviewDialog,
     HistoryDialog,
     FinishTaskDialog,
+    RateTaskDialog
   ],
   imports: [
     SharedModule,
@@ -37,7 +40,8 @@ import { RejectTaskDialog } from './reject-task-dialog.component';
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    RatingModule
   ],
 })
 export class ControlsModule {}

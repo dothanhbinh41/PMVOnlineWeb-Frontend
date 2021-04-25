@@ -23,6 +23,7 @@ import toPromise from '../utils/promise-extension';
 import { PreviewDialog } from '../controls/preview-dialog.component';
 import { HistoryDialog } from '../controls/history-dialog.component';
 import { FinishTaskDialog } from '../controls/finish-task-dialog.component';
+import { RateTaskDialog } from '../controls/rate-task-dialog.component';
 
 @Component({
   selector: 'app-add-task',
@@ -501,6 +502,15 @@ export class AddTaskComponent implements OnInit {
       return;
     }
     this.commentAdditionFiles.splice(index, 1);
+  }
+
+  rateTask(){
+    const dialogRef = this.dialog.open(RateTaskDialog, {
+      disableClose: true,
+      data: {
+        taskId: this.currentTaskId,
+      },
+    });
   }
   //#endregion
 
