@@ -41,6 +41,11 @@ const routes: Routes = [
       import('./department/department.module').then(m => m.DepartmentModule),
   },
   {
+    path: 'target-management',
+    loadChildren: () =>
+      import('./target/target.module').then(m => m.TargetModule),
+  },
+  {
     path: 'setting-management',
     loadChildren: () =>
       import('@abp/ng.setting-management').then(m => m.SettingManagementModule.forLazy()),

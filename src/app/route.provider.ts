@@ -42,7 +42,7 @@ function configureRoutes(routesService: RoutesService) {
         layout: eLayoutType.application,
       },
       {
-        path: 'manage-target',
+        path: 'target-management',
         name: 'Quản Lý Mục Tiêu',
         parentName: 'Quản Lý',
         order: 3,

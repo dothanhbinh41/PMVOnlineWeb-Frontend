@@ -70,16 +70,6 @@ export class DepartmentService {
       { apiName: this.apiName }
     );
 
-  createDepartments = (request: DepartmentDto) =>
-    this.restService.request<any, DepartmentDto>(
-      {
-        method: 'POST',
-        url: `/api/app/department/department`,
-        body: request,
-      },
-      { apiName: this.apiName }
-    );
-
   deleteDepartment = (id: number) =>
     this.restService.request<any, boolean>(
       {

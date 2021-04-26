@@ -25,15 +25,13 @@ export class DepartmentComponent implements OnInit {
     private fb: FormBuilder,
     private confirmation: ConfirmationService
   ) {
-    // this.authors$ = departmentService.getAuthorLookup().pipe(map((r) => r.items));
   }
 
   ngOnInit() {
-    const bookStreamCreator = () => this.departmentService.getDepartments();
+    const departmentStreamCreator = () => this.departmentService.getDepartments();
 
-    this.list.hookToQuery(bookStreamCreator).subscribe((response: any) => {
+    this.list.hookToQuery(departmentStreamCreator).subscribe((response: any) => {
       this.department = { items: response, totalCount: response.length };
-      console.log(this.department);
       this.loadingIndicator = false;
     });
   }
@@ -52,14 +50,7 @@ export class DepartmentComponent implements OnInit {
 
   buildForm() {
     this.form = this.fb.group({
-      // authorId: [this.selectedDepartment.authorId || null, Validators.required],
       name: [this.selectedDepartment.name || null, Validators.required],
-      // type: [this.selectedDepartment.type || null, Validators.required],
-      // publishDate: [
-      //   this.selectedDepartment.publishDate ? new Date(this.selectedDepartment.publishDate) : null,
-      //   Validators.required,
-      // ],
-      // price: [this.selectedDepartment.price || null, Validators.required],
     });
   }
 
@@ -70,7 +61,7 @@ export class DepartmentComponent implements OnInit {
 
     const request = this.selectedDepartment.id
       ? this.departmentService.updateDepartment(this.selectedDepartment.id, this.form.value)
-      : this.departmentService.createDepartments(this.form.value);
+      : this.departmentService.createDepartment(this.form.value);
 
     request.subscribe(() => {
       this.isModalOpen = false;
