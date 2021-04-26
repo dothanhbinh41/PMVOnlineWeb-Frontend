@@ -23,7 +23,7 @@ import { IdentityRoleDto, IdentityUserDto } from '../proxy/identity/models';
 
 @State<Identity.State>({
   name: 'IdentityState',
-  defaults: { roles: {}, selectedRole: {}, users: {}, selectedUser: {}, departments:{} } as Identity.State,
+  defaults: { roles: {}, selectedRole: {}, users: {}, selectedUser: {}, departments: {} } as Identity.State,
 })
 @Injectable()
 export class IdentityState {
@@ -54,7 +54,7 @@ export class IdentityState {
   }
 
   constructor(
-    private departmentService : DepartmentService,
+    private departmentService: DepartmentService,
     private identityUserService: IdentityUserService,
     private identityRoleService: IdentityRoleService,
   ) {}

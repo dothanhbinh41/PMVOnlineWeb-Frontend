@@ -170,12 +170,12 @@ export class UsersComponent implements OnInit {
   }
 
   save() {
-    if (!this.form.valid || this.modalBusy) return;
-    this.modalBusy = true; 
-    const mappedDepartments = snq( ()=>{ return  this.form.value.departments.filter(d=>Object.values(d)[0]).map(d=> this.form.value.departmentsLead[this.form.value.departments.indexOf(d)]).map(d=>{
-      var obj = { "name":Object.keys(d)[0],"isLeader":Object.values(d)[0] };
+    if (!this.form.valid || this.modalBusy) { return; }
+    this.modalBusy = true;
+    const mappedDepartments = snq( () => { return  this.form.value.departments.filter(d => Object.values(d)[0]).map(d => this.form.value.departmentsLead[this.form.value.departments.indexOf(d)]).map(d => {
+      let obj = { name: Object.keys(d)[0], isLeader: Object.values(d)[0] };
       return obj;
-    });} );
+    }); } );
 
     this.store
       .dispatch(

@@ -43,6 +43,13 @@ export class DepartmentService {
       },
       { apiName: this.apiName }
     );
+  createDepartment = (request: NameDepartmentDto) =>
+    this.restService.request<any, DepartmentDto>({
+      method: 'POST',
+      url: `/api/app/department/department`,
+      body: request,
+    },
+    { apiName: this.apiName });
 
   deleteUserToDepartment = (request: DeleteDepartmentUserDto) =>
     this.restService.request<any, boolean>(
@@ -68,16 +75,6 @@ export class DepartmentService {
       {
         method: 'POST',
         url: `/api/app/department/department`,
-        body: request,
-      },
-      { apiName: this.apiName }
-    );
-    
-  updateDepartment = (id: number, request: DepartmentDto) =>
-    this.restService.request<any, DepartmentDto>(
-      {
-        method: 'PUT',
-        url: `/api/app/department/${id}/department`,
         body: request,
       },
       { apiName: this.apiName }
@@ -147,6 +144,13 @@ export class DepartmentService {
       },
       { apiName: this.apiName }
     );
+  updateDepartment = (id: number, request: NameDepartmentDto) =>
+    this.restService.request<any, DepartmentDto>({
+      method: 'PUT',
+      url: `/api/app/department/${id}/department`,
+      body: request,
+    },
+    { apiName: this.apiName });
 
   updateUserToDepartment = (request: UpdateDepartmentUserDto) =>
     this.restService.request<any, boolean>(

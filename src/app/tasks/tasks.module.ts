@@ -5,6 +5,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from '../shared/shared.module';
@@ -23,7 +24,8 @@ import { TasksComponent } from './tasks.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
-    MatSelectModule
+    MatSelectModule,
+    MatListModule
   ],
 })
 export class TasksModule {}

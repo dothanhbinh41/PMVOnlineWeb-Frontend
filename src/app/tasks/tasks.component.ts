@@ -3,7 +3,7 @@ import { Component, Input, OnInit, SimpleChange, ViewChild } from '@angular/core
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { TaskService } from '@proxy/tasks';
+import { Status, TaskService } from '@proxy/tasks';
 import { OAuthService } from 'angular-oauth2-oidc';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
@@ -52,7 +52,6 @@ export class TasksComponent implements OnInit {
   }
 
   async loadTasks() {
-    console.log(this.selectedUser);
     this.taskService
       .searchMyTasksByRequest({
         maxResultCount: 1000,
@@ -63,6 +62,7 @@ export class TasksComponent implements OnInit {
       })
       .pipe(finalize(() => {}))
       .subscribe(data => {
+        console.log(data);
         this.tasks = data ? data : [];
       });
   }
@@ -110,14 +110,29 @@ export class TasksComponent implements OnInit {
   }
 
   showDetail(item: any) {
-    console.log(item);
+    const dialogRef = this.dialog.open(AddTaskComponent, {
+      width: '50%',
+      minWidth: '512px',
+      disableClose: true,
+      data: item?.id,
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.fetchData();
+      }
+    });
   }
 
   addNewTask() {
-    const dialogRef = this.dialog.open(AddTaskComponent, { width: '50%', minWidth: '512px', disableClose: true });
-
+    const dialogRef = this.dialog.open(AddTaskComponent, {
+      width: '50%',
+      minWidth: '512px',
+      disableClose: true,
+    });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      if (result) {
+        this.fetchData();
+      }
     });
   }
 
@@ -131,7 +146,17 @@ export class TasksComponent implements OnInit {
   timeToOutDateState(time: string) {
     const date = moment.utc(time).format('YYYY-MM-DD HH:mm:ss');
     const stillUtc = moment.utc(date);
-    return moment().utc() > stillUtc ? 'Quá hạn' : '';
+    if (moment().utc() >= stillUtc) {
+      return 'Quá hạn';
+    }
+    const diffSec = stillUtc.diff(moment().utc(), 'seconds');
+    if (diffSec < 60 * 60) {
+      return `Còn: ${stillUtc.diff(moment().utc(), 'day')} phút`;
+    }
+    if (diffSec < 7 * 24 * 60 * 60) {
+      return `Còn: ${stillUtc.diff(moment().utc(), 'hours')} giờ`;
+    }
+    return `Còn: ${stillUtc.diff(moment().utc(), 'day')} ngày`;
   }
 
   resetFilter() {
@@ -143,6 +168,24 @@ export class TasksComponent implements OnInit {
       end: new FormControl(),
     });
     this.loadTasks();
+  }
+
+  taskStatus(stt) {
+    switch (stt) {
+      case Status.Approved:
+        return 'Duyệt';
+      case Status.Completed:
+        return 'Hoàn thành';
+      case Status.Incompleted:
+        return 'Không hoàn thành';
+      case Status.Pending:
+        return 'Đang chờ';
+      case Status.Requested:
+        return 'Chờ duyệt';
+      case Status.Rejected:
+      default:
+        return 'Không duyệt';
+    }
   }
 
   get hasLoggedIn(): boolean {

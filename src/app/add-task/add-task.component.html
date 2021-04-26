@@ -1,113 +1,268 @@
-<div mat-dialog-title class="d-flex justify-content-between">
-  <h2>Thêm Sự Vụ</h2>
+<div mat-dialog-title class="d-flex justify-content-between" style="height: 48px">
+  <div class="d-flex">
+    <h2 style="margin-right: 32px">{{ pageTitle }}</h2>
+  </div>
   <mat-icon (click)="onNoClick()" style="cursor: pointer">close</mat-icon>
 </div>
 <div mat-dialog-content class="form-container">
-  <form class="form-content-container">
-    <mat-form-field class="full-width" appearance="outline">
-      <mat-label>Copy sự vụ</mat-label>
-      <mat-select [(ngModel)]="clonedTask">
-        <mat-option  *ngFor="let task of myTasks" [value]="task">{{ task.title }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+  <div class="form-content-container">
+    <div class="input-content-container">
+      <div class="input-content-container">
+        <mat-form-field class="full-width" appearance="outline" *ngIf="addMode">
+          <mat-label>Copy sự vụ</mat-label>
+          <mat-select [(ngModel)]="clonedTask" (selectionChange)="onSelectedClonedTask()">
+            <mat-option *ngFor="let task of myTasks" [value]="task"
+              >#{{ task.id }} {{ task.title }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
 
-    <mat-form-field class="half-width" appearance="outline">
-      <mat-label>Yêu cầu</mat-label>
-      <mat-select [(ngModel)]="selectedTarget" (selectionChange)="onSelectedTargetChagne()">
-        <mat-option *ngFor="let target of targets" [value]="target.id">{{
-          target.name
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+        <div *ngIf="!addMode"></div>
 
-    <mat-form-field class="half-width" appearance="outline">
-      <mat-label>Đối tượng</mat-label>
-      <mat-select [(ngModel)]="selectedUser">
-        <mat-option *ngFor="let user of users" [value]="user">{{
-          user.name
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+        <mat-form-field class="half-width" appearance="outline">
+          <mat-label>Yêu cầu</mat-label>
+          <mat-select
+            [(ngModel)]="selectedTarget"
+            (selectionChange)="onSelectedTargetChagne()"
+            required
+          >
+            <mat-option *ngFor="let target of targets" [value]="target.id">{{
+              target.name
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-    <mat-form-field class="full-width" appearance="outline">
-      <mat-label>Mục đích</mat-label>
-      <input matInput [(ngModel)]="purpose" />
-    </mat-form-field>
+        <mat-form-field class="half-width" appearance="outline">
+          <mat-label>Đối tượng</mat-label>
+          <mat-select [(ngModel)]="selectedUser" required>
+            <mat-option *ngFor="let user of users" [value]="user.id">{{ user.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-    <mat-form-field class="full-width" appearance="outline">
-      <mat-label>Nội dung</mat-label>
-      <input matInput [(ngModel)]="content" />
-    </mat-form-field>
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Mục đích</mat-label>
+          <input matInput [(ngModel)]="purpose" required />
+        </mat-form-field>
 
-    <mat-form-field class="half-width" appearance="outline">
-      <mat-label>Độ ưu tiên</mat-label>
-      <mat-select [(ngModel)]="piority">
-        <mat-option [value]="0">Bình thường</mat-option>
-        <mat-option [value]="1">Gấp </mat-option>
-        <mat-option [value]="2">ASAP</mat-option>
-      </mat-select>
-    </mat-form-field>
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Nội dung</mat-label>
+          <input matInput [(ngModel)]="content" required />
+        </mat-form-field>
 
-    <div class="half-width"></div>
+        <mat-form-field class="half-width" appearance="outline">
+          <mat-label>Độ ưu tiên</mat-label>
+          <mat-select [(ngModel)]="piority" required>
+            <mat-option [value]="0">Bình thường</mat-option>
+            <mat-option [value]="1">Gấp </mat-option>
+            <mat-option [value]="2">ASAP</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-    <mat-form-field class="half-width" appearance="outline">
-      <mat-label>Hạn chót</mat-label>
-      <input matInput type="time" [(ngModel)]="deadline" />
-    </mat-form-field>
+        <div class="half-width"></div>
 
-    <mat-form-field class="half-width" appearance="outline">
-      <mat-label>Ngày</mat-label>
-      <input matInput [matDatepicker]="picker" [(ngModel)]="deadline" />
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
+        <mat-form-field class="half-width" appearance="outline">
+          <mat-label>Hạn chót</mat-label>
+          <input matInput type="time" [(ngModel)]="deadlineTime" required />
+        </mat-form-field>
 
-    <mat-form-field class="full-width" appearance="outline">
-      <mat-label>Sự vụ liên quan</mat-label>
-      <mat-select [(ngModel)]="relatedTask">
-        <mat-option  *ngFor="let task of myTasks" [value]="task">{{ task.title }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-label class="full-width">Tệp đính kèm</mat-label>
-    <div class="d-flex full-width">
-      <button
-        mat-raised-button
-        color="primary"
-        onclick="document.getElementById('additionFile').click()"
+        <mat-form-field class="half-width" appearance="outline">
+          <mat-label>Ngày</mat-label>
+          <input matInput [matDatepicker]="picker" [(ngModel)]="deadline" required />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label>Sự vụ liên quan</mat-label>
+          <mat-select [(ngModel)]="relatedTasks" multiple>
+            <mat-option *ngFor="let task of myTasks" [value]="task.id"
+              >#{{ task.id }} {{ task.title }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+        <mat-label class="full-width">Tệp đính kèm</mat-label>
+        <div class="d-flex full-width">
+          <button
+            mat-raised-button
+            color="primary"
+            onclick="document.getElementById('additionFile').click()"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+          <input
+            type="file"
+            id="additionFile"
+            style="display: none"
+            accept="image/x-png,image/gif,image/jpeg"
+            (change)="pickedFile($event)"
+            multiple
+          />
+        </div>
+        <div class="mark" (click)="({})" *ngIf="!canEditable"></div>
+      </div>
+      <div class="additionPhotos" *ngIf="isEmptyAddition">
+        <div class="addition-photo-container" *ngFor="let img of additionFiles; let i = index">
+          <img
+            [attr.src]="downloadString(img?.id)"
+            style="object-fit: cover; height: 100%; width: 100%"
+            ng-bind-html="desc"
+            (click)="showPhotoPreview(downloadString(img?.id))"
+          />
+          <button
+            mat-mini-fab
+            color="warn"
+            class="addition-photo-container-delete-button"
+            (click)="deleteAdditionFile(i)"
+            *ngIf="canEditable"
+          >
+            <mat-icon style="font-size: small">close</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div style="padding-top: 16px">
+        <mat-label class="full-width" *ngIf="!addMode">Bình luận</mat-label>
+      </div>
+      <mat-form-field
+        class="full-width"
+        appearance="outline"
+        style="margin-top: 14px"
+        *ngIf="!addMode"
       >
-        <mat-icon>add</mat-icon>
-      </button>
-      <input
-        type="file"
-        id="additionFile"
-        style="display: none"
-        accept="image/x-png,image/gif,image/jpeg"
-        (change)="pickedFile($event)"
-        multiple
-      />
-    </div>
-    <div class="additionPhotos" *ngIf="isEmptyAddition">
-      <div class="addition-photo-container" *ngFor="let img of additionFiles; let i = index">
-        <img
-          [attr.src]="getFilePath(img)"
-          style="object-fit: cover; height: 100%; width: 100%"
-          ng-bind-html="desc"
-        />
-        <button
-          mat-mini-fab
-          color="warn"
-          class="addition-photo-container-delete-button"
-          (click)="deleteAdditionFile(i)"
+        <mat-label>Bình luận</mat-label>
+        <input matInput [(ngModel)]="newMessage" (keyup)="sentComment($event)" />
+        <mat-icon matSuffix (click)="sentComment()" style="cursor: pointer">send</mat-icon>
+        <div class="d-flex" style="margin-top: 16px">
+          <button
+            mat-raised-button
+            color="primary"
+            onclick="document.getElementById('commentAdditionFile').click()"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+          <input
+            type="file"
+            id="commentAdditionFile"
+            style="display: none"
+            accept="image/x-png,image/gif,image/jpeg"
+            (change)="commentPickedFile($event)"
+          />
+        </div>
+        <div class="additionPhotos" *ngIf="isNotEmptyCommentAddition">
+          <div
+            class="addition-photo-container"
+            *ngFor="let img of commentAdditionFiles; let i = index"
+          >
+            <img
+              [attr.src]="downloadString(img?.id)"
+              style="object-fit: cover; height: 100%; width: 100%"
+              ng-bind-html="desc"
+              (click)="showPhotoPreview(downloadString(img?.id))"
+            />
+            <button
+              mat-mini-fab
+              color="warn"
+              class="addition-photo-container-delete-button"
+              (click)="deleteCommentAdditionFile(i)"
+            >
+              <mat-icon style="font-size: small">close</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-form-field>
+      <div *ngFor="let comment of taskComments" class="comment-content-container">
+        <span>
+          <div style="color: #3b4caa; font-size: medium">
+            {{ comment.user.name }} {{ comment.user.surname }}
+          </div>
+          <div style="font-size: small; color: gray">
+            {{ convertToLocalTime(comment.creationTime) }}
+          </div>
+        </span>
+        <span style="color: black; font-size: small">
+          {{ comment.comment }}
+        </span>
+        <div
+          class="additionPhotos"
+          style="height: 80px"
+          *ngIf="!isArrayNullOrEmpty(comment.fileIds)"
         >
-          <mat-icon style="font-size: small">close</mat-icon>
-        </button>
+          <img
+            *ngFor="let file of comment.fileIds"
+            [attr.src]="downloadString(file?.fileId)"
+            style="object-fit: cover; height: 80px; width: 80px"
+            ng-bind-html="desc"
+            (click)="showPhotoPreview(downloadString(file?.fileId))"
+          />
+        </div>
       </div>
     </div>
-  </form>
+  </div>
 </div>
 <div mat-dialog-actions align="end" class="mt-2">
-  <button mat-button cdkFocusInitial color="primary" (click)="onNoClick()">Hủy</button>
-  <button mat-raised-button color="primary" cdkFocusInitial (click)="createTask()">Tạo sự vụ</button>
+  <button mat-button color="primary" (click)="onNoClick()">Đóng</button>
+  <button
+    mat-raised-button
+    color="primary"
+    *ngIf="!addMode && !isTaskFinish"
+    [matMenuTriggerFor]="menu"
+    style="margin-right: 10px"
+  >
+    Khác
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="unsubscribe()">
+      <mat-icon>thumb_down</mat-icon>
+      <span>Bỏ theo dõi</span>
+    </button>
+    <button mat-menu-item (click)="showHistory()">
+      <mat-icon>history</mat-icon>
+      <span>Lịch sử</span>
+    </button>
+    <button mat-menu-item (click)="reOpen()">
+      <mat-icon>refresh</mat-icon>
+      <span>Mở lại</span>
+    </button>
+  </mat-menu>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="confirmTask(false)"
+    *ngIf="isShowVerifyTask && !isTaskFinish"
+  >
+    Không duyệt
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="confirmTask(true)"
+    *ngIf="isShowVerifyTask && !isTaskFinish"
+  >
+    Duyệt
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="updateTask()"
+    *ngIf="!addMode && !isShowVerifyTask && taskDetail?.status === 0"
+  >
+    Cập nhật
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="requireTask()"
+    *ngIf="!addMode && !isShowVerifyTask && !isTaskFinish"
+  >
+    {{ requireButtonTitle }}
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="createTask()"
+    *ngIf="addMode && !isShowVerifyTask"
+  >
+    Tạo sự vụ
+  </button>
 </div>
 <div
   style="
@@ -134,9 +289,33 @@
     justify-content: space-between;
   }
 
+  .input-content-container {
+    position: relative;
+  }
+
+  .mark {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 1000px;
+    pointer-events: fill;
+    cursor: auto;
+    background-color: transparent;
+  }
+
   .form-content-container {
     height: 100%;
     width: 100%;
+  }
+
+  .readonly-wrapper {
+    cursor: not-allowed;
+  }
+
+  .editable-wrapper {
+    cursor: auto;
   }
 
   .full-width {
@@ -153,6 +332,12 @@
     margin-right: 0;
   }
   .addition-photo-container {
+    position: relative;
+    height: 120px;
+    width: 120px;
+    margin-right: 16px;
+  }
+  .addition-photo-container:hover {
     position: relative;
     height: 120px;
     width: 120px;
@@ -181,5 +366,18 @@
     text-align: center;
     padding: 14px;
     text-decoration: none;
+  }
+
+  .comment-content-container {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    padding: 14px;
+    display: flexbox;
+    margin-top: 14px;
+  }
+
+  .comment-content-container:first-child {
+    margin-top: 0px;
   }
 </style>
