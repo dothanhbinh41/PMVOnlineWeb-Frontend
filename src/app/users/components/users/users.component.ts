@@ -95,7 +95,7 @@ export class UsersComponent implements OnInit {
     protected fb: FormBuilder,
     protected store: Store,
     protected injector: Injector,
-    protected deparmentService: DepartmentService
+    protected departmentService: DepartmentService
   ) {}
 
   ngOnInit() {
@@ -106,7 +106,7 @@ export class UsersComponent implements OnInit {
     const data = new FormPropData(this.injector, this.selected);
     this.form = generateFormFromProps(data);
 
-    this.deparmentService.getAllDepartments().subscribe(allDepartments => {
+    this.departmentService.getAllDepartments().subscribe(allDepartments => {
       this.departments = allDepartments;
       this.form.addControl(
         'departments',

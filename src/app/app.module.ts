@@ -1,21 +1,17 @@
 import { CoreModule } from '@abp/ng.core';
 import { NgxValidateCoreModule } from '@ngx-validate/core';
 import {
-  NgbDatepickerModule,
-  NgbTimepickerModule,
-  NgbTypeaheadModule,
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
 
 import { registerLocale } from '@abp/ng.core/locale';
-import { IdentityExtensionsGuard, IdentityState, UsersComponent } from '@abp/ng.identity';
 import { PermissionManagementModule } from '@abp/ng.permission-management';
 import { IdentityConfigModule } from '@abp/ng.identity/config';
 import { SettingManagementConfigModule } from '@abp/ng.setting-management/config';
 import { TenantManagementConfigModule } from '@abp/ng.tenant-management/config';
 import { ThemeBasicModule } from '@abp/ng.theme.basic';
 import { ThemeSharedModule } from '@abp/ng.theme.shared';
-import { BaseUiExtensionsModule, UiExtensionsModule } from '@abp/ng.theme.shared/extensions';
+import { UiExtensionsModule } from '@abp/ng.theme.shared/extensions';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
