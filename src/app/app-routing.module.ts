@@ -1,10 +1,10 @@
-import {
-  ABP,
-  DynamicLayoutComponent,
-  ReplaceableComponents,
-  ReplaceableRouteContainerComponent,
-} from '@abp/ng.core';
-import { eIdentityComponents, RolesComponent } from '@abp/ng.identity';
+// import {
+//   ABP,
+//   DynamicLayoutComponent,
+//   ReplaceableComponents,
+//   ReplaceableRouteContainerComponent,
+// } from '@abp/ng.core';
+// import { eIdentityComponents, RolesComponent } from '@abp/ng.identity';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddTaskComponent } from './add-task/add-task.component';
@@ -36,12 +36,22 @@ const routes: Routes = [
       import('@abp/ng.tenant-management').then(m => m.TenantManagementModule.forLazy()),
   },
   {
+    path: 'department-management',
+    loadChildren: () =>
+      import('./department/department.module').then(m => m.DepartmentModule),
+  },
+  {
+    path: 'target-management',
+    loadChildren: () =>
+      import('./target/target.module').then(m => m.TargetModule),
+  },
+  {
     path: 'setting-management',
     loadChildren: () =>
       import('@abp/ng.setting-management').then(m => m.SettingManagementModule.forLazy()),
   },
   {
-    path: 'user.departments',
+    path: 'user-departments',
     component: UsersComponent,
     loadChildren: () =>
       import('./users/identity.module').then(m => m.UserDepartmentModule.forLazy()),
