@@ -8,7 +8,7 @@ import type {
 import { RestService } from '@abp/ng.core';
 import type { ListResultDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
-import { UserDepartmentCreateDto } from '@proxy/users';
+import { UserDepartmentCreateDto, UserDepartmentUpdateDto } from '@proxy/users';
 
 @Injectable({
   providedIn: 'root',
@@ -74,10 +74,10 @@ export class IdentityUserService {
     },
     { apiName: this.apiName });
 
-  update = (id: string, input: IdentityUserUpdateDto) =>
+  update = (id: string, input: UserDepartmentUpdateDto) =>
     this.restService.request<any, IdentityUserDto>({
       method: 'PUT',
-      url: `/api/identity/users/${id}`,
+      url: `/api/app/department-identity-user/${id}`,
       body: input,
     },
     { apiName: this.apiName });

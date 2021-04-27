@@ -1,5 +1,6 @@
 import type { CreateDepartmentUserDto, DeleteDepartmentUserDto, DepartmentDto, DepartmentUserDto, NameDepartmentDto, UpdateDepartmentUserDto } from './models';
 import { RestService } from '@abp/ng.core';
+import type { PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -40,7 +41,7 @@ export class DepartmentService {
     { apiName: this.apiName });
 
   getAllDepartments = () =>
-    this.restService.request<any, DepartmentDto[]>({
+    this.restService.request<any, PagedResultDto<DepartmentDto>>({
       method: 'GET',
       url: `/api/app/department/departments`,
     },

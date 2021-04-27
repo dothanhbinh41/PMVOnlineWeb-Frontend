@@ -83,7 +83,7 @@
         <label for="department-id">department</label><span> * </span>
         <select class="form-control" id="department-id" formControlName="departmentId">
           <option [ngValue]="null">Select department</option>
-          <option [ngValue]="department.id" *ngFor="let department of departments$ | async">
+          <option [ngValue]="department.id" *ngFor="let department of departments">
             {{ department.name }}
           </option>
         </select>

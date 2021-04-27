@@ -107,7 +107,7 @@ export class UsersComponent implements OnInit {
     this.form = generateFormFromProps(data);
 
     this.departmentService.getAllDepartments().subscribe(allDepartments => {
-      this.departments = allDepartments;
+      this.departments = allDepartments.items;
       this.form.addControl(
         'departments',
         this.fb.array(
