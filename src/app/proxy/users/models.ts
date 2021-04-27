@@ -1,6 +1,6 @@
 import type { DeviceType } from './device-type.enum';
 import type { IdentityUserCreateDto, IdentityUserUpdateDto } from '../volo/abp/identity/models';
-import type { CreateDepartmentNameUserDto } from '../departments/models';
+import type { CreateDepartmentNameUserDto, UpdateDepartmentUserDto } from '../departments/models';
 
 export interface SaveDeviceTokenDto {
   token?: string;
@@ -12,5 +12,5 @@ export interface UserDepartmentCreateDto extends IdentityUserCreateDto {
 }
 
 export interface UserDepartmentUpdateDto extends IdentityUserUpdateDto {
-  departments: CreateDepartmentNameUserDto[];
+  departments: UpdateDepartmentUserDto[];
 }

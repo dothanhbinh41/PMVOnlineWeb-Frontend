@@ -173,8 +173,14 @@ export class UsersComponent implements OnInit {
     if (!this.form.valid || this.modalBusy) { return; }
     this.modalBusy = true;
     const mappedDepartments = snq( () => { return  this.form.value.departments.filter(d => Object.values(d)[0]).map(d => this.form.value.departmentsLead[this.form.value.departments.indexOf(d)]).map(d => {
-      let obj = { name: Object.keys(d)[0], isLeader: Object.values(d)[0] };
+      var name = Object.keys(d)[0];
+      var deps =this.departments.filter((d: DepartmentDto)=>d.name == name );
+      if(deps.length>0){
+      var dep = deps[0];
+      let obj = { name: dep.name, isLeader: Object.values(d)[0] , departmentId : dep.id };
       return obj;
+      }
+      return { name: Object.keys(d)[0], isLeader: Object.values(d)[0]};
     }); } );
 
     this.store
