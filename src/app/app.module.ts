@@ -1,14 +1,10 @@
 import { CoreModule } from '@abp/ng.core';
 import { NgxValidateCoreModule } from '@ngx-validate/core';
 import {
-  NgbDatepickerModule,
-  NgbTimepickerModule,
-  NgbTypeaheadModule,
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
 
 import { registerLocale } from '@abp/ng.core/locale';
-import { IdentityExtensionsGuard, IdentityState, UsersComponent } from '@abp/ng.identity';
 import { PermissionManagementModule } from '@abp/ng.permission-management';
 import { IdentityConfigModule } from '@abp/ng.identity/config';
 import { SettingManagementConfigModule } from '@abp/ng.setting-management/config';
