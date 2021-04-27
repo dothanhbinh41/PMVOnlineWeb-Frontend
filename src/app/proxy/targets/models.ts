@@ -9,4 +9,5 @@ export interface NameTargetDto {
 
 export interface TargetDto extends NameTargetDto {
   id: number;
+  departmentId: number;
 }
