@@ -432,7 +432,7 @@ export class AddTaskComponent implements OnInit {
           return;
         }
         this.showMessage('Kết thúc sự vụ thành công', true);
-        this.onNoClick(true);
+        this.rateTask();
       }
     });
   }
@@ -504,12 +504,30 @@ export class AddTaskComponent implements OnInit {
     this.commentAdditionFiles.splice(index, 1);
   }
 
-  rateTask(){
+  rateTask() {
     const dialogRef = this.dialog.open(RateTaskDialog, {
       disableClose: true,
       data: {
         taskId: this.currentTaskId,
       },
+    });
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result) {
+        const { note, rate } = result;
+        this.loading = true;
+        const isRateResult = await toPromise(
+          this.taskService.rateTask(this.currentTaskId, rate, note)
+        );
+        this.loading = false;
+        if (!isRateResult) {
+          this.showMessage('Đánh giá sự vụ thất bại!', false);
+          return;
+        }
+        this.showMessage('Đánh giá sự vụ thành công!', true);
+        this.onNoClick(true);
+      } else {
+        this.onNoClick(true);
+      }
     });
   }
   //#endregion

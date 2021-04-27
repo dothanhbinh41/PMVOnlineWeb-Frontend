@@ -9,35 +9,20 @@ import { StarRatingComponent } from 'ng-starrating';
 })
 // tslint:disable-next-line:component-class-suffix
 export class RateTaskDialog {
-  message = 'Are you sure?';
-  confirmButtonText = 'Yes';
-  cancelButtonText = 'Cancel';
   note;
+  rate = 0;
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
     private dialogRef: MatDialogRef<RateTaskDialog>
-  ) {
-    if (data) {
-      this.message = data.message || this.message;
-      if (data.buttonText) {
-        this.confirmButtonText = data.buttonText.ok || this.confirmButtonText;
-        this.cancelButtonText = data.buttonText.cancel || this.cancelButtonText;
-      }
-    }
-  }
+  ) {}
 
   onConfirmClick(): void {
-    this.dialogRef.close({ isReject: true, note: this.note });
+    this.dialogRef.close({ note: this.note, rate: this.rate });
   }
 
   onCancelClick() {
-    this.dialogRef.close({ isReject: false, note: this.note });
+    this.dialogRef.close();
   }
 
-  onRate($event:{oldValue:number, newValue:number, starRating:StarRatingComponent}) {
-    // alert(`Old Value:${$event.oldValue}, 
-    //   New Value: ${$event.newValue}, 
-    //   Checked Color: ${$event.starRating.checkedcolor}, 
-    //   Unchecked Color: ${$event.starRating.uncheckedcolor}`);
-  }
+  onRate($event: { oldValue: number; newValue: number; starRating: StarRatingComponent }) {}
 }
