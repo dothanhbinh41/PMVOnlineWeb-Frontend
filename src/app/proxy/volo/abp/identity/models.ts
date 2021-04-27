@@ -14,6 +14,11 @@ export interface IdentityUserCreateOrUpdateDtoBase extends ExtensibleObject {
   roleNames: string[];
 }
 
+export interface IdentityUserUpdateDto extends IdentityUserCreateOrUpdateDtoBase {
+  password?: string;
+  concurrencyStamp?: string;
+}
+
 export interface IdentityUserDto extends ExtensibleFullAuditedEntityDto<string> {
   tenantId?: string;
   userName?: string;

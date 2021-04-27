@@ -1,5 +1,5 @@
 import type { AddTargetDto, TargetDto } from './models';
-import { PagedResultDto, RestService } from '@abp/ng.core';
+import { RestService } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 import type { DepartmentDto } from '../departments/models';
 
@@ -30,15 +30,6 @@ export class TargetService {
       url: `/api/app/target/targets`,
     },
     { apiName: this.apiName });
-
-  getTargets = () =>
-    this.restService.request<any, PagedResultDto<TargetDto>>(
-      {
-        method: 'GET',
-      url: `/api/app/target/targets`,
-      },
-      { apiName: this.apiName }
-    );
 
   getDepartmentsByTarget = (targetId: number) =>
     this.restService.request<any, DepartmentDto[]>({

@@ -15,7 +15,7 @@ export interface CreateTaskRequestDto {
   content?: string;
   targetId: number;
   priority: Priority;
-  dueDate?: Date;
+  dueDate?: string;
   files: string[];
   referenceTasks: number[];
   assigneeId?: string;
@@ -66,6 +66,10 @@ export interface MyTaskDto {
 export interface ProcessTaskRequest extends EntityDto<number> {
   approved: boolean;
   note?: string;
+}
+
+export interface RatingRequestDto {
+  rating: number;
 }
 
 export interface ReopenTaskRequest extends EntityDto<number> {
