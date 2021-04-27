@@ -1,21 +1,26 @@
 <div mat-dialog-content>
-  <p>{{message}}</p>
+  <h2>Đánh giá</h2>
   <div style="width: 400px">
     <form style="width: 100%; height: 200px">
       <mat-form-field appearance="outline" style="width: 100%; height: 120px">
-        <mat-label>Lý do</mat-label>
+        <mat-label>Ghi chú</mat-label>
         <textarea style="width: 100%; height: 120px" matInput [(ngModel)]="note"></textarea>
       </mat-form-field>
     </form>
   </div>
   <div style="text-align: center">
-    <star-rating value="5" [totalstars]='5' checkedcolor="red" uncheckedcolor="black" size="24px" readonly="false" (rate)="onRate($event)"></star-rating>
-    <h1>ng-starrating demo</h1>
+    <star-rating
+      [value]="rate"
+      [totalstars]="5"
+      checkedcolor="yellow"
+      uncheckedcolor="lightgray"
+      size="32px"
+      readonly="false"
+      (rate)="onRate($event)"
+    ></star-rating>
   </div>
 </div>
 <div mat-dialog-actions align="end">
-  <button mat-button color="primary" (click)="onCancelClick()">{{cancelButtonText}}</button>
-  <button mat-raised-button color="primary" (click)="onConfirmClick()">
-    {{confirmButtonText}}
-  </button>
+  <button mat-button color="primary" (click)="onCancelClick()">Để sau</button>
+  <button mat-raised-button color="primary" (click)="onConfirmClick()">Đánh giá</button>
 </div>
