@@ -29,22 +29,23 @@ export class TargetComponent implements OnInit {
     private targetService: TargetService,
     private departmentService: DepartmentService,
     private fb: FormBuilder,
-    private confirmation: ConfirmationService
+    private confirmation: ConfirmationService, 
   ) {
   }
 
   ngOnInit() {
     const targetStreamCreator = () => this.targetService.getAllTargets();
-    
-    const departmentStreamCreator = () => this.departmentService.getAllDepartments();
+     
 
     this.list.hookToQuery(targetStreamCreator).subscribe((response: PagedResultDto<TargetDto>) => {
       this.target = response;
       this.loadingIndicator = false;
     });
-    this.list.hookToQuery(departmentStreamCreator).subscribe((response: PagedResultDto<DepartmentDto>) => {
+
+    this.departmentService.getAllDepartments().subscribe((response: PagedResultDto<DepartmentDto>) => {
       this.departments = response.items; 
     }); 
+ 
   }
 
   createTarget() {
