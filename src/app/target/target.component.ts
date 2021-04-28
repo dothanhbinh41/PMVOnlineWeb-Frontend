@@ -20,6 +20,7 @@ export class TargetComponent implements OnInit {
 
   departments: DepartmentDto[];
 
+  selectedDepartment: DepartmentDto;
   selectedTarget: TargetDto;
 
   isModalOpen = false;
@@ -49,21 +50,31 @@ export class TargetComponent implements OnInit {
   }
 
   createTarget() {
-    this.selectedTarget = {} as TargetDto;
+    this.selectedTarget = {} as TargetDto; 
+    this.selectedDepartment = { id : 0} as DepartmentDto; 
     this.buildForm();
     this.isModalOpen = true;
   }
 
   editTarget(id: number) {
     this.selectedTarget = this.target?.items?.find(d => d.id === id);
+    this.loadingIndicator = true;
+    this.targetService.getDepartmentsByTarget(id).subscribe((d)=> {
+      this.loadingIndicator = false;
+      if(d.length>0) {
+        var depId = d[0].id;
+        this.selectedDepartment = this.departments?.find(d=>d.id == depId);
+        
     this.buildForm();
     this.isModalOpen = true;
+      }
+    });
   }
 
   buildForm() {
     this.form = this.fb.group({
       name: [this.selectedTarget.name || null, Validators.required],
-      departmentId: [this.selectedTarget.id || null, Validators.required],
+      departmentId: [this.selectedDepartment.id || null, Validators.required],
     });
   }
 
@@ -73,8 +84,8 @@ export class TargetComponent implements OnInit {
     }
 
     const request = this.selectedTarget.id
-      ? this.targetService.updateTargets(this.selectedTarget.id, this.form.value)
-      : this.targetService.addTargets(this.form.value);
+      ? this.targetService.updateTargets(this.selectedTarget.id, {departmentId: this.selectedDepartment.id, name :this.selectedTarget.name  })
+      : this.targetService.addTargets({departmentId: this.selectedDepartment.id, name :this.selectedTarget.name  });
 
     request.subscribe(() => {
       this.isModalOpen = false;
