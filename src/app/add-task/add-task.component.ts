@@ -97,7 +97,7 @@ export class AddTaskComponent implements OnInit {
   }
 
   async loadTarget() {
-    const data = await toPromise(this.targetService.getAllTargets());
+    const data = (await toPromise(this.targetService.getAllTargets())).items;
     if (!data) {
       this.showMessage('Xảy ra lỗi, vui lòng thử lại sau.', false);
       this.onNoClick();

@@ -28,10 +28,10 @@ export class DepartmentComponent implements OnInit {
   }
 
   ngOnInit() {
-    const departmentStreamCreator = () => this.departmentService.getDepartments();
+    const departmentStreamCreator = () => this.departmentService.getAllDepartments();
 
-    this.list.hookToQuery(departmentStreamCreator).subscribe((response: any) => {
-      this.department = { items: response, totalCount: response.length };
+    this.list.hookToQuery(departmentStreamCreator).subscribe((response: PagedResultDto<DepartmentDto>) => {
+      this.department = response;
       this.loadingIndicator = false;
     });
   }

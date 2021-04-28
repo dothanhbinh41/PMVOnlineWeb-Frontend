@@ -2,9 +2,10 @@ import { ListService, PagedResultDto } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
-import { TargetDto, TargetService } from '@proxy/targets';
+import { AddTargetDto, TargetDto, TargetService } from '@proxy/targets';
 import { DepartmentDto, DepartmentService } from '@proxy/departments';
 import { Observable } from 'rxjs';
+import toPromise from '../utils/promise-extension';
 
 @Component({
   selector: 'app-target',
@@ -17,7 +18,7 @@ export class TargetComponent implements OnInit {
   loadingIndicator = true;
   form: FormGroup;
 
-  departments$: Observable<DepartmentDto[]>;
+  departments: DepartmentDto[];
 
   selectedTarget: TargetDto;
 
@@ -30,16 +31,20 @@ export class TargetComponent implements OnInit {
     private fb: FormBuilder,
     private confirmation: ConfirmationService
   ) {
-    this.departments$ = departmentService.getAllDepartments();
   }
 
   ngOnInit() {
-    const targetStreamCreator = () => this.targetService.getTargets();
+    const targetStreamCreator = () => this.targetService.getAllTargets();
+    
+    const departmentStreamCreator = () => this.departmentService.getAllDepartments();
 
-    this.list.hookToQuery(targetStreamCreator).subscribe((response: any) => {
-      this.target = { items: response, totalCount: response.length };
+    this.list.hookToQuery(targetStreamCreator).subscribe((response: PagedResultDto<TargetDto>) => {
+      this.target = response;
       this.loadingIndicator = false;
     });
+    this.list.hookToQuery(departmentStreamCreator).subscribe((response: PagedResultDto<DepartmentDto>) => {
+      this.departments = response.items; 
+    }); 
   }
 
   createTarget() {
@@ -57,7 +62,7 @@ export class TargetComponent implements OnInit {
   buildForm() {
     this.form = this.fb.group({
       name: [this.selectedTarget.name || null, Validators.required],
-      departmentId: [this.selectedTarget.departmentId || null, Validators.required],
+      departmentId: [this.selectedTarget.id || null, Validators.required],
     });
   }
 

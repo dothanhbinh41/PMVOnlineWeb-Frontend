@@ -2,13 +2,13 @@ import type { EntityDto } from '@abp/ng.core';
 import type { SimpleUserDto } from '../tasks/models';
 
 export interface CreateDepartmentNameUserDto {
+  departmentId: number;
   name?: string;
   isLeader: boolean;
 }
 
 export interface CreateDepartmentUserDto {
   departmentId: number;
-  userId?: string;
   isLeader: boolean;
 }
 
@@ -35,6 +35,5 @@ export interface NameDepartmentDto {
 
 export interface UpdateDepartmentUserDto {
   departmentId: number;
-  userId?: string;
   isLeader: boolean;
 }
