@@ -25,5 +25,13 @@ export class DepartmentIdentityUserService {
     },
     { apiName: this.apiName });
 
+  updateDepartmentsByIdAndInput = (id: string, input: UserDepartmentUpdateDto) =>
+    this.restService.request<any, boolean>({
+      method: 'PUT',
+      url: `/api/app/department-identity-user/${id}/departments`,
+      body: input,
+    },
+    { apiName: this.apiName });
+
   constructor(private restService: RestService) {}
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { DepartmentService, DepartmentUserDto } from '@proxy/departments';
+import { DepartmentIdentityUserService } from '@proxy/users';
 import { pluck, tap } from 'rxjs/operators';
 import {
   CreateRole,
@@ -57,6 +58,7 @@ export class IdentityState {
     private departmentService: DepartmentService,
     private identityUserService: IdentityUserService,
     private identityRoleService: IdentityRoleService,
+    private identityDepartmentService: DepartmentIdentityUserService,
   ) {}
 
   @Action(GetRoles)
@@ -137,8 +139,8 @@ export class IdentityState {
   }
 
   @Action(UpdateUser)
-  updateUser({ getState }: StateContext<Identity.State>, { payload }: UpdateUser) {
-    return this.identityUserService.update(payload.id, { ...getState().selectedUser, ...payload });
+  updateUser({ getState }: StateContext<Identity.State>, { payload }: UpdateUser) {  
+    return  this.identityDepartmentService.updateDepartmentsByIdAndInput(payload.id, payload).subscribe(d=>this.identityUserService.update(payload.id, { ...getState().selectedUser, ...payload })) ;
   }
 
   @Action(GetUserRoles)
