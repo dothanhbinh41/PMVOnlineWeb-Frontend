@@ -1,4 +1,4 @@
-import type { CommentRequestDto, CreateTaskRequestDto, FinishTaskRequest, FollowTaskRequest, FullTaskDto, MyTaskDto, ProcessTaskRequest, ReopenTaskRequest, RequestTaskRequest, SearchMyTaskRequestDto, SimpleUserDto, TaskActionDto, TaskCommentDto, TaskDto, UpdateTaskRequestDto, UserDto } from './models';
+import type { CommentRequestDto, CreateTaskRequestDto, FinishTaskRequest, FollowTaskRequest, FullTaskDto, MyTaskDto, ProcessTaskRequest, RatingRequestDto, ReopenTaskRequest, RequestTaskRequest, SearchMyTaskRequestDto, SimpleUserDto, TaskActionDto, TaskCommentDto, TaskDto, UpdateTaskRequestDto, UserDto } from './models';
 import { RestService } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 import type { FileDto } from '../files/models';
@@ -114,11 +114,11 @@ export class TaskService {
     },
     { apiName: this.apiName });
 
-  rateTask = (taskId: number, rating: number, note: string) =>
+  rateTask = (taskId: number, request: RatingRequestDto) =>
     this.restService.request<any, boolean>({
       method: 'POST',
       url: `/api/app/task/rate-task/${taskId}`,
-      params: { rating: rating, note: note },
+      body: request,
     },
     { apiName: this.apiName });
 

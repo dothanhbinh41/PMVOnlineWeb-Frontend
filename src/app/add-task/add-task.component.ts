@@ -98,7 +98,7 @@ export class AddTaskComponent implements OnInit {
   }
 
   async loadTarget() {
-    const data = await toPromise(this.targetService.getAllTargets());
+    const data = (await toPromise(this.targetService.getAllTargets())).items;
     if (!data) {
       this.showMessage('Xảy ra lỗi, vui lòng thử lại sau.', false);
       this.onNoClick();
@@ -432,7 +432,7 @@ export class AddTaskComponent implements OnInit {
           return;
         }
         this.showMessage('Kết thúc sự vụ thành công', true);
-        this.rateTask();
+        this.onNoClick();
       }
     });
   }
@@ -516,7 +516,7 @@ export class AddTaskComponent implements OnInit {
         const { note, rate } = result;
         this.loading = true;
         const isRateResult = await toPromise(
-          this.taskService.rateTask(this.currentTaskId, rate, note)
+          this.taskService.rateTask(this.currentTaskId, { rating: rate })
         );
         this.loading = false;
         if (!isRateResult) {

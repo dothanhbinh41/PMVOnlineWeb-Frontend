@@ -80,10 +80,9 @@
       </div>
 
       <div class="form-group">
-        <label for="department-id">department</label><span> * </span>
-        <select class="form-control" id="department-id" formControlName="departmentId">
-          <option [ngValue]="null">Select department</option>
-          <option [ngValue]="department.id" *ngFor="let department of departments$ | async">
+        <label for="department-id">department</label><span> * </span> 
+        <select class="form-control" id="department-id" formControlName="departmentId" [(ngModel)]="selectedDepartment"> 
+          <option [ngValue]="department" [selected]="department.id == selectedDepartment.id" *ngFor="let department of departments">
             {{ department.name }}
           </option>
         </select>

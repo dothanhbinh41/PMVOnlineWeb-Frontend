@@ -7,7 +7,7 @@ import {
   IdentityUserCreateDto,
   IdentityUserUpdateDto,
 } from '../proxy/identity/models';
-import { UserDepartmentCreateDto } from '@proxy/users';
+import { UserDepartmentCreateDto, UserDepartmentUpdateDto } from '@proxy/users';
 
 export class GetRoles {
   static readonly type = '[Identity] Get Roles';
@@ -56,7 +56,7 @@ export class CreateUser {
 
 export class UpdateUser {
   static readonly type = '[Identity] Update User';
-  constructor(public payload: IdentityUserUpdateDto & { id: string }) {}
+  constructor(public payload: UserDepartmentUpdateDto & { id: string }) {}
 }
 
 export class GetUserRoles {

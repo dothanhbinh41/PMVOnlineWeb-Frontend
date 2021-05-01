@@ -68,6 +68,10 @@ export interface ProcessTaskRequest extends EntityDto<number> {
   note?: string;
 }
 
+export interface RatingRequestDto {
+  rating: number;
+}
+
 export interface ReopenTaskRequest extends EntityDto<number> {
 }
 
