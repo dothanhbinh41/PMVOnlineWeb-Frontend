@@ -1,18 +1,10 @@
 <div mat-dialog-content>
   <h2>Đánh giá</h2>
-  <div style="width: 400px">
-    <form style="width: 100%; height: 200px">
-      <mat-form-field appearance="outline" style="width: 100%; height: 120px">
-        <mat-label>Ghi chú</mat-label>
-        <textarea style="width: 100%; height: 120px" matInput [(ngModel)]="note"></textarea>
-      </mat-form-field>
-    </form>
-  </div>
-  <div style="text-align: center">
+  <div style="text-align: center; width: 400px; padding: 32px;">
     <star-rating
       [value]="rate"
       [totalstars]="5"
-      checkedcolor="yellow"
+      checkedcolor="#FFE817"
       uncheckedcolor="lightgray"
       size="32px"
       readonly="false"
