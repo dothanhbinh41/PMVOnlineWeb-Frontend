@@ -23,6 +23,7 @@ import toPromise from '../utils/promise-extension';
 import { PreviewDialog } from '../controls/preview-dialog.component';
 import { HistoryDialog } from '../controls/history-dialog.component';
 import { FinishTaskDialog } from '../controls/finish-task-dialog.component';
+import { RateTaskDialog } from '../controls/rate-task-dialog.component';
 
 @Component({
   selector: 'app-add-task',
@@ -431,7 +432,7 @@ export class AddTaskComponent implements OnInit {
           return;
         }
         this.showMessage('Kết thúc sự vụ thành công', true);
-        this.onNoClick(true);
+        this.onNoClick();
       }
     });
   }
@@ -501,6 +502,33 @@ export class AddTaskComponent implements OnInit {
       return;
     }
     this.commentAdditionFiles.splice(index, 1);
+  }
+
+  rateTask() {
+    const dialogRef = this.dialog.open(RateTaskDialog, {
+      disableClose: true,
+      data: {
+        taskId: this.currentTaskId,
+      },
+    });
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result) {
+        const { note, rate } = result;
+        this.loading = true;
+        const isRateResult = await toPromise(
+          this.taskService.rateTask(this.currentTaskId, { rating: rate })
+        );
+        this.loading = false;
+        if (!isRateResult) {
+          this.showMessage('Đánh giá sự vụ thất bại!', false);
+          return;
+        }
+        this.showMessage('Đánh giá sự vụ thành công!', true);
+        this.onNoClick(true);
+      } else {
+        this.onNoClick(true);
+      }
+    });
   }
   //#endregion
 

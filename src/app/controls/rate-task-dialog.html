@@ -1,0 +1,18 @@
+<div mat-dialog-content>
+  <h2>Đánh giá</h2>
+  <div style="text-align: center; width: 400px; padding: 32px;">
+    <star-rating
+      [value]="rate"
+      [totalstars]="5"
+      checkedcolor="#FFE817"
+      uncheckedcolor="lightgray"
+      size="32px"
+      readonly="false"
+      (rate)="onRate($event)"
+    ></star-rating>
+  </div>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button color="primary" (click)="onCancelClick()">Để sau</button>
+  <button mat-raised-button color="primary" (click)="onConfirmClick()">Đánh giá</button>
+</div>
