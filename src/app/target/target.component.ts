@@ -21,8 +21,7 @@ export class TargetComponent implements OnInit {
   departments: DepartmentDto[];
 
   selectedDepartment: DepartmentDto;
-  selectedTarget: TargetDto;
-
+  selectedTarget: TargetDto; 
   isModalOpen = false;
 
   constructor(
