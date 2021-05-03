@@ -6,6 +6,10 @@ export interface CommentFileDto {
   filePath?: string;
 }
 
+export interface TaskFileDto extends EntityDto<string> {
+  fileId?: string;
+}
+
 export interface FileDto extends EntityDto<string> {
   name?: string;
   path?: string;

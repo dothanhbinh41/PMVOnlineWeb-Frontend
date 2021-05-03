@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import toPromise from '../utils/promise-extension';
 
 @Component({
-  selector: 'app-target',
+  selector: 'target-management',
   templateUrl: './target.component.html',
   styleUrls: ['./target.component.scss'],
   providers: [ListService],

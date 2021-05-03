@@ -48,6 +48,13 @@ function configureRoutes(routesService: RoutesService) {
         order: 3,
         iconClass: 'fas fa-dot-circle',
         layout: eLayoutType.application,
+      },    {
+        path: 'report-management',
+        name: 'Bao cao',
+        parentName: 'Quản Lý',
+        order: 3,
+        iconClass: 'fas fa-dot-circle',
+        layout: eLayoutType.application,
       },
       {
         path: '/admin-setting',

@@ -117,6 +117,13 @@ export interface TaskDto extends EntityDto<number> {
   assigneeId?: string;
 }
 
+export interface TaskRatingDto {
+  taskId: number;
+  rating: number;
+  isLeader: boolean;
+  note?: string;
+}
+
 export interface UpdateTaskRequestDto extends CreateTaskRequestDto {
   id: number;
 }

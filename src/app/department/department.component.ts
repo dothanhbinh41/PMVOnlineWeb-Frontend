@@ -5,7 +5,7 @@ import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared';
 import { DepartmentDto, DepartmentService } from '@proxy/departments';
 
 @Component({
-  selector: 'app-department',
+  selector: 'department-management',
   templateUrl: './department.component.html',
   styleUrls: ['./department.component.scss'],
   providers: [ListService],
