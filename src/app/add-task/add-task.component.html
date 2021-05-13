@@ -210,9 +210,9 @@
     Khác
   </button>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="unsubscribe()">
-      <mat-icon>thumb_down</mat-icon>
-      <span>Bỏ theo dõi</span>
+    <button mat-menu-item (click)="changeSubscribe()">
+      <mat-icon>{{ isSubscribe ? 'thumb_down' : 'thumb_up' }}</mat-icon>
+      <span>{{ subscribeBtnTitle }}</span>
     </button>
     <button mat-menu-item (click)="showHistory()">
       <mat-icon>history</mat-icon>
@@ -247,12 +247,7 @@
   >
     Cập nhật
   </button>
-  <button
-    mat-raised-button
-    color="primary"
-    (click)="rateTask()"
-    *ngIf="isTaskFinish"
-  >
+  <button mat-raised-button color="primary" (click)="rateTask()" *ngIf="isTaskFinish">
     Đánh giá
   </button>
   <button

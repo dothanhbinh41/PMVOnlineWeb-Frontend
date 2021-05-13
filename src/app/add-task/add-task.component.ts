@@ -24,6 +24,7 @@ import { PreviewDialog } from '../controls/preview-dialog.component';
 import { HistoryDialog } from '../controls/history-dialog.component';
 import { FinishTaskDialog } from '../controls/finish-task-dialog.component';
 import { RateTaskDialog } from '../controls/rate-task-dialog.component';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-add-task',
@@ -55,6 +56,7 @@ export class AddTaskComponent implements OnInit {
   isShowVerifyTask;
   newMessage = '';
   commentAdditionFiles = [];
+  isSubscribe = false;
 
   //#region init function
   constructor(
@@ -533,7 +535,25 @@ export class AddTaskComponent implements OnInit {
   //#endregion
 
   //#region common function
-  unsubscribe() {}
+  async changeSubscribe() {
+    this.loading = true;
+    const isSuccess = await toPromise(
+      this.taskService.followTaskByRequest({ follow: !this.isSubscribe, id: this.currentTaskId })
+    );
+    this.loading = false;
+
+    if (isSuccess) {
+      this.showMessage(`${this.subscribeBtnTitle} thành công`, true);
+      this.isSubscribe = !this.isSubscribe;
+      return;
+    }
+
+    this.showMessage(`${this.subscribeBtnTitle} thất bại`, false);
+  }
+
+  get subscribeBtnTitle() {
+    return this.isSubscribe ? 'Bỏ theo dõi' : 'Theo dõi';
+  }
 
   async sentComment(event = undefined) {
     if (event) {

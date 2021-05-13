@@ -36,6 +36,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { RatingModule } from 'ng-starrating';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   imports: [
@@ -71,7 +72,8 @@ import { RatingModule } from 'ng-starrating';
     MatSnackBarModule,
     MatMenuModule,
     MatCheckboxModule,
-    RatingModule
+    RatingModule,
+    MatAutocompleteModule
   ],
   exports: [],
   declarations: [AppComponent],
