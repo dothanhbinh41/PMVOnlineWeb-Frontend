@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -15,16 +15,24 @@ import {
   UpdateTaskRequestDto,
 } from '@proxy/tasks';
 import * as moment from 'moment';
-import { finalize } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { ConfirmDialog } from '../controls/confirm-dialog.component';
 import { RejectTaskDialog } from '../controls/reject-task-dialog.component';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import toPromise from '../utils/promise-extension';
 import { PreviewDialog } from '../controls/preview-dialog.component';
 import { HistoryDialog } from '../controls/history-dialog.component';
 import { FinishTaskDialog } from '../controls/finish-task-dialog.component';
 import { RateTaskDialog } from '../controls/rate-task-dialog.component';
 import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+
+export interface State {
+  flag: string;
+  name: string;
+  population: string;
+}
 
 @Component({
   selector: 'app-add-task',
@@ -32,6 +40,8 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./add-task.component.scss'],
 })
 export class AddTaskComponent implements OnInit {
+  @ViewChild(MatAutocompleteTrigger) trigger: MatAutocompleteTrigger;
+
   additionFiles = [];
   targets = [];
   users = [];
@@ -58,6 +68,10 @@ export class AddTaskComponent implements OnInit {
   commentAdditionFiles = [];
   isSubscribe = false;
 
+  myControl = new FormControl();
+  options: string[] = ['One', 'Two', 'Three'];
+  filteredOptions: Observable<string[]>;
+
   //#region init function
   constructor(
     public dialogRef: MatDialogRef<AddTaskComponent>,
@@ -77,7 +91,38 @@ export class AddTaskComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value))
+    );
     this.loadData();
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
+  displayCloneTask(task: MyTaskDto): string {
+    return task ? `#${task.id} ${task.title}` : '';
+  }
+
+  async onCloneTaskFieldEnter(event = undefined) {
+    if (event) {
+      if (event?.keyCode !== 13) return;
+    }
+    if (typeof this.clonedTask !== 'string') return;
+    if (!this.clonedTask || (this.clonedTask as string).trim() === '') return;
+    try {
+      const clonedTaskId = parseInt((this.clonedTask as string).trim());
+      const newClonedTask = this.myTasks.find(d => (d as MyTaskDto).id === clonedTaskId);
+      if (newClonedTask) {
+        this.trigger?.closePanel();
+        this.clonedTask = newClonedTask;
+        this.onSelectedClonedTask();
+      }
+    } catch (error) {}
   }
 
   onNoClick(isChanged = false): void {
@@ -114,6 +159,8 @@ export class AddTaskComponent implements OnInit {
       this.taskService.searchMyTasksByRequest({ maxResultCount: 100, users: [] })
     );
     this.myTasks = data;
+    this.clonedTask = undefined;
+    this.trigger?.closePanel();
   }
 
   async getMyDepartment() {
@@ -290,6 +337,7 @@ export class AddTaskComponent implements OnInit {
   }
 
   async onSelectedClonedTask() {
+    if (typeof this.clonedTask === 'string') return;
     this.loading = true;
     const data = await toPromise(this.taskService.getTaskById(this.clonedTask.id));
     this.loading = false;

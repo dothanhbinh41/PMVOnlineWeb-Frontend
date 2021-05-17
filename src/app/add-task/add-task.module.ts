@@ -16,6 +16,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { ControlsModule } from '../controls/controls.module';
 import { MatListModule } from '@angular/material/list';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AddTaskComponent],
@@ -36,7 +37,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatSnackBarModule,
     MatMenuModule,
     MatListModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    ReactiveFormsModule
   ],
 })
 export class AddTaskModule {}
