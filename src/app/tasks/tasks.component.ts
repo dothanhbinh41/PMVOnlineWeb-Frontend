@@ -128,6 +128,7 @@ export class TasksComponent implements OnInit {
       width: '50%',
       minWidth: '512px',
       disableClose: true,
+      autoFocus: false
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
