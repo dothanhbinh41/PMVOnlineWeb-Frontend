@@ -8,31 +8,28 @@
   <div class="form-content-container">
     <div class="input-content-container">
       <div class="input-content-container">
-        <div mat-dialog-content cdk-focus-initial>
-          <mat-form-field class="full-width" appearance="outline">
-            <mat-label>Copy sự vụ</mat-label>
-            <input
-              type="text"
-              placeholder="Nhập Id"
-              matInput
-              [matAutocomplete]="autoTests"
-              [autofocus]="false"
-              [(ngModel)]="clonedTask"
-              (ngModelChange)="onSelectedClonedTask()"
-              (keyup)="onCloneTaskFieldEnter($event)"
-              *ngIf="addMode"
-              #trigger="matAutocompleteTrigger"
-            />
-            <button mat-button matSuffix mat-icon-button aria-label="Clear" style="padding-right: 0px; margin-right: 0px; width: 24px;">
-              <mat-icon style="font-size: 24px; color: #757575; margin-right: 0px; width: 18px;">arrow_drop_down</mat-icon>
-            </button>
-            <mat-autocomplete #autoTests="matAutocomplete" [displayWith]="displayCloneTask">
-              <mat-option *ngFor="let task of myTasks" [value]="task"
-                >#{{ task.id }} {{ task.title }}</mat-option
-              >
-            </mat-autocomplete>
-          </mat-form-field>
-        </div>
+        <mat-form-field class="full-width" appearance="outline" *ngIf="addMode">
+          <mat-label>Copy sự vụ</mat-label>
+          <input
+            type="text"
+            placeholder="Nhập Id"
+            matInput
+            [matAutocomplete]="autoTests"
+            [autofocus]="false"
+            [(ngModel)]="clonedTask"
+            (ngModelChange)="onSelectedClonedTask()"
+            (keyup)="onCloneTaskFieldEnter($event)"
+            #trigger="matAutocompleteTrigger"
+          />
+          <button mat-button matSuffix mat-icon-button aria-label="Clear" style="padding-right: 0px; margin-right: 0px; width: 24px;">
+            <mat-icon style="font-size: 24px; color: #757575; margin-right: 0px; width: 18px;">arrow_drop_down</mat-icon>
+          </button>
+          <mat-autocomplete #autoTests="matAutocomplete" [displayWith]="displayCloneTask">
+            <mat-option *ngFor="let task of myTasks" [value]="task"
+              >#{{ task.id }} {{ task.title }}</mat-option
+            >
+          </mat-autocomplete>
+        </mat-form-field>
 
         <!-- <mat-form-field class="full-width" appearance="outline" *ngIf="addMode">
           <mat-label>Copy sự vụ</mat-label>
