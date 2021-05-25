@@ -21,8 +21,16 @@
             (keyup)="onCloneTaskFieldEnter($event)"
             #trigger="matAutocompleteTrigger"
           />
-          <button mat-button matSuffix mat-icon-button aria-label="Clear" style="padding-right: 0px; margin-right: 0px; width: 24px;">
-            <mat-icon style="font-size: 24px; color: #757575; margin-right: 0px; width: 18px;">arrow_drop_down</mat-icon>
+          <button
+            mat-button
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            style="padding-right: 0px; margin-right: 0px; width: 24px"
+          >
+            <mat-icon style="font-size: 24px; color: #757575; margin-right: 0px; width: 18px"
+              >arrow_drop_down</mat-icon
+            >
           </button>
           <mat-autocomplete #autoTests="matAutocomplete" [displayWith]="displayCloneTask">
             <mat-option *ngFor="let task of myTasks" [value]="task"
@@ -58,7 +66,9 @@
         <mat-form-field class="half-width" appearance="outline">
           <mat-label>Đối tượng</mat-label>
           <mat-select [(ngModel)]="selectedUser" required>
-            <mat-option *ngFor="let user of users" [value]="user.id">{{ user.name }} {{ user.surname }}</mat-option>
+            <mat-option *ngFor="let user of users" [value]="user.id"
+              >{{ user.name }} {{ user.surname }}</mat-option
+            >
           </mat-select>
         </mat-form-field>
 
@@ -226,7 +236,7 @@
   <button
     mat-raised-button
     color="primary"
-    *ngIf="!addMode && !isTaskFinish"
+    *ngIf="canShowDifference"
     [matMenuTriggerFor]="menu"
     style="margin-right: 10px"
   >
@@ -254,6 +264,7 @@
   >
     Không duyệt
   </button>
+  <!-- done -->
   <button
     mat-raised-button
     color="primary"
@@ -262,25 +273,25 @@
   >
     Duyệt
   </button>
-  <button
-    mat-raised-button
-    color="primary"
-    (click)="updateTask()"
-    *ngIf="!addMode && !isShowVerifyTask && taskDetail?.status === 0"
-  >
+  <!-- done -->
+  <button mat-raised-button color="primary" (click)="updateTask()" *ngIf="canUpdateTask">
     Cập nhật
   </button>
+
   <button mat-raised-button color="primary" (click)="rateTask()" *ngIf="isTaskFinish">
     Đánh giá
   </button>
-  <button
+  <button mat-raised-button color="primary" (click)="requireTask()" *ngIf="canRequestTask">
+    Yêu cầu duyệt
+  </button>
+  <!-- <button
     mat-raised-button
     color="primary"
     (click)="requireTask()"
     *ngIf="!addMode && !isShowVerifyTask && !isTaskFinish"
   >
     {{ requireButtonTitle }}
-  </button>
+  </button> -->
   <button
     mat-raised-button
     color="primary"

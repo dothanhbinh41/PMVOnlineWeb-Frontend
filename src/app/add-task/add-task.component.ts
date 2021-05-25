@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { DepartmentService, DepartmentUserDto } from '@proxy/departments';
 import { TargetService } from '@proxy/targets';
 import {
+  ActionType,
   CreateTaskRequestDto,
   FullTaskDto,
   MyTaskDto,
@@ -60,6 +61,7 @@ export class AddTaskComponent implements OnInit {
   selectedCopyTask;
   relatedTasks;
   currentTaskId;
+  currentUserId;
   taskDetail: FullTaskDto;
   departments: DepartmentUserDto[];
   taskComments: TaskCommentDto[] = [];
@@ -86,8 +88,12 @@ export class AddTaskComponent implements OnInit {
     if (!data) {
       this.addMode = true;
       this.editMode = false;
+      return;
     }
-    this.currentTaskId = data;
+    const { taskId, userId } = data;
+    this.currentTaskId = taskId;
+    this.currentUserId = userId;
+    console.log(this.currentUserId);
   }
 
   ngOnInit(): void {
@@ -171,11 +177,13 @@ export class AddTaskComponent implements OnInit {
       return;
     }
     this.departments = data;
+    console.log(data)
     this.loadTaskDetail();
   }
 
   async loadTaskDetail() {
     const data = await toPromise(this.taskService.getTaskById(this.currentTaskId));
+    console.log(data);
     if (!data) {
       this.showMessage('Xảy ra lỗi, vui lòng thử lại sau.', false);
       this.onNoClick();
@@ -381,6 +389,7 @@ export class AddTaskComponent implements OnInit {
   downloadString(id: string) {
     return `https://pmvonline.azurewebsites.net/api/File/DownloadFile?id=${id}`;
   }
+
   async updateTask() {
     if (!this.validateData()) {
       this.showMessage('Vui lòng điền đầy đủ thông tin!', false);
@@ -692,6 +701,31 @@ export class AddTaskComponent implements OnInit {
     return !arr || arr?.length <= 0;
   }
 
+  get canShowDifference(){
+    return this.taskDetail
+  }
+  get canShowReopen(){
+    console.log(this.taskDetail.status >= 3)
+    return this.taskDetail && this.taskDetail.status >= 3
+  }
+  get canRequestTask() {
+    return (
+      this.taskDetail &&
+      this.taskDetail.status === Status.Pending &&
+      this.taskDetail.creatorId === this.currentUserId &&
+      this.taskDetail.assigneeId !== this.currentUserId
+    );
+  }
+  // get canConfirmRequestTask(){
+  //   return 
+  // }
+  get canUpdateTask() {
+    return (
+      this.taskDetail &&
+      this.taskDetail.status === Status.Pending &&
+      this.taskDetail.creatorId === this.currentUserId
+    );
+  }
   get canEditable() {
     return this.addMode || this.taskDetail?.status == Status.Pending;
   }

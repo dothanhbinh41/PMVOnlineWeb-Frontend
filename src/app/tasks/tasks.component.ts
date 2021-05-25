@@ -1,13 +1,13 @@
-import { AuthService } from '@abp/ng.core';
-import { Component, Input, OnInit, SimpleChange, ViewChild } from '@angular/core';
+import { AuthService, ProfileService } from '@abp/ng.core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { Status, TaskService } from '@proxy/tasks';
 import { OAuthService } from 'angular-oauth2-oidc';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
 import { AddTaskComponent } from '../add-task/add-task.component';
+import toPromise from '../utils/promise-extension';
 
 @Component({
   selector: 'app-tasks',
@@ -27,13 +27,14 @@ export class TasksComponent implements OnInit {
     start: new FormControl(),
     end: new FormControl(),
   });
+  currentUser;
 
   constructor(
-    private router: Router,
     private oAuthService: OAuthService,
     private authService: AuthService,
     private taskService: TaskService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private userService: ProfileService
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +43,12 @@ export class TasksComponent implements OnInit {
       return;
     }
     this.fetchData();
+    this.fetchCurrentUser();
+  }
+
+  async fetchCurrentUser() {
+    this.currentUser = await toPromise(this.userService.get());
+    console.log(this.currentUser)
   }
 
   async fetchData() {
@@ -114,7 +121,7 @@ export class TasksComponent implements OnInit {
       width: '50%',
       minWidth: '512px',
       disableClose: true,
-      data: item?.id,
+      data: { taskId: item?.id, userId: this.currentUser?.id },
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -128,7 +135,7 @@ export class TasksComponent implements OnInit {
       width: '50%',
       minWidth: '512px',
       disableClose: true,
-      autoFocus: false
+      autoFocus: false,
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
