@@ -177,7 +177,7 @@ export class AddTaskComponent implements OnInit {
       return;
     }
     this.departments = data;
-    console.log(data)
+    console.log(data);
     this.loadTaskDetail();
   }
 
@@ -433,10 +433,6 @@ export class AddTaskComponent implements OnInit {
   }
 
   requireTask() {
-    if (this.taskDetail.status !== Status.Pending) {
-      this.finishTask();
-      return;
-    }
     this.showConfirm(
       `Bạn muốn ${this.requireButtonTitle.toLowerCase()} sự vụ không?`,
       'Có',
@@ -701,12 +697,21 @@ export class AddTaskComponent implements OnInit {
     return !arr || arr?.length <= 0;
   }
 
-  get canShowDifference(){
-    return this.taskDetail
+  get isDirector() {
+    return this.departments && this.departments.find(d => d.departmentId === 1 && d.isLeader);
   }
-  get canShowReopen(){
-    console.log(this.taskDetail.status >= 3)
-    return this.taskDetail && this.taskDetail.status >= 3
+  get canShowDifference() {
+    return (
+      this.taskDetail &&
+      !(
+        this.taskDetail.status === Status.Pending &&
+        this.taskDetail.assigneeId === this.currentUserId
+      )
+    );
+  }
+  get canShowReopen() {
+    console.log(this.taskDetail.status >= 3);
+    return this.taskDetail && this.taskDetail.status >= 3;
   }
   get canRequestTask() {
     return (
@@ -716,9 +721,9 @@ export class AddTaskComponent implements OnInit {
       this.taskDetail.assigneeId !== this.currentUserId
     );
   }
-  // get canConfirmRequestTask(){
-  //   return 
-  // }
+  get canConfirmRequestTask() {
+    return this.isDirector && this.taskDetail && this.taskDetail.status === Status.Requested;
+  }
   get canUpdateTask() {
     return (
       this.taskDetail &&
@@ -729,7 +734,9 @@ export class AddTaskComponent implements OnInit {
   get canEditable() {
     return this.addMode || this.taskDetail?.status == Status.Pending;
   }
-
+  get canFinish(){
+    return this.taskDetail && this.taskDetail.assigneeId === this.currentUserId && this.taskDetail.status === Status.Approved
+  }
   get isTaskFinish() {
     return (
       this.taskDetail &&
