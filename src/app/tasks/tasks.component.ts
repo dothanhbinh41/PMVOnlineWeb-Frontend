@@ -2,7 +2,7 @@ import { AuthService, ProfileService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Status, TaskService } from '@proxy/tasks';
+import { SimpleUserDto, Status, TaskService } from '@proxy/tasks';
 import { OAuthService } from 'angular-oauth2-oidc';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
@@ -48,7 +48,7 @@ export class TasksComponent implements OnInit {
 
   async fetchCurrentUser() {
     this.currentUser = await toPromise(this.userService.get());
-    console.log(this.currentUser)
+    console.log(this.currentUser);
   }
 
   async fetchData() {
@@ -75,16 +75,11 @@ export class TasksComponent implements OnInit {
   }
 
   async loadUsers() {
-    this.taskService
-      .getUsersInMyTasks()
-      .pipe(
-        finalize(() => {
-          this.loading = false;
-        })
-      )
-      .subscribe(data => {
-        this.users = data;
-      });
+    const lstUsers = await toPromise(this.taskService.getUsersInMyTasks());
+    if (!lstUsers || lstUsers.length === 0) return;
+    const virtualAll = { id: undefined, name: 'All', surname: undefined } as SimpleUserDto;
+    lstUsers.unshift(virtualAll);
+    this.users = lstUsers;
   }
 
   toAction(actionType: number) {
