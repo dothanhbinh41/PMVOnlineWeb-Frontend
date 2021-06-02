@@ -729,14 +729,17 @@ export class AddTaskComponent implements OnInit {
     return this.isDirector && this.taskDetail && this.taskDetail.status === Status.Requested;
   }
   get canUpdateTask() {
-    return (
-      this.taskDetail &&
-      this.taskDetail.status === Status.Pending &&
-      this.taskDetail.creatorId === this.currentUserId
-    );
+    return this.taskDetail && this.canEditable;
   }
   get canEditable() {
-    return this.addMode || this.taskDetail?.status == Status.Pending;
+    var rs: boolean =
+      this.taskDetail === undefined ||
+      (this.taskDetail &&
+        ((this.taskDetail.assigneeId === this.currentUserId &&
+          this.taskDetail.status === Status.Approved) ||
+          (this.taskDetail.creatorId === this.currentUserId &&
+            this.taskDetail.status === Status.Pending)));
+    return rs;
   }
   get canFinish() {
     return (
@@ -754,8 +757,10 @@ export class AddTaskComponent implements OnInit {
       this.departments.find(d => d.isLeader)
     );
   }
-  get canReopen(){
-    return this.taskDetail && (this.taskDetail.status === Status.Rejected || this.taskDetail.status >= 4);
+  get canReopen() {
+    return (
+      this.taskDetail && (this.taskDetail.status === Status.Rejected || this.taskDetail.status >= 4)
+    );
   }
   get isTaskFinish() {
     return (
