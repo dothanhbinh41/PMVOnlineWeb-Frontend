@@ -133,6 +133,7 @@
         </div>
         <div class="mark" (click)="({})" *ngIf="!canEditable"></div>
       </div>
+
       <div class="additionPhotos" *ngIf="isEmptyAddition">
         <div class="addition-photo-container" *ngFor="let img of additionFiles; let i = index">
           <img
@@ -152,6 +153,22 @@
           </button>
         </div>
       </div>
+      <!-- <div class="addition-files-list" *ngIf="isEmptyAddition">
+        <div class="addition-file-item-container" *ngFor="let file of additionFiles; let i = index">
+          <button
+            mat-mini-fab
+            color="warn"
+            class="addition-photo-container-delete-button"
+            (click)="deleteAdditionFile(i)"
+            *ngIf="canEditable"
+          >
+            <mat-icon style="font-size: small">close</mat-icon>
+          </button>
+          <div class="addition-file-name">
+            {{ file?.name }}
+          </div>
+        </div>
+      </div> -->
       <div style="padding-top: 16px">
         <mat-label class="full-width" *ngIf="!addMode">Bình luận</mat-label>
       </div>
@@ -251,7 +268,7 @@
       <mat-icon>history</mat-icon>
       <span>Lịch sử</span>
     </button>
-    <button mat-menu-item (click)="reOpen()">
+    <button mat-menu-item (click)="reOpen()" [hidden]="!canReopen">
       <mat-icon>refresh</mat-icon>
       <span>Mở lại</span>
     </button>
@@ -278,18 +295,13 @@
     Cập nhật
   </button>
 
-  <button mat-raised-button color="primary" (click)="rateTask()" *ngIf="isTaskFinish">
+  <button mat-raised-button color="primary" (click)="rateTask()" *ngIf="canRating">
     Đánh giá
   </button>
   <button mat-raised-button color="primary" (click)="requireTask()" *ngIf="canRequestTask">
     Yêu cầu duyệt
   </button>
-  <button
-    mat-raised-button
-    color="primary"
-    (click)="finishTask()"
-    *ngIf="canFinish"
-  >
+  <button mat-raised-button color="primary" (click)="finishTask()" *ngIf="canFinish">
     Kết thúc
   </button>
   <button
@@ -368,6 +380,32 @@
     width: 50%;
     margin-right: 0;
   }
+
+  .addition-files-list {
+    height: 160px;
+    overflow: auto;
+    white-space: nowrap;
+    margin-top: 12px;
+  }
+
+  .addition-file-item-container {
+    position: relative;
+    height: 100%;
+    width: 120px;
+    background-color: red;
+  }
+
+  .addition-file-name {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    white-space: nowrap;
+    width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background-color: #3b4caa;
+  }
+
   .addition-photo-container {
     position: relative;
     height: 120px;

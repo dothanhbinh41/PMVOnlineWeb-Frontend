@@ -697,6 +697,10 @@ export class AddTaskComponent implements OnInit {
     return !arr || arr?.length <= 0;
   }
 
+  isPhoto(fileName: string) {
+    return fileName.endsWith('.png') || fileName.endsWith('.jpeg');
+  }
+
   get isDirector() {
     return this.departments && this.departments.find(d => d.departmentId === 1 && d.isLeader);
   }
@@ -734,8 +738,24 @@ export class AddTaskComponent implements OnInit {
   get canEditable() {
     return this.addMode || this.taskDetail?.status == Status.Pending;
   }
-  get canFinish(){
-    return this.taskDetail && this.taskDetail.assigneeId === this.currentUserId && this.taskDetail.status === Status.Approved
+  get canFinish() {
+    return (
+      this.taskDetail &&
+      this.taskDetail.assigneeId === this.currentUserId &&
+      this.taskDetail.status === Status.Approved
+    );
+  }
+  get canRating() {
+    return (
+      this.taskDetail &&
+      this.taskDetail.status >= 4 &&
+      this.taskDetail.assigneeId !== this.currentTaskId &&
+      this.departments &&
+      this.departments.find(d => d.isLeader)
+    );
+  }
+  get canReopen(){
+    return this.taskDetail && (this.taskDetail.status === Status.Rejected || this.taskDetail.status >= 4);
   }
   get isTaskFinish() {
     return (
@@ -747,5 +767,6 @@ export class AddTaskComponent implements OnInit {
         this.taskDetail.status == Status.Rated)
     );
   }
+
   //#endregion
 }
