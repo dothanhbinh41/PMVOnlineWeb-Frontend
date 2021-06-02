@@ -126,7 +126,6 @@
             type="file"
             id="additionFile"
             style="display: none"
-            accept="image/x-png,image/gif,image/jpeg"
             (change)="pickedFile($event)"
             multiple
           />
@@ -137,11 +136,35 @@
       <div class="additionPhotos" *ngIf="isEmptyAddition">
         <div class="addition-photo-container" *ngFor="let img of additionFiles; let i = index">
           <img
+            *ngIf="isPhoto(img.name)"
             [attr.src]="downloadString(img?.id)"
-            style="object-fit: cover; height: 100%; width: 100%"
+            class="addition-file-type-image"
             ng-bind-html="desc"
             (click)="showPhotoPreview(downloadString(img?.id))"
           />
+          <img
+            *ngIf="!isPhoto(img.name)"
+            src="assets/ic-file.png"
+            class="addition-file-type-file"
+            ng-bind-html="desc"
+            (click)="dowloadFile(downloadString(img?.id))"
+          />
+          <div
+            *ngIf="!isPhoto(img.name)"
+            style="
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              right: 0;
+              height: 48px;
+              color: black;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              text-align: end;
+            "
+          >
+            {{ img.name }}
+          </div>
           <button
             mat-mini-fab
             color="warn"
@@ -153,22 +176,6 @@
           </button>
         </div>
       </div>
-      <!-- <div class="addition-files-list" *ngIf="isEmptyAddition">
-        <div class="addition-file-item-container" *ngFor="let file of additionFiles; let i = index">
-          <button
-            mat-mini-fab
-            color="warn"
-            class="addition-photo-container-delete-button"
-            (click)="deleteAdditionFile(i)"
-            *ngIf="canEditable"
-          >
-            <mat-icon style="font-size: small">close</mat-icon>
-          </button>
-          <div class="addition-file-name">
-            {{ file?.name }}
-          </div>
-        </div>
-      </div> -->
       <div style="padding-top: 16px">
         <mat-label class="full-width" *ngIf="!addMode">Bình luận</mat-label>
       </div>
@@ -186,6 +193,7 @@
             mat-raised-button
             color="primary"
             onclick="document.getElementById('commentAdditionFile').click()"
+            *ngIf="commentAdditionFiles.length <= 0"
           >
             <mat-icon>add</mat-icon>
           </button>
@@ -193,7 +201,6 @@
             type="file"
             id="commentAdditionFile"
             style="display: none"
-            accept="image/x-png,image/gif,image/jpeg"
             (change)="commentPickedFile($event)"
           />
         </div>
@@ -203,11 +210,36 @@
             *ngFor="let img of commentAdditionFiles; let i = index"
           >
             <img
+              *ngIf="isPhoto(img.name)"
               [attr.src]="downloadString(img?.id)"
-              style="object-fit: cover; height: 100%; width: 100%"
+              class="addition-file-type-image"
               ng-bind-html="desc"
               (click)="showPhotoPreview(downloadString(img?.id))"
             />
+            <img
+              *ngIf="!isPhoto(img.name)"
+              src="assets/ic-file.png"
+              class="addition-file-type-file"
+              ng-bind-html="desc"
+              (click)="dowloadFile(downloadString(img?.id))"
+            />
+            <div
+              *ngIf="!isPhoto(img.name)"
+              style="
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 48px;
+                color: black;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                text-align: end;
+              "
+            >
+              {{ img.name }}
+            </div>
+
             <button
               mat-mini-fab
               color="warn"
@@ -295,9 +327,7 @@
     Cập nhật
   </button>
 
-  <button mat-raised-button color="primary" (click)="rateTask()" *ngIf="canRating">
-    Đánh giá
-  </button>
+  <button mat-raised-button color="primary" (click)="rateTask()" *ngIf="canRating">Đánh giá</button>
   <button mat-raised-button color="primary" (click)="requireTask()" *ngIf="canRequestTask">
     Yêu cầu duyệt
   </button>
@@ -381,38 +411,42 @@
     margin-right: 0;
   }
 
-  .addition-files-list {
-    height: 160px;
-    overflow: auto;
-    white-space: nowrap;
-    margin-top: 12px;
-  }
-
-  .addition-file-item-container {
-    position: relative;
-    height: 100%;
-    width: 120px;
-    background-color: red;
-  }
-
   .addition-file-name {
     position: absolute;
     bottom: 0;
     left: 0;
-    white-space: nowrap;
-    width: 120px;
-    overflow: hidden;
+    right: 0;
+    height: 48px;
+    color: black;
     text-overflow: ellipsis;
-    background-color: #3b4caa;
+    overflow: hidden;
+    text-align: end;
+    background-color: black;
+  }
+
+  .addition-file-type-image {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    height: 92px;
+    width: 92px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+
+  .addition-file-type-file {
+    position: absolute;
+    top: 0;
+    bottom: 50%;
+    left: 50%;
+    right: 0;
+    transform: translate(-50%, 0);
+    object-fit: cover;
+    cursor: pointer;
   }
 
   .addition-photo-container {
-    position: relative;
-    height: 120px;
-    width: 120px;
-    margin-right: 16px;
-  }
-  .addition-photo-container:hover {
     position: relative;
     height: 120px;
     width: 120px;
@@ -428,6 +462,7 @@
   }
 
   .additionPhotos {
+    display: flex;
     height: 140px;
     overflow: auto;
     white-space: nowrap;

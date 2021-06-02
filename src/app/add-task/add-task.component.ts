@@ -390,6 +390,10 @@ export class AddTaskComponent implements OnInit {
     return `https://pmvonline.azurewebsites.net/api/File/DownloadFile?id=${id}`;
   }
 
+  dowloadFile(url: string) {
+    window.open(url);
+  }
+
   async updateTask() {
     if (!this.validateData()) {
       this.showMessage('Vui lòng điền đầy đủ thông tin!', false);
@@ -697,10 +701,6 @@ export class AddTaskComponent implements OnInit {
     return !arr || arr?.length <= 0;
   }
 
-  isPhoto(fileName: string) {
-    return fileName.endsWith('.png') || fileName.endsWith('.jpeg');
-  }
-
   get isDirector() {
     return this.departments && this.departments.find(d => d.departmentId === 1 && d.isLeader);
   }
@@ -771,6 +771,12 @@ export class AddTaskComponent implements OnInit {
         this.taskDetail.status == Status.LeaderRated ||
         this.taskDetail.status == Status.Rated)
     );
+  }
+
+  isPhoto(fileName: string) {
+    if (!fileName) return false;
+    const photoExtensions = Array.of('.png', '.jpg', '.jpeg', '.gif');
+    return photoExtensions.find(d => fileName.indexOf(d) > -1);
   }
 
   //#endregion
