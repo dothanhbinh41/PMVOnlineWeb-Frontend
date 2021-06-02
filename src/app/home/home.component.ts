@@ -99,7 +99,7 @@ export class HomeComponent implements OnInit {
   convertToLocalTime(time: string) {
     const date = moment.utc(time).format('YYYY-MM-DD HH:mm:ss');
     const stillUtc = moment.utc(date).toDate();
-    const local = moment(stillUtc).local().format('YYYY-MM-DD HH:mm:ss');
+    const local = moment(stillUtc).local().format('HH:mm DD-MM-YYYY');
     return local;
   }
 
