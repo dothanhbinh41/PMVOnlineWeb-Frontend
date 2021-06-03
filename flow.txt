@@ -1,0 +1,9 @@
+1 task gồm: 1 tạo và 1 assign, trưởng phòng, admin
+tạo task assign cho thằng assign           -> lên trang home của hằng tạo và thằng assign
+thằng tạo sẽ request lên thằng sếp, chỉ thằng tọa mới thấy
+trang home của giám đốc sẽ thấy cái request
+nếu là giám đốc sẽ thấy và reject và approve
+sau khi approve xong, công việc sẽ hoàn thành / không hoàn thành
+sau đó thằng tạo sự vụ và leader sẽ dc rate
+
+

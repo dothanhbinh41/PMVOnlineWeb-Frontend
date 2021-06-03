@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { DepartmentService, DepartmentUserDto } from '@proxy/departments';
 import { TargetService } from '@proxy/targets';
 import {
+  ActionType,
   CreateTaskRequestDto,
   FullTaskDto,
   MyTaskDto,
@@ -60,6 +61,7 @@ export class AddTaskComponent implements OnInit {
   selectedCopyTask;
   relatedTasks;
   currentTaskId;
+  currentUserId;
   taskDetail: FullTaskDto;
   departments: DepartmentUserDto[];
   taskComments: TaskCommentDto[] = [];
@@ -86,8 +88,12 @@ export class AddTaskComponent implements OnInit {
     if (!data) {
       this.addMode = true;
       this.editMode = false;
+      return;
     }
-    this.currentTaskId = data;
+    const { taskId, userId } = data;
+    this.currentTaskId = taskId;
+    this.currentUserId = userId;
+    console.log(this.currentUserId);
   }
 
   ngOnInit(): void {
@@ -171,11 +177,13 @@ export class AddTaskComponent implements OnInit {
       return;
     }
     this.departments = data;
+    console.log(data);
     this.loadTaskDetail();
   }
 
   async loadTaskDetail() {
     const data = await toPromise(this.taskService.getTaskById(this.currentTaskId));
+    console.log(data);
     if (!data) {
       this.showMessage('Xảy ra lỗi, vui lòng thử lại sau.', false);
       this.onNoClick();
@@ -381,6 +389,11 @@ export class AddTaskComponent implements OnInit {
   downloadString(id: string) {
     return `https://pmvonline.azurewebsites.net/api/File/DownloadFile?id=${id}`;
   }
+
+  dowloadFile(url: string) {
+    window.open(url);
+  }
+
   async updateTask() {
     if (!this.validateData()) {
       this.showMessage('Vui lòng điền đầy đủ thông tin!', false);
@@ -424,10 +437,6 @@ export class AddTaskComponent implements OnInit {
   }
 
   requireTask() {
-    if (this.taskDetail.status !== Status.Pending) {
-      this.finishTask();
-      return;
-    }
     this.showConfirm(
       `Bạn muốn ${this.requireButtonTitle.toLowerCase()} sự vụ không?`,
       'Có',
@@ -692,10 +701,67 @@ export class AddTaskComponent implements OnInit {
     return !arr || arr?.length <= 0;
   }
 
-  get canEditable() {
-    return this.addMode || this.taskDetail?.status == Status.Pending;
+  get isDirector() {
+    return this.departments && this.departments.find(d => d.departmentId === 1 && d.isLeader);
   }
-
+  get canShowDifference() {
+    return (
+      this.taskDetail &&
+      !(
+        this.taskDetail.status === Status.Pending &&
+        this.taskDetail.assigneeId === this.currentUserId
+      )
+    );
+  }
+  get canShowReopen() {
+    console.log(this.taskDetail.status >= 3);
+    return this.taskDetail && this.taskDetail.status >= 3;
+  }
+  get canRequestTask() {
+    return (
+      this.taskDetail &&
+      this.taskDetail.status === Status.Pending &&
+      this.taskDetail.creatorId === this.currentUserId &&
+      this.taskDetail.assigneeId !== this.currentUserId
+    );
+  }
+  get canConfirmRequestTask() {
+    return this.isDirector && this.taskDetail && this.taskDetail.status === Status.Requested;
+  }
+  get canUpdateTask() {
+    return this.taskDetail && this.canEditable;
+  }
+  get canEditable() {
+    var rs: boolean =
+      this.taskDetail === undefined ||
+      (this.taskDetail &&
+        ((this.taskDetail.assigneeId === this.currentUserId &&
+          this.taskDetail.status === Status.Approved) ||
+          (this.taskDetail.creatorId === this.currentUserId &&
+            this.taskDetail.status === Status.Pending)));
+    return rs;
+  }
+  get canFinish() {
+    return (
+      this.taskDetail &&
+      this.taskDetail.assigneeId === this.currentUserId &&
+      this.taskDetail.status === Status.Approved
+    );
+  }
+  get canRating() {
+    return (
+      this.taskDetail &&
+      this.taskDetail.status >= 4 &&
+      this.taskDetail.assigneeId !== this.currentTaskId &&
+      this.departments &&
+      this.departments.find(d => d.isLeader)
+    );
+  }
+  get canReopen() {
+    return (
+      this.taskDetail && (this.taskDetail.status === Status.Rejected || this.taskDetail.status >= 4)
+    );
+  }
   get isTaskFinish() {
     return (
       this.taskDetail &&
@@ -706,5 +772,12 @@ export class AddTaskComponent implements OnInit {
         this.taskDetail.status == Status.Rated)
     );
   }
+
+  isPhoto(fileName: string) {
+    if (!fileName) return false;
+    const photoExtensions = Array.of('.png', '.jpg', '.jpeg', '.gif');
+    return photoExtensions.find(d => fileName.indexOf(d) > -1);
+  }
+
   //#endregion
 }

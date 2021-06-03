@@ -1,12 +1,12 @@
-import { AuthService } from '@abp/ng.core';
+import { AuthService, ProfileService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { TaskService } from '@proxy/tasks';
 import { OAuthService } from 'angular-oauth2-oidc';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
 import { AddTaskComponent } from '../add-task/add-task.component';
+import toPromise from '../utils/promise-extension';
 
 @Component({
   selector: 'app-home',
@@ -15,12 +15,14 @@ import { AddTaskComponent } from '../add-task/add-task.component';
 export class HomeComponent implements OnInit {
   loading = false;
   dataSource = [];
+  currentUser;
+
   constructor(
-    private router: Router,
     private oAuthService: OAuthService,
     private authService: AuthService,
     private taskService: TaskService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private userService: ProfileService
   ) {}
 
   ngOnInit(): void {
@@ -29,6 +31,7 @@ export class HomeComponent implements OnInit {
       return;
     }
     this.fetchData();
+    this.fetchCurrentUser();
   }
 
   fetchData(): void {
@@ -44,6 +47,10 @@ export class HomeComponent implements OnInit {
         this.dataSource = data;
         console.log(data);
       });
+  }
+
+  async fetchCurrentUser() {
+    this.currentUser = await toPromise(this.userService.get());
   }
 
   toAction(actionType: number) {
@@ -80,7 +87,7 @@ export class HomeComponent implements OnInit {
       width: '50%',
       minWidth: '512px',
       disableClose: true,
-      data: item?.id,
+      data: { taskId: item?.id, userId: this.currentUser?.id },
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -92,7 +99,7 @@ export class HomeComponent implements OnInit {
   convertToLocalTime(time: string) {
     const date = moment.utc(time).format('YYYY-MM-DD HH:mm:ss');
     const stillUtc = moment.utc(date).toDate();
-    const local = moment(stillUtc).local().format('YYYY-MM-DD HH:mm:ss');
+    const local = moment(stillUtc).local().format('HH:mm DD-MM-YYYY');
     return local;
   }
 
