@@ -591,7 +591,23 @@ export class AddTaskComponent implements OnInit {
   }
 
   async deleteTask() {
-    // const isSuccess = await this.taskSe
+    this.showConfirm(
+      `Bạn muốn ${this.requireButtonTitle.toLowerCase()} sự vụ không?`,
+      'Có',
+      'Không',
+      async rs => {
+        if (!rs) {
+          return;
+        }
+        const isSuccess = await toPromise(this.taskService.deleteTaskById(this.taskDetail.id));
+        if (isSuccess) {
+          this.showMessage('Xóa sự vụ thành công', true);
+          this.onNoClick(true);
+          return;
+        }
+        this.showMessage('Xóa sự vụ thất bại', false);
+      }
+    );
   }
   taskStatus(stt) {
     if (stt === undefined) return '';
