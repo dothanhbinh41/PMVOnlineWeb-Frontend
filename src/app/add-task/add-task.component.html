@@ -1,6 +1,6 @@
 <div mat-dialog-title class="d-flex justify-content-between" style="height: 48px">
   <div class="d-flex">
-    <h2 style="margin-right: 32px">{{ pageTitle }}</h2>
+    <h2 style="margin-right: 32px">{{ pageTitle }} {{ taskStatus(taskDetail?.status) }}</h2>
   </div>
   <mat-icon (click)="onNoClick()" style="cursor: pointer">close</mat-icon>
 </div>

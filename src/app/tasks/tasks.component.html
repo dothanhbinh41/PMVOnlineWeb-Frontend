@@ -57,7 +57,7 @@
           [class.bg-warning]="item.priority == 1"
           [class.bg-danger]="item.priority == 2"
         >
-          <b>#{{ item.id }} - {{ item.title }} ({{ taskStatus(item.status) }})</b>
+          <b>#{{ item.id }} - {{ item.title }} {{ taskStatus(item.status) }}</b>
           <div style="cursor: pointer" (click)="showDetail(item)">Detail >></div>
         </div>
         <div class="card-body">

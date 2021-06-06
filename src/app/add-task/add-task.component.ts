@@ -590,8 +590,32 @@ export class AddTaskComponent implements OnInit {
     });
   }
 
-  deleteTask(){
-    
+  async deleteTask() {
+    // const isSuccess = await this.taskSe
+  }
+  taskStatus(stt) {
+    if (stt === undefined) return '';
+    switch (stt) {
+      case Status.Pending:
+        return '(Đang chờ)';
+      case Status.Requested:
+        return '(Chờ duyệt)';
+      case Status.Approved:
+        return '(Đã duyệt)';
+      case Status.Rejected:
+        return '(Từ chối duyệt)';
+      case Status.Completed:
+        return '(Hoàn thành)';
+      case Status.Incompleted:
+        return '(Không hoàn thành)';
+      case Status.LeaderRated:
+      case Status.Rated:
+        return '(Đã đánh giá)';
+      case Status.Done:
+        return '(Đã kết thúc)';
+      default:
+        return '';
+    }
   }
   //#endregion
 
