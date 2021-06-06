@@ -591,6 +591,7 @@ export class AddTaskComponent implements OnInit {
   }
 
   async deleteTask() {
+    if (!this.taskDetail || this.taskDetail.status !== Status.Pending) return;
     this.showConfirm(
       `Bạn muốn ${this.requireButtonTitle.toLowerCase()} sự vụ không?`,
       'Có',
@@ -817,7 +818,11 @@ export class AddTaskComponent implements OnInit {
     );
   }
   get canDeleteTask() {
-    return this.taskDetail && this.taskDetail.creatorId === this.currentUserId;
+    return (
+      this.taskDetail &&
+      this.taskDetail.creatorId === this.currentUserId &&
+      this.taskDetail.status === Status.Pending
+    );
   }
   isPhoto(fileName: string) {
     if (!fileName) return false;
