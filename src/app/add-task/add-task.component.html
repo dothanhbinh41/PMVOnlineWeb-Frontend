@@ -304,6 +304,10 @@
       <mat-icon>refresh</mat-icon>
       <span>Mở lại</span>
     </button>
+    <button mat-menu-item (click)="deleteTask()" [hidden]="!canDeleteTask">
+      <mat-icon>delete</mat-icon>
+      <span>Xóa</span>
+    </button>
   </mat-menu>
   <button
     mat-raised-button

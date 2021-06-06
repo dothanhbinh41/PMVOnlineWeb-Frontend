@@ -589,6 +589,10 @@ export class AddTaskComponent implements OnInit {
       }
     });
   }
+
+  deleteTask(){
+    
+  }
   //#endregion
 
   //#region common function
@@ -772,7 +776,9 @@ export class AddTaskComponent implements OnInit {
         this.taskDetail.status == Status.Rated)
     );
   }
-
+  get canDeleteTask() {
+    return this.taskDetail && this.taskDetail.creatorId === this.currentUserId;
+  }
   isPhoto(fileName: string) {
     if (!fileName) return false;
     const photoExtensions = Array.of('.png', '.jpg', '.jpeg', '.gif');
