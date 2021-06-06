@@ -17,6 +17,13 @@ export class TaskService {
     },
     { apiName: this.apiName });
 
+  deleteTaskById = (id: number) =>
+    this.restService.request<any, boolean>({
+      method: 'DELETE',
+      url: `/api/app/task/${id}/task`,
+    },
+    { apiName: this.apiName });
+
   finishTaskByRequest = (request: FinishTaskRequest) =>
     this.restService.request<any, boolean>({
       method: 'POST',
