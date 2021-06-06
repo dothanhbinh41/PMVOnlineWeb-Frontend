@@ -752,10 +752,11 @@ export class AddTaskComponent implements OnInit {
   get canShowDifference() {
     return (
       this.taskDetail &&
-      !(
-        this.taskDetail.status === Status.Pending &&
-        this.taskDetail.assigneeId === this.currentUserId
-      )
+      (this.taskDetail.creatorId === this.currentUserId ||
+        !(
+          this.taskDetail.status > Status.Pending &&
+          this.taskDetail.assigneeId === this.currentUserId
+        ))
     );
   }
   get canShowReopen() {

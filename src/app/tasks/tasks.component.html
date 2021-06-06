@@ -62,12 +62,12 @@
         </div>
         <div class="card-body">
           <p class="card-title">
-            <b>{{ item.lastModifier.surname }} {{ item.lastModifier.name }} </b>
+            <b>{{ item.lastModifier.name }} {{ item.lastModifier.surname }}</b>
             {{ toAction(item.lastAction) }}
           </p>
           <p class="card-text">
             Người tạo: <b>{{ item.creator.surname }} {{ item.creator.name }}</b> - Đối tượng:
-            <b>{{ item.assignee.surname }} {{ item.assignee.name }}</b>
+            <b>{{ item.assignee.name }} {{ item.assignee.surname }}</b>
           </p>
           <p class="card-text">
             Ngày tạo: <b>{{ convertToLocalTime(item.createdAt) }}</b>
