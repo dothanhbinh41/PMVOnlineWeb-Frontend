@@ -69,11 +69,10 @@ export class AddTaskComponent implements OnInit {
   newMessage = '';
   commentAdditionFiles = [];
   isSubscribe = false;
-
+  rejectReasion;
   myControl = new FormControl();
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions: Observable<string[]>;
-
   //#region init function
   constructor(
     public dialogRef: MatDialogRef<AddTaskComponent>,
@@ -93,7 +92,6 @@ export class AddTaskComponent implements OnInit {
     const { taskId, userId } = data;
     this.currentTaskId = taskId;
     this.currentUserId = userId;
-    console.log(this.currentUserId);
   }
 
   ngOnInit(): void {
@@ -183,7 +181,7 @@ export class AddTaskComponent implements OnInit {
 
   async loadTaskDetail() {
     const data = await toPromise(this.taskService.getTaskById(this.currentTaskId));
-    console.log(data);
+    this.rejectReasion = await toPromise(this.taskService.getNoteById(this.currentTaskId))
     if (!data) {
       this.showMessage('Xảy ra lỗi, vui lòng thử lại sau.', false);
       this.onNoClick();
@@ -249,25 +247,44 @@ export class AddTaskComponent implements OnInit {
 
   //#region add task function
   validateData() {
-    if (!this.purpose) {
-      return false;
-    }
-    if (!this.content) {
-      return false;
-    }
     if (!this.selectedTarget) {
+      this.showMessage('Vui lòng chọn yêu cầu', false);
       return false;
     }
     if (!this.selectedUser) {
+      this.showMessage('Vui lòng chọn yêu đối tượng', false);
+      return false;
+    }
+    if (!this.purpose) {
+      this.showMessage('Vui lòng điền mục đích sự vụ', false);
+      return false;
+    }
+    if (!this.content) {
+      this.showMessage('Vui lòng điền nội dung sự vụ', false);
       return false;
     }
     if (!this.deadline) {
+      this.showMessage('Vui lòng chọn thời hạn cho sự vụ', false);
       return false;
     }
-    if (!this.deadlineTime) {
+    if (this.deadline)
+      if (!this.deadlineTime) {
+        this.showMessage('Vui lòng chọn thời hạn cho sự vụ', false);
+        return false;
+      }
+    try {
+      const time = this.deadlineTime.split(':');
+      // tslint:disable-next-line:radix
+      const hour = parseInt(time[0]);
+      // tslint:disable-next-line:radix
+      const min = parseInt(time[1]);
+    } catch (error) {
+      this.showMessage('Vui lòng chọn thời hạn hợp lệ cho sự vụ', false);
       return false;
     }
+
     if (!this.piority) {
+      this.showMessage('Vui lòng chọn mức độ ưu tiên cho sự vụ', false);
       return false;
     }
     return true;
@@ -275,7 +292,7 @@ export class AddTaskComponent implements OnInit {
 
   async createTask() {
     if (!this.validateData()) {
-      this.showMessage('Vui lòng điền đầy đủ thông tin!', false);
+      // this.showMessage('Vui lòng điền đầy đủ thông tin!', false);
       return;
     }
 
@@ -396,7 +413,7 @@ export class AddTaskComponent implements OnInit {
 
   async updateTask() {
     if (!this.validateData()) {
-      this.showMessage('Vui lòng điền đầy đủ thông tin!', false);
+      // this.showMessage('Vui lòng điền đầy đủ thông tin!', false);
       return;
     }
 
@@ -805,7 +822,9 @@ export class AddTaskComponent implements OnInit {
   }
   get canReopen() {
     return (
-      this.taskDetail && (this.taskDetail.status === Status.Rejected || this.taskDetail.status >= 4)
+      this.taskDetail &&
+      this.taskDetail.status === Status.Rejected &&
+      this.taskDetail.creatorId === this.currentUserId
     );
   }
   get isTaskFinish() {

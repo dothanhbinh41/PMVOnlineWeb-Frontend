@@ -79,7 +79,7 @@
 
         <mat-form-field class="full-width" appearance="outline">
           <mat-label>Nội dung</mat-label>
-          <input matInput [(ngModel)]="content" required />
+          <textarea id="taskContent" matInput [(ngModel)]="content" placeholder="Nội dung sự vụ ..."></textarea>
         </mat-form-field>
 
         <mat-form-field class="half-width" appearance="outline">
@@ -130,6 +130,10 @@
             multiple
           />
         </div>
+        <mat-form-field class="full-width" appearance="outline" *ngIf="rejectReasion" style="margin-top: 16px;">
+          <mat-label>Lý do không duyệt</mat-label>
+          <textarea id="taskContent" matInput [(ngModel)]="rejectReasion" placeholder="Lý do không duyệt ..."></textarea>
+        </mat-form-field>
         <div class="mark" (click)="({})" *ngIf="!canEditable"></div>
       </div>
 
@@ -186,7 +190,8 @@
         *ngIf="!addMode"
       >
         <mat-label>Bình luận</mat-label>
-        <input matInput [(ngModel)]="newMessage" (keyup)="sentComment($event)" />
+        
+        <textarea matInput [(ngModel)]="newMessage" (keyup)="sentComment($event)" placeholder="Nội dung bình luận..."></textarea>
         <mat-icon matSuffix (click)="sentComment()" style="cursor: pointer">send</mat-icon>
         <div class="d-flex" style="margin-top: 16px">
           <button
@@ -494,4 +499,8 @@
   .comment-content-container:first-child {
     margin-top: 0px;
   }
+
+  textarea{  
+  min-height: 80px;
+}
 </style>
