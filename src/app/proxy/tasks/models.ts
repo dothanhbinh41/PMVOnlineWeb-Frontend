@@ -82,6 +82,7 @@ export interface SearchMyTaskRequestDto extends PagedResultRequestDto {
   startDate?: string;
   endDate?: string;
   users: string[];
+  priority?: Priority;
 }
 
 export interface SimpleUserDto extends EntityDto<string> {
