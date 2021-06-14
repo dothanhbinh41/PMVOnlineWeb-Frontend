@@ -38,6 +38,15 @@
             >Ngày kết thúc không hợp lệ</mat-error
           >
         </mat-form-field>
+        <mat-form-field class="mr-4" appearance="outline">
+          <mat-label>Độ ưu tiên</mat-label>
+          <mat-select [(ngModel)]="piority" (selectionChange)="loadTasks()">
+            <mat-option>Tất cả</mat-option>
+            <mat-option [value]="0">Bình thường</mat-option>
+            <mat-option [value]="1">Gấp </mat-option>
+            <mat-option [value]="2">ASAP</mat-option>
+          </mat-select>
+        </mat-form-field>
         <button
           mat-raised-button
           color="primary"
@@ -62,7 +71,7 @@
         </div>
         <div class="card-body">
           <p class="card-title">
-            <b>{{ item.lastModifier.name }} {{ item.lastModifier.surname }}</b>
+            <b>{{ item.lastModifier.surname }} {{ item.lastModifier.name }}</b>
             {{ toAction(item.lastAction) }}
           </p>
           <p class="card-text">

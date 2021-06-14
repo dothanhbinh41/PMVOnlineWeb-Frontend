@@ -175,13 +175,12 @@ export class AddTaskComponent implements OnInit {
       return;
     }
     this.departments = data;
-    console.log(data);
     this.loadTaskDetail();
   }
 
   async loadTaskDetail() {
     const data = await toPromise(this.taskService.getTaskById(this.currentTaskId));
-    this.rejectReasion = await toPromise(this.taskService.getNoteById(this.currentTaskId))
+    this.rejectReasion = await toPromise(this.taskService.getNoteById(this.currentTaskId));
     if (!data) {
       this.showMessage('Xảy ra lỗi, vui lòng thử lại sau.', false);
       this.onNoClick();
@@ -283,7 +282,7 @@ export class AddTaskComponent implements OnInit {
       return false;
     }
 
-    if (!this.piority) {
+    if (this.piority === undefined) {
       this.showMessage('Vui lòng chọn mức độ ưu tiên cho sự vụ', false);
       return false;
     }
@@ -777,7 +776,6 @@ export class AddTaskComponent implements OnInit {
     );
   }
   get canShowReopen() {
-    console.log(this.taskDetail.status >= 3);
     return this.taskDetail && this.taskDetail.status >= 3;
   }
   get canRequestTask() {

@@ -45,7 +45,6 @@ export class HomeComponent implements OnInit {
       )
       .subscribe(data => {
         this.dataSource = data;
-        console.log(data);
       });
   }
 

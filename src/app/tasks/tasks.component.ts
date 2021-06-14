@@ -28,6 +28,7 @@ export class TasksComponent implements OnInit {
     end: new FormControl(),
   });
   currentUser;
+  piority;
 
   constructor(
     private oAuthService: OAuthService,
@@ -48,7 +49,6 @@ export class TasksComponent implements OnInit {
 
   async fetchCurrentUser() {
     this.currentUser = await toPromise(this.userService.get());
-    console.log(this.currentUser);
   }
 
   async fetchData() {
@@ -66,10 +66,10 @@ export class TasksComponent implements OnInit {
         users: this.selectedUser ? [this.selectedUser] : [],
         endDate: this.range?.value?.end,
         startDate: this.range?.value?.start,
+        priority: this.piority,
       })
       .pipe(finalize(() => {}))
       .subscribe(data => {
-        console.log(data);
         this.tasks = data ? data : [];
       });
   }
@@ -77,7 +77,7 @@ export class TasksComponent implements OnInit {
   async loadUsers() {
     const lstUsers = await toPromise(this.taskService.getUsersInMyTasks());
     if (!lstUsers || lstUsers.length === 0) return;
-    const virtualAll = { id: undefined, name: 'All', surname: undefined } as SimpleUserDto;
+    const virtualAll = { id: undefined, name: 'Tất cả', surname: undefined } as SimpleUserDto;
     lstUsers.unshift(virtualAll);
     this.users = lstUsers;
   }
@@ -170,6 +170,7 @@ export class TasksComponent implements OnInit {
       start: new FormControl(),
       end: new FormControl(),
     });
+    this.piority = undefined;
     this.loadTasks();
   }
 
