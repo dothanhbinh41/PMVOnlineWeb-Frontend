@@ -1,35 +1,38 @@
-import { AuthService, ProfileService } from '@abp/ng.core';
+import { AuthService, ProfileService, RoutesService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { DepartmentService } from '@proxy/departments';
 import { TaskService } from '@proxy/tasks';
 import { OAuthService } from 'angular-oauth2-oidc';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
 import { AddTaskComponent } from '../add-task/add-task.component';
+import { AuthBase } from '../base.component';
 import toPromise from '../utils/promise-extension';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent extends AuthBase {
   loading = false;
   dataSource = [];
   currentUser;
 
   constructor(
-    private oAuthService: OAuthService,
-    private authService: AuthService,
+    oAuthService: OAuthService,
+    authService: AuthService,
+    departmentService: DepartmentService,
+    routesService: RoutesService,
     private taskService: TaskService,
     public dialog: MatDialog,
-    private userService: ProfileService
-  ) {}
+    private userService: ProfileService,
+  ) {
+    super(oAuthService, authService,departmentService,routesService)
+  }
 
   ngOnInit(): void {
-    if (!this.hasLoggedIn) {
-      this.authService.initLogin();
-      return;
-    }
+    super.ngOnInit();
     this.fetchData();
     this.fetchCurrentUser();
   }
@@ -116,9 +119,5 @@ export class HomeComponent implements OnInit {
       return `Còn: ${stillUtc.diff(moment().utc(), 'hours')} giờ`;
     }
     return `Còn: ${stillUtc.diff(moment().utc(), 'day')} ngày`;
-  }
-
-  get hasLoggedIn(): boolean {
-    return this.oAuthService.hasValidAccessToken();
-  }
+  } 
 }

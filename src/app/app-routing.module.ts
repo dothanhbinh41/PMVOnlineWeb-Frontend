@@ -9,6 +9,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AddTaskComponent } from './add-task/add-task.component';
 import { AdminSettingComponent } from './admin-setting/admin-setting.component';
+import { IsAdminGuard } from './admin/is-admin-guard';
 import { HelpsComponent } from './helps/helps.component';
 import { TasksComponent } from './tasks/tasks.component';
 import { UsersComponent } from './users/components';
@@ -28,32 +29,32 @@ const routes: Routes = [
   },
   {
     path: 'identity',
-    loadChildren: () => import('@abp/ng.identity').then(m => m.IdentityModule.forLazy()),
+    loadChildren: () => import('@abp/ng.identity').then(m => m.IdentityModule.forLazy()), 
   },
   {
     path: 'tenant-management',
     loadChildren: () =>
-      import('@abp/ng.tenant-management').then(m => m.TenantManagementModule.forLazy()),
+      import('@abp/ng.tenant-management').then(m => m.TenantManagementModule.forLazy()), 
   },
   {
     path: 'department-management',
     loadChildren: () =>
-      import('./department/department.module').then(m => m.DepartmentModule),
+      import('./department/department.module').then(m => m.DepartmentModule), 
   },
   {
     path: 'target-management',
     loadChildren: () =>
-      import('./target/target.module').then(m => m.TargetModule),
+      import('./target/target.module').then(m => m.TargetModule), 
   },
   {
     path: 'report-management',
     loadChildren: () =>
-      import('./reports/report.module').then(m => m.ReportModule),
+      import('./reports/report.module').then(m => m.ReportModule), 
   },
   {
     path: 'setting-management',
     loadChildren: () =>
-      import('@abp/ng.setting-management').then(m => m.SettingManagementModule.forLazy()),
+      import('@abp/ng.setting-management').then(m => m.SettingManagementModule.forLazy()), 
   },
   {
     path: 'user-departments',
@@ -62,7 +63,7 @@ const routes: Routes = [
       import('./users/identity.module').then(m => m.UserDepartmentModule.forLazy()),
     data: {
       requiredPolicy: 'AbpIdentity.Users',
-    },
+    }, 
   },
   {
     path: 'tasks',

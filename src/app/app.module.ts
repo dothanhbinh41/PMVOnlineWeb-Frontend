@@ -38,6 +38,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { RatingModule } from 'ng-starrating';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AdminSettingComponent } from './admin-setting/admin-setting.component';
+import { AdminSettingModule } from './admin-setting/admin-setting.module';
+import { TargetModule } from './target/target.module';
 
 @NgModule({
   imports: [
@@ -76,6 +79,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     RatingModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
+    AdminSettingModule,
+    TargetModule
   ],
   exports: [],
   declarations: [AppComponent],

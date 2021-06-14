@@ -6,6 +6,7 @@ import { ModuleWithProviders, NgModule, NgModuleFactory } from '@angular/core';
 import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxValidateCoreModule } from '@ngx-validate/core';
 import { NgxsModule } from '@ngxs/store';
+import { IsAdminGuard } from '../admin/is-admin-guard';
 import { RolesComponent } from './components/roles/roles.component';
 import { UsersComponent } from './components/users/users.component';
 import { IdentityExtensionsGuard } from './guards/extensions.guard';
@@ -60,7 +61,7 @@ export class UserDepartmentModule {
           provide: IDENTITY_EDIT_FORM_PROP_CONTRIBUTORS,
           useValue: options.editFormPropContributors,
         },
-        IdentityExtensionsGuard,
+        IdentityExtensionsGuard, IsAdminGuard
       ],
     };
   }

@@ -1,12 +1,14 @@
-import { AuthService, ProfileService } from '@abp/ng.core';
+import { AuthService, ProfileService, RoutesService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { DepartmentService } from '@proxy/departments';
 import { SimpleUserDto, Status, TaskService } from '@proxy/tasks';
 import { OAuthService } from 'angular-oauth2-oidc';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
 import { AddTaskComponent } from '../add-task/add-task.component';
+import { AuthBase } from '../base.component';
 import toPromise from '../utils/promise-extension';
 
 @Component({
@@ -14,7 +16,7 @@ import toPromise from '../utils/promise-extension';
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.scss'],
 })
-export class TasksComponent implements OnInit {
+export class TasksComponent extends AuthBase {
   loading = false;
   dataSource = [];
   users = [];
@@ -31,18 +33,17 @@ export class TasksComponent implements OnInit {
   piority;
 
   constructor(
-    private oAuthService: OAuthService,
-    private authService: AuthService,
+    oAuthService: OAuthService,
+    authService: AuthService,
+    departmentService: DepartmentService,
+    routesService: RoutesService,
     private taskService: TaskService,
     private dialog: MatDialog,
     private userService: ProfileService
-  ) {}
+  ) {super(oAuthService, authService,departmentService,routesService)}
 
   ngOnInit(): void {
-    if (!this.hasLoggedIn) {
-      this.authService.initLogin();
-      return;
-    }
+    super.ngOnInit();
     this.fetchData();
     this.fetchCurrentUser();
   }
@@ -197,9 +198,5 @@ export class TasksComponent implements OnInit {
       default:
         return '';
     }
-  }
-
-  get hasLoggedIn(): boolean {
-    return this.oAuthService.hasValidAccessToken();
-  }
+  } 
 }

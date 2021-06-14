@@ -1,9 +1,11 @@
-import { AuthService } from '@abp/ng.core';
+import { AuthService, RoutesService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { DepartmentService } from '@proxy/departments';
 import { GuideService } from '@proxy/guides';
 import { OAuthService } from 'angular-oauth2-oidc';
+import { AuthBase } from '../base.component';
 import toPromise from '../utils/promise-extension';
 
 @Component({
@@ -11,29 +13,24 @@ import toPromise from '../utils/promise-extension';
   templateUrl: './helps.component.html',
   styleUrls: ['./helps.component.scss'],
 })
-export class HelpsComponent implements OnInit {
+export class HelpsComponent extends AuthBase {
   htmlString;
 
   constructor(
-    private router: Router,
-    private oAuthService: OAuthService,
-    private authService: AuthService,
+    oAuthService: OAuthService,
+    authService: AuthService,
+    departmentService: DepartmentService,
+    routesService: RoutesService,
+    private router: Router, 
     private guideService: GuideService,
     private snackBar: MatSnackBar
-  ) {}
+  ) {super(oAuthService, authService,departmentService,routesService)}
 
   ngOnInit(): void {
-    if (!this.hasLoggedIn) {
-      this.authService.initLogin();
-      return;
-    }
+    super.ngOnInit();
     this.loadData();
   }
-
-  get hasLoggedIn(): boolean {
-    return this.oAuthService.hasValidAccessToken();
-  }
-
+ 
   async loadData() {
     const guide = await toPromise(this.guideService.getGuide());
     this.htmlString = guide?.content;
