@@ -27,7 +27,10 @@ export class HelpsComponent extends AuthBase {
   ) {super(oAuthService, authService,departmentService,routesService)}
 
   ngOnInit(): void {
-    super.ngOnInit();
+    super.ngOnInit();   
+    if (!super.hasLoggedIn) {
+      return
+    }
     this.loadData();
   }
  

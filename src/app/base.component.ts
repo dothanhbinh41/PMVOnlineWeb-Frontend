@@ -1,4 +1,4 @@
-import { ABP, AuthService, eLayoutType, ProfileService, RoutesService } from '@abp/ng.core';
+import { ABP, AuthFlowStrategy, AuthService, eLayoutType, ProfileService, RoutesService } from '@abp/ng.core';
 import { Component, Injectable, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Route } from '@angular/router';
@@ -11,27 +11,25 @@ export abstract class AuthBase implements OnInit {
 
     constructor(
         private oAuthService: OAuthService,
-        private authService: AuthService,
+        public authService: AuthService,
         private departmentService: DepartmentService,
         private routesService: RoutesService
     ) { }
 
     ngOnInit(): void {
-        if (!this.hasLoggedIn) {
-            this.authService.initLogin();
-            this.checkPermission();
+        if (!this.hasLoggedIn) { 
+            this.authService.initLogin(); 
             return;
         } this.checkPermission();
     }
 
-    checkPermission() { 
+    checkPermission() {
         this.departmentService.getMyDepartments().toPromise().then((c) => {
             var ad = c.filter(d => d.departmentId == 1).length > 0;
-            
+
             var admin = this.routesService.find(d => d.path == '/admin-setting');
-            if (ad) { 
-                if(admin!=null)
-                {
+            if (ad) {
+                if (admin != null) {
                     return;
                 }
                 this.routesService.add([{
@@ -72,11 +70,11 @@ export abstract class AuthBase implements OnInit {
                     iconClass: 'fas fa-dot-circle',
                     layout: eLayoutType.application,
                 },
-                ]); 
+                ]);
             }
-            else{ 
+            else {
                 this.routesService.remove(['/admin-setting']);
-            } 
+            }
             this.routesService.refresh();
         });
     }

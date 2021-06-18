@@ -24,7 +24,7 @@
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "allowedCommonJsDependencies": ["chart.js", "js-sha256"],
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": ["src/favicon.ico", "src/assets", "src/.htaccess"],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               {

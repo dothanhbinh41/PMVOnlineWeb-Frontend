@@ -1,6 +1,6 @@
 import { Environment } from '@abp/ng.core';
 
-const baseUrl = 'https://pmvadmin.azurewebsites.net';
+const baseUrl = 'http://task.pmvina.com';
 
 export const environment = {
   production: true,
@@ -10,7 +10,7 @@ export const environment = {
     logoUrl: '',
   },
   oAuthConfig: {
-    issuer: 'https://pmvonline.azurewebsites.net',
+    issuer: 'http://task.pmvina.com:44306',
     redirectUri: baseUrl,
     clientId: 'PMVOnline_App',
     responseType: 'code',
@@ -18,7 +18,7 @@ export const environment = {
   },
   apis: {
     default: {
-      url: 'https://pmvonline.azurewebsites.net',
+      url: 'http://task.pmvina.com:44306',
       rootNamespace: 'PMVOnline',
     },
   },

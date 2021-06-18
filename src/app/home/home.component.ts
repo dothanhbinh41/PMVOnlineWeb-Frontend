@@ -32,7 +32,10 @@ export class HomeComponent extends AuthBase {
   }
 
   ngOnInit(): void {
-    super.ngOnInit();
+    super.ngOnInit(); 
+    if (!super.hasLoggedIn) {
+      return
+    }
     this.fetchData();
     this.fetchCurrentUser();
   }
