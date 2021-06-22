@@ -1,6 +1,6 @@
 import { Environment } from '@abp/ng.core';
 
-const baseUrl = 'http://task.pmvina.com';
+const baseUrl = 'https://task.pmvina.com';
 
 export const environment = {
   production: true,
