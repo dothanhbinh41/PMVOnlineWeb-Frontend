@@ -10,6 +10,8 @@
 	# RewriteCond %{HTTPS} !on
   	# RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [L]
 	# --
+	RewriteCond %{HTTP:X-Forwarded-Proto} =https
+	RewriteRule ^(.*)$ http://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 	RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f [OR]
 	RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d
@@ -17,23 +19,7 @@
 	RewriteRule ^.*$ - [NC,L]
 	RewriteRule ^(.*) index.html [NC,L]
 </IfModule>
-
-#------------ BROWSER CACHING (optional)
-# Disable browser caching for all files that don't get a hash string by Angular.
-#<FilesMatch "^(?!.*\.([0-9a-z]{20})\.).*$">
-#  <IfModule mod_headers.c>
-#    FileETag None
-#    Header unset ETag
-#    Header unset Pragma
-#    Header unset Cache-Control
-#    Header unset Last-Modified
-#    Header set Pragma "no-cache"
-#    Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
-#    Header set Expires "Mon, 10 Apr 1972 00:00:00 GMT"
-#  </IfModule>
-#</FilesMatch>
-#------------
-
+ 
 ####################
 # GZIP COMPRESSION #
 ####################
