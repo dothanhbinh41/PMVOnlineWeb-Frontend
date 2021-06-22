@@ -10,7 +10,7 @@ export const environment = {
     logoUrl: '',
   },
   oAuthConfig: {
-    issuer: 'http://task.pmvina.com:44306',
+    issuer: 'https://api.pmvina.com',
     redirectUri: baseUrl,
     clientId: 'PMVOnline_App',
     responseType: 'code',
@@ -18,7 +18,7 @@ export const environment = {
   },
   apis: {
     default: {
-      url: 'http://task.pmvina.com:44306',
+      url: 'https://api.pmvina.com',
       rootNamespace: 'PMVOnline',
     },
   },
