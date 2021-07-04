@@ -27,7 +27,8 @@ import { FinishTaskDialog } from '../controls/finish-task-dialog.component';
 import { RateTaskDialog } from '../controls/rate-task-dialog.component';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete'; 
+import { environment } from './../../environments/environment';
 
 export interface State {
   flag: string;
@@ -389,6 +390,8 @@ export class AddTaskComponent implements OnInit {
     return stillUtc.toDate();
   }
 
+
+  
   uploadFile(file: any) {
     const formData = new FormData();
     formData.append('file', file);
@@ -396,14 +399,14 @@ export class AddTaskComponent implements OnInit {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
-    };
-    return axios.post('https://pmvonline.azurewebsites.net/api/File/UploadFile', formData, config);
+    }; 
+    return axios.post(environment.apis.default.url+'/api/File/UploadFile', formData, config);
   }
   //#endregion
 
   //#region task detail function
   downloadString(id: string) {
-    return `https://pmvonline.azurewebsites.net/api/File/DownloadFile?id=${id}`;
+    return environment.apis.default.url+`/api/File/DownloadFile?id=${id}`;
   }
 
   dowloadFile(url: string) {
