@@ -10,7 +10,7 @@ export const environment = {
     logoUrl: 'assets/logo.png',
   },
   oAuthConfig: {
-    issuer: 'https://pmvonline.azurewebsites.net',
+    issuer: 'https://api.pmvina.com',
     redirectUri: baseUrl,
     clientId: 'PMVOnline_App',
     responseType: 'code',
@@ -18,7 +18,7 @@ export const environment = {
   },
   apis: {
     default: {
-      url: 'https://pmvonline.azurewebsites.net',
+      url: 'https://api.pmvina.com',
       rootNamespace: 'PMVOnline',
     },
   },
